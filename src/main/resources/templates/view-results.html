@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Election Results - Online Voting System</title>
+    <title>Election Results - VoteNow</title>
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -56,7 +56,7 @@
       }
 
       .nav-link.active {
-        color: #ffeb3b !important;
+        color: #4caf50 !important; /* Changed from #ffeb3b to a more visible green */
         font-weight: 700;
       }
 
@@ -280,11 +280,17 @@
           font-size: 16px;
         }
       }
+
+      /* Update color in the copyright section */
+      .copyright a {
+        color: #4caf50; /* Changed from #ffeb3b to a more visible green */
+        text-decoration: none;
+      }
     </style>
   </head>
   <body>
     <div class="jumbotron text-center">
-      <h1 class="display-5">Election Results</h1>
+      <h1 class="display-5">VoteNow Election Results</h1>
       <p class="lead">View the latest election results and statistics</p>
     </div>
 
@@ -307,19 +313,7 @@
               <a class="nav-link" href="/">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Elections</a>
-            </li>
-            <li class="nav-item">
               <a class="nav-link active" href="#">Results</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">How to Vote</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">About Us</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Contact</a>
             </li>
           </ul>
         </div>
@@ -923,7 +917,7 @@
         style="background-color: rgba(0, 0, 0, 0.3); padding: 1.5rem"
       >
         © 2024 Copyright:
-        <a href="#" style="color: #ffeb3b; text-decoration: none"
+        <a href="#" style="color: #4caf50; text-decoration: none"
           >VoteNow.com</a
         >
       </div>

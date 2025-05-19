@@ -36,25 +36,15 @@ public class MainController {
   public String voterDashboardPage() {
     return "voter-dashboard.html";
   }
-
-  @GetMapping("/user-register")
-  public String userRegisterPage() {
-    return "user-register-page.html";
+  
+  @GetMapping("/edit-profile")
+  public String editProfilePage() {
+    return "voter-edit-profile.html";
   }
-
-  @GetMapping("/admin-register")
-  public String adminRegisterPage() {
-    return "admin-register-page.html";
-  }
-
-  @GetMapping("/view-booked-detail")
-  public String viewBookedDetailPage() {
-    return "view-booked-detail-page.html";
-  }
-
-  @GetMapping("/view-booked-ticket")
-  public String viewBookedTicketPage() {
-    return "view-booked-ticket-page.html";
+  
+  @GetMapping("/settings")
+  public String settingsPage() {
+    return "voter-settings.html";
   }
 
   @GetMapping("/admin-dashboard")

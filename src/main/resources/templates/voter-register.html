@@ -1,664 +1,877 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Voter Registration - Online Voting System</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-  <style>
-    body {
-      font-family: 'Roboto', sans-serif;
-      background-color: #f8f9fa;
-    }
-    
-    .registration-container {
-      margin: 40px auto;
-    }
-    
-    .card {
-      border: none;
-      border-radius: 15px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-      overflow: hidden;
-    }
-    
-    .card-header {
-      background-color: #34a853;
-      color: white;
-      padding: 20px 30px;
-      border-bottom: none;
-    }
-    
-    .card-title {
-      font-weight: 700;
-      margin-bottom: 0;
-    }
-    
-    .card-body {
-      padding: 30px;
-    }
-    
-    .form-label {
-      font-weight: 500;
-      color: #333;
-      margin-bottom: 8px;
-    }
-    
-    .form-control {
-      padding: 0.8rem 1rem;
-      border-radius: 8px;
-      border: 1px solid #ced4da;
-      background-color: #f8f9fb;
-      transition: all 0.3s;
-    }
-    
-    .form-control:focus {
-      border-color: #34a853;
-      box-shadow: 0 0 0 0.25rem rgba(52, 168, 83, 0.25);
-      background-color: #fff;
-    }
-    
-    .btn-success {
-      background-color: #34a853;
-      border-color: #34a853;
-      padding: 0.8rem 1.5rem;
-      border-radius: 8px;
-      font-weight: 500;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 6px rgba(52, 168, 83, 0.2);
-    }
-    
-    .btn-success:hover {
-      background-color: #2d8a46;
-      border-color: #2d8a46;
-      transform: translateY(-3px);
-      box-shadow: 0 6px 10px rgba(52, 168, 83, 0.3);
-    }
-    
-    .btn-link {
-      color: #34a853;
-      font-weight: 500;
-      text-decoration: none;
-      transition: all 0.3s ease;
-    }
-    
-    .btn-link:hover {
-      color: #2d8a46;
-      text-decoration: underline;
-    }
-    
-    .input-group-text {
-      background-color: #f8f9fb;
-      border: 1px solid #ced4da;
-      border-right: none;
-    }
-    
-    .registration-step {
-      display: none;
-    }
-    
-    .registration-step.active {
-      display: block;
-    }
-    
-    .step-indicator {
-      display: flex;
-      justify-content: center;
-      margin-bottom: 30px;
-    }
-    
-    .step {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background-color: #e9ecef;
-      color: #6c757d;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 600;
-      position: relative;
-      margin: 0 40px;
-    }
-    
-    .step.active {
-      background-color: #34a853;
-      color: white;
-    }
-    
-    .step.completed {
-      background-color: #1a73e8;
-      color: white;
-    }
-    
-    .step-line {
-      position: absolute;
-      height: 2px;
-      background-color: #e9ecef;
-      width: 80px;
-      top: 50%;
-      left: 100%;
-      transform: translateY(-50%);
-    }
-    
-    .step.active .step-line, .step.completed .step-line {
-      background-color: #34a853;
-    }
-    
-    .step-title {
-      position: absolute;
-      top: 50px;
-      white-space: nowrap;
-      font-size: 0.8rem;
-      color: #6c757d;
-      font-weight: 500;
-    }
-    
-    .password-requirements {
-      list-style: none;
-      padding-left: 0;
-      margin-top: 10px;
-      font-size: 0.85rem;
-      color: #6c757d;
-    }
-    
-    .password-requirements li {
-      margin-bottom: 5px;
-    }
-    
-    .password-requirements li i {
-      margin-right: 5px;
-    }
-    
-    .requirement-met {
-      color: #34a853;
-    }
-    
-    .nav-actions {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 20px;
-    }
-    
-    .progress {
-      height: 8px;
-      margin-bottom: 20px;
-    }
-    
-    .verification-section {
-      background-color: #e8f5e9;
-      border-left: 5px solid #34a853;
-      padding: 15px;
-      margin-bottom: 20px;
-      border-radius: 4px;
-    }
-    
-    .alert {
-      border-radius: 8px;
-      padding: 1rem;
-      margin-top: 1.5rem;
-    }
-    
-    .date-picker-label {
-      display: block;
-      margin-bottom: 8px;
-    }
-    
-    @media (max-width: 768px) {
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Voter Registration - VoteNow</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+      body {
+        font-family: "Roboto", sans-serif;
+        background-color: #f8f9fa;
+      }
+
+      .registration-container {
+        margin: 40px auto;
+      }
+
+      .card {
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+      }
+
+      .card-header {
+        background-color: #34a853;
+        color: white;
+        padding: 20px 30px;
+        border-bottom: none;
+      }
+
+      .card-title {
+        font-weight: 700;
+        margin-bottom: 0;
+      }
+
+      .card-body {
+        padding: 30px;
+      }
+
+      .form-label {
+        font-weight: 500;
+        color: #333;
+        margin-bottom: 8px;
+      }
+
+      .form-control {
+        padding: 0.8rem 1rem;
+        border-radius: 8px;
+        border: 1px solid #ced4da;
+        background-color: #f8f9fb;
+        transition: all 0.3s;
+      }
+
+      .form-control:focus {
+        border-color: #34a853;
+        box-shadow: 0 0 0 0.25rem rgba(52, 168, 83, 0.25);
+        background-color: #fff;
+      }
+
+      .btn-success {
+        background-color: #34a853;
+        border-color: #34a853;
+        padding: 0.8rem 1.5rem;
+        border-radius: 8px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 6px rgba(52, 168, 83, 0.2);
+      }
+
+      .btn-success:hover {
+        background-color: #2d8a46;
+        border-color: #2d8a46;
+        transform: translateY(-3px);
+        box-shadow: 0 6px 10px rgba(52, 168, 83, 0.3);
+      }
+
+      .btn-link {
+        color: #34a853;
+        font-weight: 500;
+        text-decoration: none;
+        transition: all 0.3s ease;
+      }
+
+      .btn-link:hover {
+        color: #2d8a46;
+        text-decoration: underline;
+      }
+
+      .input-group-text {
+        background-color: #f8f9fb;
+        border: 1px solid #ced4da;
+        border-right: none;
+      }
+
+      .registration-step {
+        display: none;
+      }
+
+      .registration-step.active {
+        display: block;
+      }
+
+      .step-indicator {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 30px;
+      }
+
       .step {
-        margin: 0 20px;
-      }
-      
-      .step-line {
         width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background-color: #e9ecef;
+        color: #6c757d;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        position: relative;
+        margin: 0 40px;
       }
-      
+
+      .step.active {
+        background-color: #34a853;
+        color: white;
+      }
+
+      .step.completed {
+        background-color: #1a73e8;
+        color: white;
+      }
+
+      .step-line {
+        position: absolute;
+        height: 2px;
+        background-color: #e9ecef;
+        width: 80px;
+        top: 50%;
+        left: 100%;
+        transform: translateY(-50%);
+      }
+
+      .step.active .step-line,
+      .step.completed .step-line {
+        background-color: #34a853;
+      }
+
       .step-title {
-        font-size: 0.7rem;
+        position: absolute;
+        top: 50px;
+        white-space: nowrap;
+        font-size: 0.8rem;
+        color: #6c757d;
+        font-weight: 500;
       }
-    }
-  </style>
-</head>
-<body>
-  <div class="container registration-container">
-    <div class="row justify-content-center">
-      <div class="col-md-8">
-        <div class="card">
-          <div class="card-header">
-            <h3 class="card-title"><i class="fas fa-user-plus me-2"></i>Voter Registration</h3>
-            <p class="mb-0 mt-2">Create your voter account to participate in elections</p>
-          </div>
-          
-          <div class="card-body">
-            <!-- Step Indicators -->
-            <div class="step-indicator">
-              <div class="step active" id="step1-indicator">
-                1
-                <div class="step-line"></div>
-                <div class="step-title">Personal Info</div>
-              </div>
-              <div class="step" id="step2-indicator">
-                2
-                <div class="step-line"></div>
-                <div class="step-title">Account Setup</div>
-              </div>
-              <div class="step" id="step3-indicator">
-                3
-                <div class="step-title">Verification</div>
-              </div>
+
+      .password-requirements {
+        list-style: none;
+        padding-left: 0;
+        margin-top: 10px;
+        font-size: 0.85rem;
+        color: #6c757d;
+      }
+
+      .password-requirements li {
+        margin-bottom: 5px;
+      }
+
+      .password-requirements li i {
+        margin-right: 5px;
+      }
+
+      .requirement-met {
+        color: #34a853;
+      }
+
+      .nav-actions {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+      }
+
+      .progress {
+        height: 8px;
+        margin-bottom: 20px;
+      }
+
+      .verification-section {
+        background-color: #e8f5e9;
+        border-left: 5px solid #34a853;
+        padding: 15px;
+        margin-bottom: 20px;
+        border-radius: 4px;
+      }
+
+      .alert {
+        border-radius: 8px;
+        padding: 1rem;
+        margin-top: 1.5rem;
+      }
+
+      .date-picker-label {
+        display: block;
+        margin-bottom: 8px;
+      }
+
+      @media (max-width: 768px) {
+        .step {
+          margin: 0 20px;
+        }
+
+        .step-line {
+          width: 40px;
+        }
+
+        .step-title {
+          font-size: 0.7rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container registration-container">
+      <div class="row justify-content-center">
+        <div class="col-md-8">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">
+                <i class="fas fa-user-plus me-2"></i>VoteNow Registration
+              </h3>
+              <p class="mb-0 mt-2">
+                Create your voter account to participate in elections
+              </p>
             </div>
-            
-            <!-- Progress Bar -->
-            <div class="progress">
-              <div class="progress-bar bg-success" role="progressbar" style="width: 33%" aria-valuenow="33" aria-valuemin="0" aria-valuemax="100"></div>
-            </div>
-            
-            <form id="voterRegistrationForm">
-              <!-- Step 1: Personal Information -->
-              <div class="registration-step active" id="step1">
-                <h4 class="mb-4">Personal Information</h4>
-                
-                <div class="row">
-                  <div class="col-md-6 mb-3">
-                    <label for="firstName" class="form-label">First Name</label>
-                    <input type="text" class="form-control" id="firstName" required>
-                  </div>
-                  <div class="col-md-6 mb-3">
-                    <label for="lastName" class="form-label">Last Name</label>
-                    <input type="text" class="form-control" id="lastName" required>
-                  </div>
+
+            <div class="card-body">
+              <!-- Step Indicators -->
+              <div class="step-indicator">
+                <div class="step active" id="step1-indicator">
+                  1
+                  <div class="step-line"></div>
+                  <div class="step-title">Personal Info</div>
                 </div>
-                
-                <div class="mb-3">
-                  <label for="dateOfBirth" class="date-picker-label">Date of Birth</label>
-                  <input type="date" class="form-control" id="dateOfBirth" required>
+                <div class="step" id="step2-indicator">
+                  2
+                  <div class="step-line"></div>
+                  <div class="step-title">Account Setup</div>
                 </div>
-                
-                <div class="mb-3">
-                  <label for="gender" class="form-label">Gender</label>
-                  <select class="form-select" id="gender" required>
-                    <option value="">Select gender</option>
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
-                    <option value="other">Other</option>
-                    <option value="prefer_not_to_say">Prefer not to say</option>
-                  </select>
-                </div>
-                
-                <div class="mb-3">
-                  <label for="email" class="form-label">Email Address</label>
-                  <div class="input-group">
-                    <span class="input-group-text"><i class="fas fa-envelope"></i></span>
-                    <input type="email" class="form-control" id="email" required>
-                  </div>
-                  <div class="form-text">We'll use this email for verification and notifications</div>
-                </div>
-                
-                <div class="mb-3">
-                  <label for="phone" class="form-label">Phone Number</label>
-                  <div class="input-group">
-                    <span class="input-group-text"><i class="fas fa-phone"></i></span>
-                    <input type="tel" class="form-control" id="phone" required>
-                  </div>
-                </div>
-                
-                <div class="nav-actions">
-                  <a href="/" class="btn-link"><i class="fas fa-arrow-left me-1"></i> Back to Home</a>
-                  <button type="button" class="btn btn-success" id="toStep2">Next <i class="fas fa-arrow-right ms-1"></i></button>
+                <div class="step" id="step3-indicator">
+                  3
+                  <div class="step-title">Verification</div>
                 </div>
               </div>
-              
-              <!-- Step 2: Account Setup -->
-              <div class="registration-step" id="step2">
-                <h4 class="mb-4">Create Your Account</h4>
-                
-                <div class="mb-3">
-                  <label for="username" class="form-label">Username</label>
-                  <div class="input-group">
-                    <span class="input-group-text"><i class="fas fa-user"></i></span>
-                    <input type="text" class="form-control" id="username" required>
+
+              <!-- Progress Bar -->
+              <div class="progress">
+                <div
+                  class="progress-bar bg-success"
+                  role="progressbar"
+                  style="width: 33%"
+                  aria-valuenow="33"
+                  aria-valuemin="0"
+                  aria-valuemax="100"
+                ></div>
+              </div>
+
+              <form id="voterRegistrationForm">
+                <!-- Step 1: Personal Information -->
+                <div class="registration-step active" id="step1">
+                  <h4 class="mb-4">Personal Information</h4>
+
+                  <div class="row">
+                    <div class="col-md-6 mb-3">
+                      <label for="firstName" class="form-label"
+                        >First Name</label
+                      >
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="firstName"
+                        required
+                      />
+                    </div>
+                    <div class="col-md-6 mb-3">
+                      <label for="lastName" class="form-label">Last Name</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="lastName"
+                        required
+                      />
+                    </div>
                   </div>
-                  <div class="form-text">Choose a unique username (5-20 characters)</div>
-                </div>
-                
-                <div class="mb-3">
-                  <label for="password" class="form-label">Password</label>
-                  <div class="input-group">
-                    <span class="input-group-text"><i class="fas fa-lock"></i></span>
-                    <input type="password" class="form-control" id="password" required>
-                    <button class="btn btn-outline-secondary" type="button" id="togglePassword">
-                      <i class="fas fa-eye"></i>
+
+                  <div class="mb-3">
+                    <label for="dateOfBirth" class="date-picker-label"
+                      >Date of Birth</label
+                    >
+                    <input
+                      type="date"
+                      class="form-control"
+                      id="dateOfBirth"
+                      required
+                    />
+                  </div>
+
+                  <div class="mb-3">
+                    <label for="gender" class="form-label">Gender</label>
+                    <select class="form-select" id="gender" required>
+                      <option value="">Select gender</option>
+                      <option value="male">Male</option>
+                      <option value="female">Female</option>
+                      <option value="other">Other</option>
+                      <option value="prefer_not_to_say">
+                        Prefer not to say
+                      </option>
+                    </select>
+                  </div>
+
+                  <div class="mb-3">
+                    <label for="email" class="form-label">Email Address</label>
+                    <div class="input-group">
+                      <span class="input-group-text"
+                        ><i class="fas fa-envelope"></i
+                      ></span>
+                      <input
+                        type="email"
+                        class="form-control"
+                        id="email"
+                        required
+                      />
+                    </div>
+                    <div class="form-text">
+                      We'll use this email for verification and notifications
+                    </div>
+                  </div>
+
+                  <div class="mb-3">
+                    <label for="phone" class="form-label">Phone Number</label>
+                    <div class="input-group">
+                      <span class="input-group-text"
+                        ><i class="fas fa-phone"></i
+                      ></span>
+                      <input
+                        type="tel"
+                        class="form-control"
+                        id="phone"
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <div class="nav-actions">
+                    <a href="/" class="btn-link"
+                      ><i class="fas fa-arrow-left me-1"></i> Back to Home</a
+                    >
+                    <button type="button" class="btn btn-success" id="toStep2">
+                      Next <i class="fas fa-arrow-right ms-1"></i>
                     </button>
                   </div>
-                  
-                  <ul class="password-requirements">
-                    <li id="length-requirement"><i class="fas fa-times-circle"></i> At least 8 characters</li>
-                    <li id="uppercase-requirement"><i class="fas fa-times-circle"></i> At least one uppercase letter</li>
-                    <li id="number-requirement"><i class="fas fa-times-circle"></i> At least one number</li>
-                    <li id="special-requirement"><i class="fas fa-times-circle"></i> At least one special character</li>
-                  </ul>
                 </div>
-                
-                <div class="mb-4">
-                  <label for="confirmPassword" class="form-label">Confirm Password</label>
-                  <div class="input-group">
-                    <span class="input-group-text"><i class="fas fa-lock"></i></span>
-                    <input type="password" class="form-control" id="confirmPassword" required>
+
+                <!-- Step 2: Account Setup -->
+                <div class="registration-step" id="step2">
+                  <h4 class="mb-4">Create Your Account</h4>
+
+                  <div class="mb-3">
+                    <label for="username" class="form-label">Username</label>
+                    <div class="input-group">
+                      <span class="input-group-text"
+                        ><i class="fas fa-user"></i
+                      ></span>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="username"
+                        required
+                      />
+                    </div>
+                    <div class="form-text">
+                      Choose a unique username (5-20 characters)
+                    </div>
                   </div>
-                </div>
-                
-                <div class="mb-3">
-                  <label for="securityQuestion" class="form-label">Security Question</label>
-                  <select class="form-select" id="securityQuestion" required>
-                    <option value="">Select a security question</option>
-                    <option value="q1">What was your childhood nickname?</option>
-                    <option value="q2">What is the name of your first pet?</option>
-                    <option value="q3">What was your first car?</option>
-                    <option value="q4">What elementary school did you attend?</option>
-                    <option value="q5">What is your mother's maiden name?</option>
-                  </select>
-                </div>
-                
-                <div class="mb-4">
-                  <label for="securityAnswer" class="form-label">Security Answer</label>
-                  <input type="text" class="form-control" id="securityAnswer" required>
-                </div>
-                
-                <div class="mb-4">
-                  <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="termsCheck" required>
-                    <label class="form-check-label" for="termsCheck">
-                      I agree to the <a href="#" class="btn-link">Terms of Service</a> and <a href="#" class="btn-link">Privacy Policy</a>
-                    </label>
+
+                  <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <div class="input-group">
+                      <span class="input-group-text"
+                        ><i class="fas fa-lock"></i
+                      ></span>
+                      <input
+                        type="password"
+                        class="form-control"
+                        id="password"
+                        required
+                      />
+                      <button
+                        class="btn btn-outline-secondary"
+                        type="button"
+                        id="togglePassword"
+                      >
+                        <i class="fas fa-eye"></i>
+                      </button>
+                    </div>
+
+                    <ul class="password-requirements">
+                      <li id="length-requirement">
+                        <i class="fas fa-times-circle"></i> At least 8
+                        characters
+                      </li>
+                      <li id="uppercase-requirement">
+                        <i class="fas fa-times-circle"></i> At least one
+                        uppercase letter
+                      </li>
+                      <li id="number-requirement">
+                        <i class="fas fa-times-circle"></i> At least one number
+                      </li>
+                      <li id="special-requirement">
+                        <i class="fas fa-times-circle"></i> At least one special
+                        character
+                      </li>
+                    </ul>
                   </div>
-                </div>
-                
-                <div class="nav-actions">
-                  <button type="button" class="btn btn-outline-success" id="backToStep1"><i class="fas fa-arrow-left me-1"></i> Back</button>
-                  <button type="button" class="btn btn-success" id="toStep3">Next <i class="fas fa-arrow-right ms-1"></i></button>
-                </div>
-              </div>
-              
-              <!-- Step 3: Email Verification -->
-              <div class="registration-step" id="step3">
-                <h4 class="mb-4">Email Verification</h4>
-                
-                <div class="verification-section mb-4">
-                  <p><i class="fas fa-info-circle me-2"></i> We've sent a verification code to your email address. Please check your inbox and enter the code below.</p>
-                </div>
-                
-                <div class="mb-3">
-                  <label for="verificationCode" class="form-label">Verification Code</label>
-                  <div class="input-group">
-                    <span class="input-group-text"><i class="fas fa-key"></i></span>
-                    <input type="text" class="form-control" id="verificationCode" placeholder="Enter the 6-digit code" required maxlength="6">
+
+                  <div class="mb-4">
+                    <label for="confirmPassword" class="form-label"
+                      >Confirm Password</label
+                    >
+                    <div class="input-group">
+                      <span class="input-group-text"
+                        ><i class="fas fa-lock"></i
+                      ></span>
+                      <input
+                        type="password"
+                        class="form-control"
+                        id="confirmPassword"
+                        required
+                      />
+                    </div>
                   </div>
-                  <div class="form-text">Enter the 6-digit code sent to <span id="userEmail">your email</span></div>
-                </div>
-                
-                <div class="text-center mb-4">
-                  <button type="button" class="btn btn-link" id="resendCode">
-                    <i class="fas fa-sync-alt me-1"></i> Resend Verification Code
-                  </button>
-                  <div id="resendMessage" class="text-muted mt-2" style="display: none">
-                    <small>A new code has been sent to your email</small>
+
+                  <div class="mb-3">
+                    <label for="securityQuestion" class="form-label"
+                      >Security Question</label
+                    >
+                    <select class="form-select" id="securityQuestion" required>
+                      <option value="">Select a security question</option>
+                      <option value="q1">
+                        What was your childhood nickname?
+                      </option>
+                      <option value="q2">
+                        What is the name of your first pet?
+                      </option>
+                      <option value="q3">What was your first car?</option>
+                      <option value="q4">
+                        What elementary school did you attend?
+                      </option>
+                      <option value="q5">
+                        What is your mother's maiden name?
+                      </option>
+                    </select>
                   </div>
-                </div>
-                
-                <div class="mb-3">
-                  <label for="captcha" class="form-label">CAPTCHA Verification</label>
-                  <div class="input-group">
-                    <span class="input-group-text"><i class="fas fa-robot"></i></span>
-                    <input type="text" class="form-control" id="captcha" placeholder="Enter the characters you see" required>
+
+                  <div class="mb-4">
+                    <label for="securityAnswer" class="form-label"
+                      >Security Answer</label
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="securityAnswer"
+                      required
+                    />
                   </div>
-                  <div class="captcha-image mt-2 text-center">
-                    <img src="https://via.placeholder.com/200x60?text=CAPTCHA" alt="CAPTCHA image" class="img-fluid border rounded">
-                    <button type="button" class="btn btn-sm btn-link" id="refreshCaptcha">
-                      <i class="fas fa-sync-alt me-1"></i> Refresh
+
+                  <div class="mb-4">
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        id="termsCheck"
+                        required
+                      />
+                      <label class="form-check-label" for="termsCheck">
+                        I agree to the
+                        <a href="#" class="btn-link">Terms of Service</a> and
+                        <a href="#" class="btn-link">Privacy Policy</a>
+                      </label>
+                    </div>
+                  </div>
+
+                  <div class="nav-actions">
+                    <button
+                      type="button"
+                      class="btn btn-outline-success"
+                      id="backToStep1"
+                    >
+                      <i class="fas fa-arrow-left me-1"></i> Back
+                    </button>
+                    <button type="button" class="btn btn-success" id="toStep3">
+                      Next <i class="fas fa-arrow-right ms-1"></i>
                     </button>
                   </div>
                 </div>
-                
-                <div class="nav-actions">
-                  <button type="button" class="btn btn-outline-success" id="backToStep2"><i class="fas fa-arrow-left me-1"></i> Back</button>
-                  <button type="submit" class="btn btn-success" id="registerButton">
-                    <i class="fas fa-user-plus me-2"></i> Complete Registration
-                  </button>
+
+                <!-- Step 3: Email Verification -->
+                <div class="registration-step" id="step3">
+                  <h4 class="mb-4">Email Verification</h4>
+
+                  <div class="verification-section mb-4">
+                    <p>
+                      <i class="fas fa-info-circle me-2"></i> We've sent a
+                      verification code to your email address. Please check your
+                      inbox and enter the code below.
+                    </p>
+                  </div>
+
+                  <div class="mb-3">
+                    <label for="verificationCode" class="form-label"
+                      >Verification Code</label
+                    >
+                    <div class="input-group">
+                      <span class="input-group-text"
+                        ><i class="fas fa-key"></i
+                      ></span>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="verificationCode"
+                        placeholder="Enter the 6-digit code"
+                        required
+                        maxlength="6"
+                      />
+                    </div>
+                    <div class="form-text">
+                      Enter the 6-digit code sent to
+                      <span id="userEmail">your email</span>
+                    </div>
+                  </div>
+
+                  <div class="text-center mb-4">
+                    <button type="button" class="btn btn-link" id="resendCode">
+                      <i class="fas fa-sync-alt me-1"></i> Resend Verification
+                      Code
+                    </button>
+                    <div
+                      id="resendMessage"
+                      class="text-muted mt-2"
+                      style="display: none"
+                    >
+                      <small>A new code has been sent to your email</small>
+                    </div>
+                  </div>
+
+                  <div class="mb-3">
+                    <label for="captcha" class="form-label"
+                      >CAPTCHA Verification</label
+                    >
+                    <div class="input-group">
+                      <span class="input-group-text"
+                        ><i class="fas fa-robot"></i
+                      ></span>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="captcha"
+                        placeholder="Enter the characters you see"
+                        required
+                      />
+                    </div>
+                    <div class="captcha-image mt-2 text-center">
+                      <img
+                        src="https://via.placeholder.com/200x60?text=CAPTCHA"
+                        alt="CAPTCHA image"
+                        class="img-fluid border rounded"
+                      />
+                      <button
+                        type="button"
+                        class="btn btn-sm btn-link"
+                        id="refreshCaptcha"
+                      >
+                        <i class="fas fa-sync-alt me-1"></i> Refresh
+                      </button>
+                    </div>
+                  </div>
+
+                  <div class="nav-actions">
+                    <button
+                      type="button"
+                      class="btn btn-outline-success"
+                      id="backToStep2"
+                    >
+                      <i class="fas fa-arrow-left me-1"></i> Back
+                    </button>
+                    <button
+                      type="submit"
+                      class="btn btn-success"
+                      id="registerButton"
+                    >
+                      <i class="fas fa-user-plus me-2"></i> Complete
+                      Registration
+                    </button>
+                  </div>
                 </div>
-              </div>
-            </form>
-            
-            <div id="registrationResult" class="mt-3 text-center"></div>
+              </form>
+
+              <div id="registrationResult" class="mt-3 text-center"></div>
+            </div>
           </div>
-        </div>
-        
-        <div class="text-center mt-4">
-          <p>Already have an account? <a href="voter-login" class="btn-link">Login here</a></p>
-          <a href="/" class="btn-link">
-            <i class="fas fa-home me-1"></i> Back to Home
-          </a>
+
+          <div class="text-center mt-4">
+            <p>
+              Already have an account?
+              <a href="voter-login" class="btn-link">Login here</a>
+            </p>
+            <a href="/" class="btn-link">
+              <i class="fas fa-home me-1"></i> Back to Home
+            </a>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <script>
-    $(document).ready(function() {
-      // Password visibility toggle
-      $('#togglePassword').click(function() {
-        const passwordField = $('#password');
-        const passwordFieldType = passwordField.attr('type');
-        const newType = passwordFieldType === 'password' ? 'text' : 'password';
-        passwordField.attr('type', newType);
-        
-        // Toggle icon
-        const icon = $(this).find('i');
-        icon.toggleClass('fa-eye fa-eye-slash');
-      });
-      
-      // Password strength validation
-      $('#password').on('input', function() {
-        const password = $(this).val();
-        
-        // Check requirements
-        const lengthValid = password.length >= 8;
-        const uppercaseValid = /[A-Z]/.test(password);
-        const numberValid = /[0-9]/.test(password);
-        const specialValid = /[^A-Za-z0-9]/.test(password);
-        
-        // Update requirement indicators
-        updateRequirement('length', lengthValid);
-        updateRequirement('uppercase', uppercaseValid);
-        updateRequirement('number', numberValid);
-        updateRequirement('special', specialValid);
-      });
-      
-      function updateRequirement(requirement, isValid) {
-        const element = $(`#${requirement}-requirement`);
-        const icon = element.find('i');
-        
-        if (isValid) {
-          element.addClass('requirement-met');
-          icon.removeClass('fa-times-circle').addClass('fa-check-circle');
-        } else {
-          element.removeClass('requirement-met');
-          icon.removeClass('fa-check-circle').addClass('fa-times-circle');
-        }
-      }
-      
-      // Navigation between steps
-      $('#toStep2').click(function() {
-        // Validate step 1
-        const firstName = $('#firstName').val();
-        const lastName = $('#lastName').val();
-        const dateOfBirth = $('#dateOfBirth').val();
-        const gender = $('#gender').val();
-        const email = $('#email').val();
-        const phone = $('#phone').val();
-        
-        // Check if required fields are filled
-        if (!firstName || !lastName || !dateOfBirth || !gender || !email || !phone) {
-          alert('Please fill in all required fields to proceed.');
-          return;
-        }
-        
-        // Move to step 2
-        $('#step1').removeClass('active');
-        $('#step2').addClass('active');
-        $('#step1-indicator').removeClass('active').addClass('completed');
-        $('#step2-indicator').addClass('active');
-        $('.progress-bar').css('width', '66%');
-      });
-      
-      $('#backToStep1').click(function() {
-        $('#step2').removeClass('active');
-        $('#step1').addClass('active');
-        $('#step2-indicator').removeClass('active');
-        $('#step1-indicator').removeClass('completed').addClass('active');
-        $('.progress-bar').css('width', '33%');
-      });
-      
-      $('#toStep3').click(function() {
-        // Validate step 2
-        const username = $('#username').val();
-        const password = $('#password').val();
-        const confirmPassword = $('#confirmPassword').val();
-        const securityQuestion = $('#securityQuestion').val();
-        const securityAnswer = $('#securityAnswer').val();
-        
-        if (!username || !password || !confirmPassword || !securityQuestion || !securityAnswer) {
-          alert('Please fill in all required fields to proceed.');
-          return;
-        }
-        
-        // Password validation
-        if (password !== confirmPassword) {
-          alert('Passwords do not match.');
-          return;
-        }
-        
+    <script>
+      $(document).ready(function () {
+        // Password visibility toggle
+        $("#togglePassword").click(function () {
+          const passwordField = $("#password");
+          const passwordFieldType = passwordField.attr("type");
+          const newType =
+            passwordFieldType === "password" ? "text" : "password";
+          passwordField.attr("type", newType);
+
+          // Toggle icon
+          const icon = $(this).find("i");
+          icon.toggleClass("fa-eye fa-eye-slash");
+        });
+
         // Password strength validation
-        const lengthValid = password.length >= 8;
-        const uppercaseValid = /[A-Z]/.test(password);
-        const numberValid = /[0-9]/.test(password);
-        const specialValid = /[^A-Za-z0-9]/.test(password);
-        
-        if (!(lengthValid && uppercaseValid && numberValid && specialValid)) {
-          alert('Please ensure your password meets all the requirements.');
-          return;
+        $("#password").on("input", function () {
+          const password = $(this).val();
+
+          // Check requirements
+          const lengthValid = password.length >= 8;
+          const uppercaseValid = /[A-Z]/.test(password);
+          const numberValid = /[0-9]/.test(password);
+          const specialValid = /[^A-Za-z0-9]/.test(password);
+
+          // Update requirement indicators
+          updateRequirement("length", lengthValid);
+          updateRequirement("uppercase", uppercaseValid);
+          updateRequirement("number", numberValid);
+          updateRequirement("special", specialValid);
+        });
+
+        function updateRequirement(requirement, isValid) {
+          const element = $(`#${requirement}-requirement`);
+          const icon = element.find("i");
+
+          if (isValid) {
+            element.addClass("requirement-met");
+            icon.removeClass("fa-times-circle").addClass("fa-check-circle");
+          } else {
+            element.removeClass("requirement-met");
+            icon.removeClass("fa-check-circle").addClass("fa-times-circle");
+          }
         }
-        
-        // Terms agreement
-        if (!$('#termsCheck').is(':checked')) {
-          alert('You must agree to the Terms of Service and Privacy Policy.');
-          return;
-        }
-        
-        // Update user email display
-        $('#userEmail').text($('#email').val());
-        
-        // Simulate sending verification code
-        // In a real app, this would be an API call to send an email
-        
-        // Move to step 3
-        $('#step2').removeClass('active');
-        $('#step3').addClass('active');
-        $('#step2-indicator').removeClass('active').addClass('completed');
-        $('#step3-indicator').addClass('active');
-        $('.progress-bar').css('width', '100%');
-      });
-      
-      $('#backToStep2').click(function() {
-        $('#step3').removeClass('active');
-        $('#step2').addClass('active');
-        $('#step3-indicator').removeClass('active');
-        $('#step2-indicator').removeClass('completed').addClass('active');
-        $('.progress-bar').css('width', '66%');
-      });
-      
-      // Resend verification code
-      $('#resendCode').click(function() {
-        // Show loading state
-        const btn = $(this);
-        const originalText = btn.html();
-        btn.html('<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span> Sending...');
-        btn.prop('disabled', true);
-        
-        // Simulate API call to resend verification code
-        setTimeout(function() {
-          btn.html(originalText);
-          btn.prop('disabled', false);
-          $('#resendMessage').fadeIn().delay(3000).fadeOut();
-        }, 1500);
-      });
-      
-      // CAPTCHA refresh simulation
-      $('#refreshCaptcha').click(function() {
-        // In a real implementation, this would call an API to get a new CAPTCHA
-        const timestamp = new Date().getTime();
-        $('.captcha-image img').attr('src', `https://via.placeholder.com/200x60?text=CAPTCHA${timestamp}`);
-      });
-      
-      // Form submission
-      $('#voterRegistrationForm').submit(function(e) {
-        e.preventDefault();
-        
-        // Validate verification code
-        const verificationCode = $('#verificationCode').val();
-        if (!verificationCode || verificationCode.length !== 6 || isNaN(verificationCode)) {
-          alert('Please enter a valid 6-digit verification code.');
-          return;
-        }
-        
-        // Show loading state
-        const submitBtn = $('#registerButton');
-        const originalBtnText = submitBtn.html();
-        submitBtn.html('<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span> Registering...');
-        submitBtn.prop('disabled', true);
-        
-        // Collect form data
-        const formData = {
-          firstName: $('#firstName').val(),
-          lastName: $('#lastName').val(),
-          dateOfBirth: $('#dateOfBirth').val(),
-          gender: $('#gender').val(),
-          email: $('#email').val(),
-          phone: $('#phone').val(),
-          username: $('#username').val(),
-          password: $('#password').val(),
-          securityQuestion: $('#securityQuestion').val(),
-          securityAnswer: $('#securityAnswer').val(),
-          verificationCode: $('#verificationCode').val(),
-          captcha: $('#captcha').val()
-        };
-        
-        // Simulate API call
-        setTimeout(function() {
-          console.log('Registration data:', formData);
-          
-          // Display success message
-          $('#registrationResult').html(`
+
+        // Navigation between steps
+        $("#toStep2").click(function () {
+          // Validate step 1
+          const firstName = $("#firstName").val();
+          const lastName = $("#lastName").val();
+          const dateOfBirth = $("#dateOfBirth").val();
+          const gender = $("#gender").val();
+          const email = $("#email").val();
+          const phone = $("#phone").val();
+
+          // Check if required fields are filled
+          if (
+            !firstName ||
+            !lastName ||
+            !dateOfBirth ||
+            !gender ||
+            !email ||
+            !phone
+          ) {
+            alert("Please fill in all required fields to proceed.");
+            return;
+          }
+
+          // Move to step 2
+          $("#step1").removeClass("active");
+          $("#step2").addClass("active");
+          $("#step1-indicator").removeClass("active").addClass("completed");
+          $("#step2-indicator").addClass("active");
+          $(".progress-bar").css("width", "66%");
+        });
+
+        $("#backToStep1").click(function () {
+          $("#step2").removeClass("active");
+          $("#step1").addClass("active");
+          $("#step2-indicator").removeClass("active");
+          $("#step1-indicator").removeClass("completed").addClass("active");
+          $(".progress-bar").css("width", "33%");
+        });
+
+        $("#toStep3").click(function () {
+          // Validate step 2
+          const username = $("#username").val();
+          const password = $("#password").val();
+          const confirmPassword = $("#confirmPassword").val();
+          const securityQuestion = $("#securityQuestion").val();
+          const securityAnswer = $("#securityAnswer").val();
+
+          if (
+            !username ||
+            !password ||
+            !confirmPassword ||
+            !securityQuestion ||
+            !securityAnswer
+          ) {
+            alert("Please fill in all required fields to proceed.");
+            return;
+          }
+
+          // Password validation
+          if (password !== confirmPassword) {
+            alert("Passwords do not match.");
+            return;
+          }
+
+          // Password strength validation
+          const lengthValid = password.length >= 8;
+          const uppercaseValid = /[A-Z]/.test(password);
+          const numberValid = /[0-9]/.test(password);
+          const specialValid = /[^A-Za-z0-9]/.test(password);
+
+          if (!(lengthValid && uppercaseValid && numberValid && specialValid)) {
+            alert("Please ensure your password meets all the requirements.");
+            return;
+          }
+
+          // Terms agreement
+          if (!$("#termsCheck").is(":checked")) {
+            alert("You must agree to the Terms of Service and Privacy Policy.");
+            return;
+          }
+
+          // Update user email display
+          $("#userEmail").text($("#email").val());
+
+          // Simulate sending verification code
+          // In a real app, this would be an API call to send an email
+
+          // Move to step 3
+          $("#step2").removeClass("active");
+          $("#step3").addClass("active");
+          $("#step2-indicator").removeClass("active").addClass("completed");
+          $("#step3-indicator").addClass("active");
+          $(".progress-bar").css("width", "100%");
+        });
+
+        $("#backToStep2").click(function () {
+          $("#step3").removeClass("active");
+          $("#step2").addClass("active");
+          $("#step3-indicator").removeClass("active");
+          $("#step2-indicator").removeClass("completed").addClass("active");
+          $(".progress-bar").css("width", "66%");
+        });
+
+        // Resend verification code
+        $("#resendCode").click(function () {
+          // Show loading state
+          const btn = $(this);
+          const originalText = btn.html();
+          btn.html(
+            '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span> Sending...'
+          );
+          btn.prop("disabled", true);
+
+          // Simulate API call to resend verification code
+          setTimeout(function () {
+            btn.html(originalText);
+            btn.prop("disabled", false);
+            $("#resendMessage").fadeIn().delay(3000).fadeOut();
+          }, 1500);
+        });
+
+        // CAPTCHA refresh simulation
+        $("#refreshCaptcha").click(function () {
+          // In a real implementation, this would call an API to get a new CAPTCHA
+          const timestamp = new Date().getTime();
+          $(".captcha-image img").attr(
+            "src",
+            `https://via.placeholder.com/200x60?text=CAPTCHA${timestamp}`
+          );
+        });
+
+        // Form submission
+        $("#voterRegistrationForm").submit(function (e) {
+          e.preventDefault();
+
+          // Validate verification code
+          const verificationCode = $("#verificationCode").val();
+          if (
+            !verificationCode ||
+            verificationCode.length !== 6 ||
+            isNaN(verificationCode)
+          ) {
+            alert("Please enter a valid 6-digit verification code.");
+            return;
+          }
+
+          // Show loading state
+          const submitBtn = $("#registerButton");
+          const originalBtnText = submitBtn.html();
+          submitBtn.html(
+            '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span> Registering...'
+          );
+          submitBtn.prop("disabled", true);
+
+          // Collect form data
+          const formData = {
+            firstName: $("#firstName").val(),
+            lastName: $("#lastName").val(),
+            dateOfBirth: $("#dateOfBirth").val(),
+            gender: $("#gender").val(),
+            email: $("#email").val(),
+            phone: $("#phone").val(),
+            username: $("#username").val(),
+            password: $("#password").val(),
+            securityQuestion: $("#securityQuestion").val(),
+            securityAnswer: $("#securityAnswer").val(),
+            verificationCode: $("#verificationCode").val(),
+            captcha: $("#captcha").val(),
+          };
+
+          // Simulate API call
+          setTimeout(function () {
+            console.log("Registration data:", formData);
+
+            // Display success message
+            $("#registrationResult").html(`
             <div class="alert alert-success">
               <strong><i class="fas fa-check-circle me-2"></i>Success!</strong> Your voter registration has been completed successfully. You can now log in to your account.
             </div>
           `);
-          
-          // Reset button state
-          submitBtn.html(originalBtnText);
-          submitBtn.prop('disabled', false);
-          
-          // Redirect to login page after a delay
-          setTimeout(function() {
-            window.location.href = '/voter-login';
-          }, 3000);
-        }, 2000);
+
+            // Reset button state
+            submitBtn.html(originalBtnText);
+            submitBtn.prop("disabled", false);
+
+            // Redirect to login page after a delay
+            setTimeout(function () {
+              window.location.href = "/voter-login";
+            }, 3000);
+          }, 2000);
+        });
       });
-    });
-  </script>
-</body>
+    </script>
+  </body>
 </html>
-``` 
