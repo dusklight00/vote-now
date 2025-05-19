@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
+  <head>    <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Admin Dashboard - Online Voting System</title>
+    <title>Election Management Dashboard - Online Voting System</title>
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -199,116 +198,6 @@
         color: #333;
       }
 
-      /* Forms */
-      .form-container {
-        background-color: white;
-        border-radius: 10px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-        padding: 30px;
-        margin-bottom: 20px;
-      }
-
-      .form-title {
-        font-weight: 600;
-        margin-bottom: 25px;
-        color: #1a73e8;
-        padding-bottom: 10px;
-        border-bottom: 2px solid #f0f0f0;
-      }
-
-      .form-group {
-        margin-bottom: 20px;
-      }
-
-      .form-label {
-        font-weight: 500;
-        margin-bottom: 8px;
-      }
-
-      .btn-primary {
-        background-color: #1a73e8;
-        border-color: #1a73e8;
-        transition: all 0.3s;
-      }
-
-      .btn-primary:hover {
-        background-color: #0d47a1;
-        border-color: #0d47a1;
-        transform: translateY(-2px);
-      }
-
-      /* Candidate section */
-      .candidate-container {
-        border: 1px solid #e9ecef;
-        border-radius: 8px;
-        padding: 15px;
-        margin-bottom: 15px;
-        position: relative;
-      }
-
-      .remove-candidate {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        color: #dc3545;
-        cursor: pointer;
-        transition: all 0.3s;
-      }
-
-      .remove-candidate:hover {
-        transform: scale(1.2);
-      }
-
-      /* Charts and stats */
-      .chart-container {
-        position: relative;
-        margin: auto;
-        height: 300px;
-        width: 100%;
-      }
-
-      /* Mobile */
-      @media (max-width: 768px) {
-        .sidebar {
-          width: 80px;
-        }
-
-        .sidebar .sidebar-header h3 span {
-          display: none;
-        }
-
-        .sidebar-menu a span {
-          display: none;
-        }
-
-        .sidebar-menu a i {
-          margin-right: 0;
-          width: 100%;
-        }
-
-        .content {
-          width: calc(100% - 80px);
-          margin-left: 80px;
-        }
-
-        .menu-header {
-          text-align: center;
-        }
-
-        .dashboard-header {
-          flex-direction: column;
-          text-align: center;
-        }
-
-        .dashboard-header .btn {
-          margin-top: 10px;
-        }
-
-        .stats-card {
-          text-align: center;
-        }
-      }
-
       /* Utilities */
       .text-primary {
         color: #1a73e8 !important;
@@ -357,6 +246,48 @@
       .bg-light-danger {
         background-color: rgba(234, 67, 53, 0.1) !important;
       }
+
+      /* Mobile */
+      @media (max-width: 768px) {
+        .sidebar {
+          width: 80px;
+        }
+
+        .sidebar .sidebar-header h3 span {
+          display: none;
+        }
+
+        .sidebar-menu a span {
+          display: none;
+        }
+
+        .sidebar-menu a i {
+          margin-right: 0;
+          width: 100%;
+        }
+
+        .content {
+          width: calc(100% - 80px);
+          margin-left: 80px;
+        }
+
+        .menu-header {
+          text-align: center;
+        }
+
+        .dashboard-header {
+          flex-direction: column;
+          text-align: center;
+        }
+
+        .dashboard-header .btn {
+          margin-top: 10px;
+        }
+
+        .stats-card {
+          text-align: center;
+        }
+      }
     </style>
   </head>
   <body>
@@ -373,7 +304,7 @@
           <div class="menu-header">Dashboard</div>
           <ul>
             <li>
-              <a href="#" class="active">
+              <a href="/admin-dashboard" class="active">
                 <i class="fas fa-tachometer-alt"></i>
                 <span>Overview</span>
               </a>
@@ -383,19 +314,19 @@
           <div class="menu-header">Elections</div>
           <ul>
             <li>
-              <a href="#create-election">
+              <a href="/create-election">
                 <i class="fas fa-plus-circle"></i>
                 <span>Create Election</span>
               </a>
             </li>
             <li>
-              <a href="#manage-elections">
+              <a href="/admin-dashboard" class="active">
                 <i class="fas fa-tasks"></i>
                 <span>Manage Elections</span>
               </a>
             </li>
             <li>
-              <a href="#election-results">
+              <a href="/view-results">
                 <i class="fas fa-chart-pie"></i>
                 <span>Results</span>
               </a>
@@ -405,33 +336,15 @@
           <div class="menu-header">Voters</div>
           <ul>
             <li>
-              <a href="#manage-voters">
+              <a href="/manage-voters">
                 <i class="fas fa-users"></i>
                 <span>Manage Voters</span>
-              </a>
-            </li>
-            <li>
-              <a href="#voter-verification">
-                <i class="fas fa-user-check"></i>
-                <span>Verify Voters</span>
               </a>
             </li>
           </ul>
 
           <div class="menu-header">System</div>
           <ul>
-            <li>
-              <a href="#settings">
-                <i class="fas fa-cog"></i>
-                <span>Settings</span>
-              </a>
-            </li>
-            <li>
-              <a href="#audit-logs">
-                <i class="fas fa-list-alt"></i>
-                <span>Audit Logs</span>
-              </a>
-            </li>
             <li>
               <a href="#" onclick="logout()">
                 <i class="fas fa-sign-out-alt"></i>
@@ -443,16 +356,18 @@
       </nav>
 
       <!-- Page Content -->
-      <div class="content">
-        <!-- Dashboard Header -->
+      <div class="content">        <!-- Dashboard Header -->
         <div class="dashboard-header">
           <div>
-            <h1 class="mb-0">Admin Dashboard</h1>
+            <h1 class="mb-0">Election Management Dashboard</h1>
             <p class="mb-0">
               Welcome back, <span id="admin-name">Administrator</span>
             </p>
           </div>
           <div>
+            <a href="/create-election" class="btn btn-light me-2">
+              <i class="fas fa-plus-circle me-2"></i> Create New Election
+            </a>
             <button class="btn btn-light" onclick="location.href='/'">
               <i class="fas fa-home me-2"></i> Back to Home
             </button>
@@ -516,215 +431,14 @@
               </div>
             </div>
           </div>
-        </div>
-
-        <!-- Create Election Form -->
-        <div class="row mt-4" id="create-election">
-          <div class="col-12">
-            <div class="form-container">
-              <h2 class="form-title">Create New Election</h2>
-
-              <form id="electionForm">
-                <div class="row">
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label for="electionTitle" class="form-label"
-                        >Election Title</label
-                      >
-                      <input
-                        type="text"
-                        class="form-control"
-                        id="electionTitle"
-                        placeholder="Enter election title"
-                        required
-                      />
-                    </div>
-                  </div>
-
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label for="electionType" class="form-label"
-                        >Election Type</label
-                      >
-                      <select class="form-select" id="electionType" required>
-                        <option value="">Select type</option>
-                        <option value="presidential">Presidential</option>
-                        <option value="senate">Senate</option>
-                        <option value="house">House of Representatives</option>
-                        <option value="governor">Governor</option>
-                        <option value="mayor">Mayor</option>
-                        <option value="local">Local</option>
-                        <option value="referendum">Referendum</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="row">
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label for="startDate" class="form-label"
-                        >Start Date</label
-                      >
-                      <input
-                        type="date"
-                        class="form-control"
-                        id="startDate"
-                        required
-                      />
-                    </div>
-                  </div>
-
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label for="endDate" class="form-label">End Date</label>
-                      <input
-                        type="date"
-                        class="form-control"
-                        id="endDate"
-                        required
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <label for="electionDescription" class="form-label"
-                    >Description</label
-                  >
-                  <textarea
-                    class="form-control"
-                    id="electionDescription"
-                    rows="3"
-                    placeholder="Enter election description"
-                  ></textarea>
-                </div>
-
-                <div class="form-group">
-                  <label class="form-label">Eligible Voters</label>
-                  <div class="form-check">
-                    <input
-                      class="form-check-input"
-                      type="radio"
-                      name="voterEligibility"
-                      id="allVoters"
-                      value="all"
-                      checked
-                    />
-                    <label class="form-check-label" for="allVoters">
-                      All registered voters
-                    </label>
-                  </div>
-                  <div class="form-check">
-                    <input
-                      class="form-check-input"
-                      type="radio"
-                      name="voterEligibility"
-                      id="specificVoters"
-                      value="specific"
-                    />
-                    <label class="form-check-label" for="specificVoters">
-                      Specific voting districts
-                    </label>
-                  </div>
-                </div>
-
-                <div id="districtsContainer" class="form-group d-none">
-                  <label for="districts" class="form-label"
-                    >Select Districts</label
-                  >
-                  <select class="form-select" id="districts" multiple>
-                    <option value="district1">District 1</option>
-                    <option value="district2">District 2</option>
-                    <option value="district3">District 3</option>
-                    <option value="district4">District 4</option>
-                    <option value="district5">District 5</option>
-                  </select>
-                </div>
-
-                <hr class="my-4" />
-
-                <h4>Candidates</h4>
-                <div id="candidatesContainer">
-                  <div class="candidate-container">
-                    <div class="row">
-                      <div class="col-md-6">
-                        <div class="form-group">
-                          <label class="form-label">Candidate Name</label>
-                          <input
-                            type="text"
-                            class="form-control candidate-name"
-                            placeholder="Enter name"
-                          />
-                        </div>
-                      </div>
-
-                      <div class="col-md-6">
-                        <div class="form-group">
-                          <label class="form-label">Political Party</label>
-                          <input
-                            type="text"
-                            class="form-control candidate-party"
-                            placeholder="Enter party"
-                          />
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="form-group">
-                      <label class="form-label">Bio/Description</label>
-                      <textarea
-                        class="form-control candidate-bio"
-                        rows="2"
-                        placeholder="Enter candidate biography"
-                      ></textarea>
-                    </div>
-
-                    <i class="fas fa-times-circle remove-candidate"></i>
-                  </div>
-                </div>
-
-                <div class="text-center my-4">
-                  <button
-                    type="button"
-                    class="btn btn-outline-primary"
-                    id="addCandidateBtn"
-                  >
-                    <i class="fas fa-plus me-2"></i> Add Another Candidate
-                  </button>
-                </div>
-
-                <div class="form-group">
-                  <div class="form-check">
-                    <input
-                      class="form-check-input"
-                      type="checkbox"
-                      id="publishImmediately"
-                    />
-                    <label class="form-check-label" for="publishImmediately">
-                      Publish election immediately
-                    </label>
-                  </div>
-                </div>
-
-                <div class="mt-4 text-center">
-                  <button type="submit" class="btn btn-primary btn-lg px-5">
-                    <i class="fas fa-save me-2"></i> Create Election
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-
-        <!-- Manage Elections Table -->
-        <div class="row mt-4" id="manage-elections">
+        </div>        <!-- Manage Elections Table -->
+        <div class="row mt-4">
           <div class="col-12">
             <div class="table-container">
               <div
                 class="d-flex justify-content-between align-items-center mb-4"
               >
-                <h2 class="mb-0">Manage Elections</h2>
+                <h2 class="mb-0">Election Management</h2>
                 <div>
                   <input
                     type="text"
@@ -916,100 +630,6 @@
             </div>
           </div>
         </div>
-
-        <!-- Election Results Section -->
-        <div class="row mt-4" id="election-results">
-          <div class="col-12">
-            <div class="dashboard-card">
-              <div class="card-body">
-                <h2 class="mb-4">Election Results</h2>
-
-                <div class="row mb-4">
-                  <div class="col-md-4">
-                    <div class="form-group">
-                      <label for="resultElection" class="form-label"
-                        >Select Election</label
-                      >
-                      <select class="form-select" id="resultElection">
-                        <option value="EL-003">
-                          State Governor Election 2024
-                        </option>
-                        <option value="EL-001">
-                          Presidential Election 2024
-                        </option>
-                        <option value="EL-002">
-                          Senate Midterm Elections 2024
-                        </option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="row">
-                  <div class="col-md-6">
-                    <div class="chart-container">
-                      <canvas id="resultChart"></canvas>
-                    </div>
-                  </div>
-
-                  <div class="col-md-6">
-                    <div class="table-responsive">
-                      <table class="table">
-                        <thead>
-                          <tr>
-                            <th>Candidate</th>
-                            <th>Party</th>
-                            <th>Votes</th>
-                            <th>Percentage</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr class="table-success">
-                            <td>Thomas Black</td>
-                            <td>Republican Party</td>
-                            <td>638</td>
-                            <td>51%</td>
-                          </tr>
-                          <tr>
-                            <td>Alice Green</td>
-                            <td>Democratic Party</td>
-                            <td>613</td>
-                            <td>49%</td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-
-                    <div class="mt-4">
-                      <h5>Election Statistics</h5>
-                      <div class="row">
-                        <div class="col-md-6">
-                          <p>Total Eligible Voters: <strong>2,500</strong></p>
-                          <p>Total Votes Cast: <strong>1,251</strong></p>
-                        </div>
-                        <div class="col-md-6">
-                          <p>Voter Turnout: <strong>50.04%</strong></p>
-                          <p>Invalid Votes: <strong>0</strong></p>
-                        </div>
-                      </div>
-
-                      <div
-                        class="d-grid gap-2 d-md-flex justify-content-md-end mt-3"
-                      >
-                        <button class="btn btn-outline-primary me-md-2">
-                          <i class="fas fa-download me-2"></i> Export Results
-                        </button>
-                        <button class="btn btn-outline-success">
-                          <i class="fas fa-share-alt me-2"></i> Publish Results
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
 
@@ -1032,205 +652,6 @@
 
         // Load admin name (would come from API in real implementation)
         $("#admin-name").text("John Admin");
-
-        // Initialize election results chart
-        const ctx = document.getElementById("resultChart").getContext("2d");
-        const resultChart = new Chart(ctx, {
-          type: "pie",
-          data: {
-            labels: ["Thomas Black (Republican)", "Alice Green (Democratic)"],
-            datasets: [
-              {
-                data: [51, 49],
-                backgroundColor: ["#ea4335", "#1a73e8"],
-                borderWidth: 1,
-              },
-            ],
-          },
-          options: {
-            responsive: true,
-            plugins: {
-              legend: {
-                position: "bottom",
-              },
-              title: {
-                display: true,
-                text: "State Governor Election Results",
-                font: {
-                  size: 16,
-                },
-              },
-            },
-          },
-        });
-
-        // Toggle districts container based on voter eligibility selection
-        $('input[name="voterEligibility"]').change(function () {
-          if ($(this).val() === "specific") {
-            $("#districtsContainer").removeClass("d-none");
-          } else {
-            $("#districtsContainer").addClass("d-none");
-          }
-        });
-
-        // Add candidate button click handler
-        $("#addCandidateBtn").click(function () {
-          const candidateHtml = `
-          <div class="candidate-container">
-            <div class="row">
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label class="form-label">Candidate Name</label>
-                  <input type="text" class="form-control candidate-name" placeholder="Enter name">
-                </div>
-              </div>
-              
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label class="form-label">Political Party</label>
-                  <input type="text" class="form-control candidate-party" placeholder="Enter party">
-                </div>
-              </div>
-            </div>
-            
-            <div class="form-group">
-              <label class="form-label">Bio/Description</label>
-              <textarea class="form-control candidate-bio" rows="2" placeholder="Enter candidate biography"></textarea>
-            </div>
-            
-            <i class="fas fa-times-circle remove-candidate"></i>
-          </div>
-        `;
-
-          $("#candidatesContainer").append(candidateHtml);
-        });
-
-        // Remove candidate click handler
-        $(document).on("click", ".remove-candidate", function () {
-          // Don't remove if it's the last candidate
-          if ($(".candidate-container").length > 1) {
-            $(this).closest(".candidate-container").remove();
-          } else {
-            alert("At least one candidate is required.");
-          }
-        });
-
-        // Form submission
-        $("#electionForm").submit(function (e) {
-          e.preventDefault();
-
-          // Show loading state
-          const submitBtn = $(this).find('button[type="submit"]');
-          const originalBtnText = submitBtn.html();
-          submitBtn.html(
-            '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span> Creating...'
-          );
-          submitBtn.prop("disabled", true);
-
-          // Collect form data
-          const title = $("#electionTitle").val();
-          const type = $("#electionType").val();
-          const startDate = $("#startDate").val();
-          const endDate = $("#endDate").val();
-          const description = $("#electionDescription").val();
-          const eligibility = $('input[name="voterEligibility"]:checked').val();
-          const districts =
-            eligibility === "specific" ? $("#districts").val() : null;
-          const publishNow = $("#publishImmediately").is(":checked");
-
-          // Collect candidates
-          const candidates = [];
-          $(".candidate-container").each(function () {
-            const name = $(this).find(".candidate-name").val();
-            const party = $(this).find(".candidate-party").val();
-            const bio = $(this).find(".candidate-bio").val();
-
-            candidates.push({
-              name: name,
-              party: party,
-              bio: bio,
-            });
-          });
-
-          // Create election data object
-          const electionData = {
-            title: title,
-            type: type,
-            startDate: startDate,
-            endDate: endDate,
-            description: description,
-            eligibility: eligibility,
-            districts: districts,
-            candidates: candidates,
-            publishNow: publishNow,
-          };
-
-          console.log("Creating election:", electionData);
-
-          // Simulate API call
-          setTimeout(function () {
-            alert("Election created successfully!");
-
-            // Reset form
-            $("#electionForm").trigger("reset");
-            $("#candidatesContainer").html(`
-            <div class="candidate-container">
-              <div class="row">
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label class="form-label">Candidate Name</label>
-                    <input type="text" class="form-control candidate-name" placeholder="Enter name">
-                  </div>
-                </div>
-                
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label class="form-label">Political Party</label>
-                    <input type="text" class="form-control candidate-party" placeholder="Enter party">
-                  </div>
-                </div>
-              </div>
-              
-              <div class="form-group">
-                <label class="form-label">Bio/Description</label>
-                <textarea class="form-control candidate-bio" rows="2" placeholder="Enter candidate biography"></textarea>
-              </div>
-              
-              <i class="fas fa-times-circle remove-candidate"></i>
-            </div>
-          `);
-
-            // Restore button state
-            submitBtn.html(originalBtnText);
-            submitBtn.prop("disabled", false);
-
-            // Scroll to manage elections section
-            $("html, body").animate(
-              {
-                scrollTop: $("#manage-elections").offset().top,
-              },
-              1000
-            );
-          }, 1500);
-        });
-
-        // Handle menu navigation
-        $(".sidebar-menu a").click(function (e) {
-          const target = $(this).attr("href");
-
-          if (target.startsWith("#")) {
-            e.preventDefault();
-            $(".sidebar-menu a").removeClass("active");
-            $(this).addClass("active");
-
-            $("html, body").animate(
-              {
-                scrollTop: $(target).offset().top - 20,
-              },
-              800
-            );
-          }
-        });
       });
     </script>
   </body>

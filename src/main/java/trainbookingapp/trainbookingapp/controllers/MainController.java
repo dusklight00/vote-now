@@ -36,20 +36,29 @@ public class MainController {
   public String voterDashboardPage() {
     return "voter-dashboard.html";
   }
-  
+
   @GetMapping("/edit-profile")
   public String editProfilePage() {
     return "voter-edit-profile.html";
   }
-  
   @GetMapping("/settings")
   public String settingsPage() {
     return "voter-settings.html";
   }
 
   @GetMapping("/admin-dashboard")
-  public String adminDasboard() {
+  public String adminElectionManagementPage() {
     return "admin-dashboard-page.html";
+  }
+
+  @GetMapping("/create-election")
+  public String createElectionPage() {
+    return "admin-create-election.html";
+  }
+
+  @GetMapping("/manage-voters")
+  public String manageVotersPage() {
+    return "admin-manage-voters.html";
   }
 
   @GetMapping("/view-results")

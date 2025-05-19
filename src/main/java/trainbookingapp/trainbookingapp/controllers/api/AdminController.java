@@ -32,6 +32,7 @@ public class AdminController {
         admin.getUsername().equals(username) &&
         admin.getPassword().equals(password)
       ) {
+        System.out.println(admin.getUsername() + " " + admin.getPassword());
         Response response = new Response();
         response.message = admin.getAadhar();
         response.status = 200;
