@@ -3,211 +3,1235 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Admin Dashboard Page</title>
+    <title>Admin Dashboard - Online Voting System</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
     <link
       rel="stylesheet"
-      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
     />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-      body, html {
-        height: 100%;
+      body {
+        font-family: "Roboto", sans-serif;
+        background-color: #f8f9fa;
+      }
+
+      .wrapper {
+        display: flex;
+        min-height: 100vh;
+      }
+
+      /* Sidebar */
+      .sidebar {
+        width: 280px;
+        background-color: #1e3a5f;
+        color: white;
+        position: fixed;
+        height: 100vh;
+        overflow-y: auto;
+        transition: all 0.3s;
+        z-index: 1000;
+      }
+
+      .sidebar-header {
+        padding: 20px;
+        background-color: #1a73e8;
+        text-align: center;
+      }
+
+      .sidebar-header h3 {
         margin: 0;
-        transition: background-color 0.4s ease;
-        background: linear-gradient(to right, rgba(251, 194, 235, 0.55), rgba(166, 193, 238, 0.55));
+        font-weight: 700;
       }
-      .gradient-advanced {
-        background: #a8edea;
-        background: -webkit-linear-gradient(to right, rgba(168, 237, 234, 0.5), rgba(254, 214, 227, 0.5));
-        background: linear-gradient(to right, rgba(168, 237, 234, 0.5), rgba(254, 214, 227, 0.5));
-        background-blend-mode: screen, color-dodge, overlay, difference, normal;
-        min-height: 100%;
-        padding-bottom: 50px;
+
+      .sidebar-menu {
+        padding: 20px 0;
       }
-      .btn {
-        font-size: 25px;
+
+      .menu-header {
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        padding: 15px 20px 5px;
+        color: rgba(255, 255, 255, 0.6);
+        font-weight: 500;
+      }
+
+      .sidebar-menu ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .sidebar-menu li {
+        margin-bottom: 5px;
+      }
+
+      .sidebar-menu a {
+        padding: 12px 20px;
+        display: flex;
+        align-items: center;
+        color: white;
+        text-decoration: none;
+        transition: all 0.3s;
+        border-left: 4px solid transparent;
+      }
+
+      .sidebar-menu a:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+        border-left-color: #1a73e8;
+      }
+
+      .sidebar-menu a.active {
+        background-color: rgba(255, 255, 255, 0.1);
+        border-left-color: #1a73e8;
+        font-weight: 500;
+      }
+
+      .sidebar-menu i {
+        margin-right: 10px;
+        width: 20px;
+        text-align: center;
+      }
+
+      .content {
+        width: calc(100% - 280px);
+        margin-left: 280px;
+        padding: 20px;
+        transition: all 0.3s;
+      }
+
+      /* Dashboard cards */
+      .dashboard-card {
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        margin-bottom: 20px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .dashboard-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      .card-icon {
+        width: 60px;
+        height: 60px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
         margin-right: 15px;
       }
-      .btn:hover {
-        background-color: #2E073F;
-      }
-      .action-buttons {
-        margin-top: 30px;
-        margin-left: 15px;
-      }
-      .logout-btn {
-        margin-top: 20px;
-      }
-      h1 {
+
+      .dashboard-header {
+        background-color: #1a73e8;
         color: white;
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-        margin-left: 15px;
-      }
-      .full-width {
-        width: 100%;
-        padding-right: 15px;
-      }
-      .left-align {
-        margin-right: 20px;
-      }
-      .gradient-advanced:hover {
-        background: #a8edea;
-        background: -webkit-linear-gradient(to right, rgba(93, 184, 179, 0.556), rgba(254, 214, 227, 0.5));
-        background: linear-gradient(to right, rgba(0, 255, 247, 0.505), rgba(254, 214, 227, 0.738));
-        background-blend-mode: screen, color-dodge, overlay, difference, normal;
-        min-height: 100%;
-        padding-bottom: 50px;
-      }
-      .train-details {
-        border: 1px solid #ddd;
+        padding: 15px 20px;
         border-radius: 5px;
-        padding: 15px;
         margin-bottom: 20px;
-        background-color: #fff;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
       }
-      .train-details h2 {
-        margin-top: 0;
+
+      .stats-card {
+        padding: 20px;
       }
-      .train-details .row > div {
+
+      .stats-title {
+        font-size: 0.9rem;
+        font-weight: 500;
+        color: #6c757d;
         margin-bottom: 10px;
       }
-      .train-details .lead {
-        font-size: 18px;
+
+      .stats-number {
+        font-size: 1.8rem;
+        font-weight: 700;
+        margin-bottom: 0;
       }
-      
+
+      /* Tables */
+      .table-container {
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        padding: 20px;
+        margin-bottom: 20px;
+      }
+
+      .table thead th {
+        background-color: #f8f9fa;
+        border-bottom: 2px solid #dee2e6;
+        font-weight: 600;
+      }
+
+      .status-badge {
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 500;
+      }
+
+      .status-active {
+        background-color: #34a853;
+        color: white;
+      }
+
+      .status-ended {
+        background-color: #ea4335;
+        color: white;
+      }
+
+      .status-upcoming {
+        background-color: #fbbc05;
+        color: #333;
+      }
+
+      /* Forms */
+      .form-container {
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        padding: 30px;
+        margin-bottom: 20px;
+      }
+
+      .form-title {
+        font-weight: 600;
+        margin-bottom: 25px;
+        color: #1a73e8;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #f0f0f0;
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      .form-label {
+        font-weight: 500;
+        margin-bottom: 8px;
+      }
+
+      .btn-primary {
+        background-color: #1a73e8;
+        border-color: #1a73e8;
+        transition: all 0.3s;
+      }
+
+      .btn-primary:hover {
+        background-color: #0d47a1;
+        border-color: #0d47a1;
+        transform: translateY(-2px);
+      }
+
+      /* Candidate section */
+      .candidate-container {
+        border: 1px solid #e9ecef;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 15px;
+        position: relative;
+      }
+
+      .remove-candidate {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        color: #dc3545;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+
+      .remove-candidate:hover {
+        transform: scale(1.2);
+      }
+
+      /* Charts and stats */
+      .chart-container {
+        position: relative;
+        margin: auto;
+        height: 300px;
+        width: 100%;
+      }
+
+      /* Mobile */
+      @media (max-width: 768px) {
+        .sidebar {
+          width: 80px;
+        }
+
+        .sidebar .sidebar-header h3 span {
+          display: none;
+        }
+
+        .sidebar-menu a span {
+          display: none;
+        }
+
+        .sidebar-menu a i {
+          margin-right: 0;
+          width: 100%;
+        }
+
+        .content {
+          width: calc(100% - 80px);
+          margin-left: 80px;
+        }
+
+        .menu-header {
+          text-align: center;
+        }
+
+        .dashboard-header {
+          flex-direction: column;
+          text-align: center;
+        }
+
+        .dashboard-header .btn {
+          margin-top: 10px;
+        }
+
+        .stats-card {
+          text-align: center;
+        }
+      }
+
+      /* Utilities */
+      .text-primary {
+        color: #1a73e8 !important;
+      }
+
+      .text-success {
+        color: #34a853 !important;
+      }
+
+      .text-warning {
+        color: #fbbc05 !important;
+      }
+
+      .text-danger {
+        color: #ea4335 !important;
+      }
+
+      .bg-primary {
+        background-color: #1a73e8 !important;
+      }
+
+      .bg-success {
+        background-color: #34a853 !important;
+      }
+
+      .bg-warning {
+        background-color: #fbbc05 !important;
+      }
+
+      .bg-danger {
+        background-color: #ea4335 !important;
+      }
+
+      .bg-light-primary {
+        background-color: rgba(26, 115, 232, 0.1) !important;
+      }
+
+      .bg-light-success {
+        background-color: rgba(52, 168, 83, 0.1) !important;
+      }
+
+      .bg-light-warning {
+        background-color: rgba(251, 188, 5, 0.1) !important;
+      }
+
+      .bg-light-danger {
+        background-color: rgba(234, 67, 53, 0.1) !important;
+      }
     </style>
   </head>
   <body>
-    <div class="gradient-advanced">
-      <div class="container-fluid">
+    <div class="wrapper">
+      <!-- Sidebar -->
+      <nav class="sidebar">
+        <div class="sidebar-header">
+          <h3>
+            <i class="fas fa-vote-yea me-2"></i><span>VoteNow Admin</span>
+          </h3>
+        </div>
+
+        <div class="sidebar-menu">
+          <div class="menu-header">Dashboard</div>
+          <ul>
+            <li>
+              <a href="#" class="active">
+                <i class="fas fa-tachometer-alt"></i>
+                <span>Overview</span>
+              </a>
+            </li>
+          </ul>
+
+          <div class="menu-header">Elections</div>
+          <ul>
+            <li>
+              <a href="#create-election">
+                <i class="fas fa-plus-circle"></i>
+                <span>Create Election</span>
+              </a>
+            </li>
+            <li>
+              <a href="#manage-elections">
+                <i class="fas fa-tasks"></i>
+                <span>Manage Elections</span>
+              </a>
+            </li>
+            <li>
+              <a href="#election-results">
+                <i class="fas fa-chart-pie"></i>
+                <span>Results</span>
+              </a>
+            </li>
+          </ul>
+
+          <div class="menu-header">Voters</div>
+          <ul>
+            <li>
+              <a href="#manage-voters">
+                <i class="fas fa-users"></i>
+                <span>Manage Voters</span>
+              </a>
+            </li>
+            <li>
+              <a href="#voter-verification">
+                <i class="fas fa-user-check"></i>
+                <span>Verify Voters</span>
+              </a>
+            </li>
+          </ul>
+
+          <div class="menu-header">System</div>
+          <ul>
+            <li>
+              <a href="#settings">
+                <i class="fas fa-cog"></i>
+                <span>Settings</span>
+              </a>
+            </li>
+            <li>
+              <a href="#audit-logs">
+                <i class="fas fa-list-alt"></i>
+                <span>Audit Logs</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" onclick="logout()">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Logout</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <!-- Page Content -->
+      <div class="content">
+        <!-- Dashboard Header -->
+        <div class="dashboard-header">
+          <div>
+            <h1 class="mb-0">Admin Dashboard</h1>
+            <p class="mb-0">
+              Welcome back, <span id="admin-name">Administrator</span>
+            </p>
+          </div>
+          <div>
+            <button class="btn btn-light" onclick="location.href='/'">
+              <i class="fas fa-home me-2"></i> Back to Home
+            </button>
+          </div>
+        </div>
+
+        <!-- Stats Cards -->
         <div class="row">
-          <div class="col-xs-12 text-right">
-            <a href="/">
-              <button type="button" class="btn btn-primary logout-btn">
-                Logout
-              </button>
-            </a>
+          <div class="col-md-3 col-sm-6">
+            <div class="dashboard-card stats-card">
+              <div class="d-flex align-items-center">
+                <div class="card-icon bg-light-primary text-primary">
+                  <i class="fas fa-vote-yea"></i>
+                </div>
+                <div>
+                  <div class="stats-title">Active Elections</div>
+                  <h3 class="stats-number text-primary">3</h3>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-3 col-sm-6">
+            <div class="dashboard-card stats-card">
+              <div class="d-flex align-items-center">
+                <div class="card-icon bg-light-success text-success">
+                  <i class="fas fa-users"></i>
+                </div>
+                <div>
+                  <div class="stats-title">Registered Voters</div>
+                  <h3 class="stats-number text-success">1,256</h3>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-3 col-sm-6">
+            <div class="dashboard-card stats-card">
+              <div class="d-flex align-items-center">
+                <div class="card-icon bg-light-warning text-warning">
+                  <i class="fas fa-person-booth"></i>
+                </div>
+                <div>
+                  <div class="stats-title">Votes Today</div>
+                  <h3 class="stats-number text-warning">148</h3>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-3 col-sm-6">
+            <div class="dashboard-card stats-card">
+              <div class="d-flex align-items-center">
+                <div class="card-icon bg-light-danger text-danger">
+                  <i class="fas fa-bell"></i>
+                </div>
+                <div>
+                  <div class="stats-title">Alerts</div>
+                  <h3 class="stats-number text-danger">5</h3>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-        <h1 class="mt-4" style="color:black">
-          Good Morning, Admin<span id="user-name"></span>
-          <span style="color: rgb(0, 0, 0); font-size:24px;"> (Admin Dashboard)</span>
-        </h1>
-        <div class="left-align">
-          <div class="action-buttons">
-            <a th:href="@{create-train}">
-              <button type="button" class="btn btn-primary">
-                + Create Train
-              </button>
-            </a>
-            <a th:href="@{search-booked-ticket-details}">
-              <button type="button" class="btn btn-primary">
-                View Booked Ticket
-              </button>
-            </a>
-            <a th:href="@{delete-train}">
-              <button type="button" class="btn btn-primary">
-                Delete Train
-              </button>
-            </a>
-            <a th:href="@{edit-train}">
-              <button type="button" class="btn btn-primary">Edit Train</button>
-            </a>
+
+        <!-- Create Election Form -->
+        <div class="row mt-4" id="create-election">
+          <div class="col-12">
+            <div class="form-container">
+              <h2 class="form-title">Create New Election</h2>
+
+              <form id="electionForm">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="electionTitle" class="form-label"
+                        >Election Title</label
+                      >
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="electionTitle"
+                        placeholder="Enter election title"
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="electionType" class="form-label"
+                        >Election Type</label
+                      >
+                      <select class="form-select" id="electionType" required>
+                        <option value="">Select type</option>
+                        <option value="presidential">Presidential</option>
+                        <option value="senate">Senate</option>
+                        <option value="house">House of Representatives</option>
+                        <option value="governor">Governor</option>
+                        <option value="mayor">Mayor</option>
+                        <option value="local">Local</option>
+                        <option value="referendum">Referendum</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="startDate" class="form-label"
+                        >Start Date</label
+                      >
+                      <input
+                        type="date"
+                        class="form-control"
+                        id="startDate"
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="endDate" class="form-label">End Date</label>
+                      <input
+                        type="date"
+                        class="form-control"
+                        id="endDate"
+                        required
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="electionDescription" class="form-label"
+                    >Description</label
+                  >
+                  <textarea
+                    class="form-control"
+                    id="electionDescription"
+                    rows="3"
+                    placeholder="Enter election description"
+                  ></textarea>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">Eligible Voters</label>
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      name="voterEligibility"
+                      id="allVoters"
+                      value="all"
+                      checked
+                    />
+                    <label class="form-check-label" for="allVoters">
+                      All registered voters
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      name="voterEligibility"
+                      id="specificVoters"
+                      value="specific"
+                    />
+                    <label class="form-check-label" for="specificVoters">
+                      Specific voting districts
+                    </label>
+                  </div>
+                </div>
+
+                <div id="districtsContainer" class="form-group d-none">
+                  <label for="districts" class="form-label"
+                    >Select Districts</label
+                  >
+                  <select class="form-select" id="districts" multiple>
+                    <option value="district1">District 1</option>
+                    <option value="district2">District 2</option>
+                    <option value="district3">District 3</option>
+                    <option value="district4">District 4</option>
+                    <option value="district5">District 5</option>
+                  </select>
+                </div>
+
+                <hr class="my-4" />
+
+                <h4>Candidates</h4>
+                <div id="candidatesContainer">
+                  <div class="candidate-container">
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label class="form-label">Candidate Name</label>
+                          <input
+                            type="text"
+                            class="form-control candidate-name"
+                            placeholder="Enter name"
+                          />
+                        </div>
+                      </div>
+
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label class="form-label">Political Party</label>
+                          <input
+                            type="text"
+                            class="form-control candidate-party"
+                            placeholder="Enter party"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="form-label">Bio/Description</label>
+                      <textarea
+                        class="form-control candidate-bio"
+                        rows="2"
+                        placeholder="Enter candidate biography"
+                      ></textarea>
+                    </div>
+
+                    <i class="fas fa-times-circle remove-candidate"></i>
+                  </div>
+                </div>
+
+                <div class="text-center my-4">
+                  <button
+                    type="button"
+                    class="btn btn-outline-primary"
+                    id="addCandidateBtn"
+                  >
+                    <i class="fas fa-plus me-2"></i> Add Another Candidate
+                  </button>
+                </div>
+
+                <div class="form-group">
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      id="publishImmediately"
+                    />
+                    <label class="form-check-label" for="publishImmediately">
+                      Publish election immediately
+                    </label>
+                  </div>
+                </div>
+
+                <div class="mt-4 text-center">
+                  <button type="submit" class="btn btn-primary btn-lg px-5">
+                    <i class="fas fa-save me-2"></i> Create Election
+                  </button>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
-      </div>
-      <br/>
-      <div class="container mt-4">
-        <div class="panel panel-default">
-          <div class="panel-body" style="background-color: #f8f9fa;border-radius: 5px;border: 1px solid #000;">
-            <div id="train-details-container" class="row">
-              <!-- Train details will be dynamically inserted here -->
+
+        <!-- Manage Elections Table -->
+        <div class="row mt-4" id="manage-elections">
+          <div class="col-12">
+            <div class="table-container">
+              <div
+                class="d-flex justify-content-between align-items-center mb-4"
+              >
+                <h2 class="mb-0">Manage Elections</h2>
+                <div>
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Search elections"
+                    id="searchElection"
+                  />
+                </div>
+              </div>
+
+              <div class="table-responsive">
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Title</th>
+                      <th>Type</th>
+                      <th>Start Date</th>
+                      <th>End Date</th>
+                      <th>Status</th>
+                      <th>Candidates</th>
+                      <th>Votes</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>EL-001</td>
+                      <td>Presidential Election 2024</td>
+                      <td>Presidential</td>
+                      <td>Apr 1, 2024</td>
+                      <td>Apr 15, 2024</td>
+                      <td>
+                        <span class="status-badge status-active">Active</span>
+                      </td>
+                      <td>3</td>
+                      <td>854</td>
+                      <td>
+                        <div class="btn-group">
+                          <button
+                            type="button"
+                            class="btn btn-sm btn-outline-primary"
+                          >
+                            <i class="fas fa-edit"></i>
+                          </button>
+                          <button
+                            type="button"
+                            class="btn btn-sm btn-outline-danger"
+                          >
+                            <i class="fas fa-trash"></i>
+                          </button>
+                          <button
+                            type="button"
+                            class="btn btn-sm btn-outline-success"
+                          >
+                            <i class="fas fa-chart-bar"></i>
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>EL-002</td>
+                      <td>Senate Midterm Elections 2024</td>
+                      <td>Senate</td>
+                      <td>Apr 5, 2024</td>
+                      <td>Apr 10, 2024</td>
+                      <td>
+                        <span class="status-badge status-active">Active</span>
+                      </td>
+                      <td>3</td>
+                      <td>742</td>
+                      <td>
+                        <div class="btn-group">
+                          <button
+                            type="button"
+                            class="btn btn-sm btn-outline-primary"
+                          >
+                            <i class="fas fa-edit"></i>
+                          </button>
+                          <button
+                            type="button"
+                            class="btn btn-sm btn-outline-danger"
+                          >
+                            <i class="fas fa-trash"></i>
+                          </button>
+                          <button
+                            type="button"
+                            class="btn btn-sm btn-outline-success"
+                          >
+                            <i class="fas fa-chart-bar"></i>
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>EL-003</td>
+                      <td>State Governor Election 2024</td>
+                      <td>Governor</td>
+                      <td>Mar 20, 2024</td>
+                      <td>Mar 25, 2024</td>
+                      <td>
+                        <span class="status-badge status-ended">Ended</span>
+                      </td>
+                      <td>2</td>
+                      <td>1,251</td>
+                      <td>
+                        <div class="btn-group">
+                          <button
+                            type="button"
+                            class="btn btn-sm btn-outline-primary"
+                            disabled
+                          >
+                            <i class="fas fa-edit"></i>
+                          </button>
+                          <button
+                            type="button"
+                            class="btn btn-sm btn-outline-danger"
+                          >
+                            <i class="fas fa-trash"></i>
+                          </button>
+                          <button
+                            type="button"
+                            class="btn btn-sm btn-outline-success"
+                          >
+                            <i class="fas fa-chart-bar"></i>
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>EL-004</td>
+                      <td>City Mayor Election 2024</td>
+                      <td>Mayor</td>
+                      <td>Apr 15, 2024</td>
+                      <td>Apr 20, 2024</td>
+                      <td>
+                        <span class="status-badge status-upcoming"
+                          >Upcoming</span
+                        >
+                      </td>
+                      <td>3</td>
+                      <td>0</td>
+                      <td>
+                        <div class="btn-group">
+                          <button
+                            type="button"
+                            class="btn btn-sm btn-outline-primary"
+                          >
+                            <i class="fas fa-edit"></i>
+                          </button>
+                          <button
+                            type="button"
+                            class="btn btn-sm btn-outline-danger"
+                          >
+                            <i class="fas fa-trash"></i>
+                          </button>
+                          <button
+                            type="button"
+                            class="btn btn-sm btn-outline-success"
+                            disabled
+                          >
+                            <i class="fas fa-chart-bar"></i>
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div
+                class="d-flex justify-content-between align-items-center mt-3"
+              >
+                <div>Showing 1 to 4 of 4 entries</div>
+                <nav aria-label="Page navigation">
+                  <ul class="pagination">
+                    <li class="page-item disabled">
+                      <a class="page-link" href="#" tabindex="-1">Previous</a>
+                    </li>
+                    <li class="page-item active">
+                      <a class="page-link" href="#">1</a>
+                    </li>
+                    <li class="page-item disabled">
+                      <a class="page-link" href="#">Next</a>
+                    </li>
+                  </ul>
+                </nav>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Election Results Section -->
+        <div class="row mt-4" id="election-results">
+          <div class="col-12">
+            <div class="dashboard-card">
+              <div class="card-body">
+                <h2 class="mb-4">Election Results</h2>
+
+                <div class="row mb-4">
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label for="resultElection" class="form-label"
+                        >Select Election</label
+                      >
+                      <select class="form-select" id="resultElection">
+                        <option value="EL-003">
+                          State Governor Election 2024
+                        </option>
+                        <option value="EL-001">
+                          Presidential Election 2024
+                        </option>
+                        <option value="EL-002">
+                          Senate Midterm Elections 2024
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="chart-container">
+                      <canvas id="resultChart"></canvas>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="table-responsive">
+                      <table class="table">
+                        <thead>
+                          <tr>
+                            <th>Candidate</th>
+                            <th>Party</th>
+                            <th>Votes</th>
+                            <th>Percentage</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr class="table-success">
+                            <td>Thomas Black</td>
+                            <td>Republican Party</td>
+                            <td>638</td>
+                            <td>51%</td>
+                          </tr>
+                          <tr>
+                            <td>Alice Green</td>
+                            <td>Democratic Party</td>
+                            <td>613</td>
+                            <td>49%</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+
+                    <div class="mt-4">
+                      <h5>Election Statistics</h5>
+                      <div class="row">
+                        <div class="col-md-6">
+                          <p>Total Eligible Voters: <strong>2,500</strong></p>
+                          <p>Total Votes Cast: <strong>1,251</strong></p>
+                        </div>
+                        <div class="col-md-6">
+                          <p>Voter Turnout: <strong>50.04%</strong></p>
+                          <p>Invalid Votes: <strong>0</strong></p>
+                        </div>
+                      </div>
+
+                      <div
+                        class="d-grid gap-2 d-md-flex justify-content-md-end mt-3"
+                      >
+                        <button class="btn btn-outline-primary me-md-2">
+                          <i class="fas fa-download me-2"></i> Export Results
+                        </button>
+                        <button class="btn btn-outline-success">
+                          <i class="fas fa-share-alt me-2"></i> Publish Results
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <script>
-      function createTrainDetailElement(
-        train_id,
-        train_name,
-        from,
-        to,
-        date,
-        time
-      ) {
-        const trainDetails = document.createElement("div");
-        trainDetails.className = "col-md-12 train-details";
 
-        trainDetails.innerHTML = `
-          <h2>${train_name} <small class="text-muted">#${train_id}</small></h2>
-          <div class="row">
-            <div class="col-xs-6">
-              <small>From:</small>
-              <p class="lead"><strong>${from}</strong></p>
+    <script>
+      function logout() {
+        localStorage.removeItem("aadhar");
+        localStorage.removeItem("role");
+        window.location.href = "/";
+      }
+
+      $(document).ready(function () {
+        // Check authentication
+        const aadhar = localStorage.getItem("aadhar");
+        const role = localStorage.getItem("role");
+
+        if (!aadhar || role !== "admin") {
+          window.location.href = "/admin-login";
+          return;
+        }
+
+        // Load admin name (would come from API in real implementation)
+        $("#admin-name").text("John Admin");
+
+        // Initialize election results chart
+        const ctx = document.getElementById("resultChart").getContext("2d");
+        const resultChart = new Chart(ctx, {
+          type: "pie",
+          data: {
+            labels: ["Thomas Black (Republican)", "Alice Green (Democratic)"],
+            datasets: [
+              {
+                data: [51, 49],
+                backgroundColor: ["#ea4335", "#1a73e8"],
+                borderWidth: 1,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            plugins: {
+              legend: {
+                position: "bottom",
+              },
+              title: {
+                display: true,
+                text: "State Governor Election Results",
+                font: {
+                  size: 16,
+                },
+              },
+            },
+          },
+        });
+
+        // Toggle districts container based on voter eligibility selection
+        $('input[name="voterEligibility"]').change(function () {
+          if ($(this).val() === "specific") {
+            $("#districtsContainer").removeClass("d-none");
+          } else {
+            $("#districtsContainer").addClass("d-none");
+          }
+        });
+
+        // Add candidate button click handler
+        $("#addCandidateBtn").click(function () {
+          const candidateHtml = `
+          <div class="candidate-container">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="form-label">Candidate Name</label>
+                  <input type="text" class="form-control candidate-name" placeholder="Enter name">
+                </div>
+              </div>
+              
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="form-label">Political Party</label>
+                  <input type="text" class="form-control candidate-party" placeholder="Enter party">
+                </div>
+              </div>
             </div>
-            <div class="col-xs-6">
-              <small>To:</small>
-              <p class="lead"><strong>${to}</strong></p>
+            
+            <div class="form-group">
+              <label class="form-label">Bio/Description</label>
+              <textarea class="form-control candidate-bio" rows="2" placeholder="Enter candidate biography"></textarea>
             </div>
-            <div class="col-xs-6">
-              <p>Train Date: ${date}</p>
-            </div>
-            <div class="col-xs-6">
-              <p class="lead">
-                Train Time
-                <span class="text-primary" style="font-size: 32px">
-                  <strong>${time}</strong>
-                </span>
-              </p>
-            </div>
+            
+            <i class="fas fa-times-circle remove-candidate"></i>
           </div>
         `;
 
-        return trainDetails;
-      }
-
-      function displayTrainDetails(train_id, train_name, from, to, date, time) {
-        const container = document.getElementById("train-details-container");
-        const trainDetailElement = createTrainDetailElement(
-          train_id,
-          train_name,
-          from,
-          to,
-          date,
-          time
-        );
-        container.appendChild(trainDetailElement);
-      }
-
-      async function fetchTrainData() {
-        const endpoint = `/api/all-trains`;
-        const response = await fetch(endpoint).then((response) =>
-          response.json()
-        );
-        return response;
-      }
-
-      async function updateTrainDisplay() {
-        const container = document.getElementById("train-details-container");
-        container.innerHTML = ""; // Clear previous content
-
-        const trains = await fetchTrainData();
-        trains.forEach((train) => {
-          displayTrainDetails(
-            train.trainNumber,
-            train.trainName,
-            train.source,
-            train.destination,
-            train.date,
-            train.time
-          );
+          $("#candidatesContainer").append(candidateHtml);
         });
-      }
 
-      document.addEventListener("DOMContentLoaded", updateTrainDisplay);
+        // Remove candidate click handler
+        $(document).on("click", ".remove-candidate", function () {
+          // Don't remove if it's the last candidate
+          if ($(".candidate-container").length > 1) {
+            $(this).closest(".candidate-container").remove();
+          } else {
+            alert("At least one candidate is required.");
+          }
+        });
+
+        // Form submission
+        $("#electionForm").submit(function (e) {
+          e.preventDefault();
+
+          // Show loading state
+          const submitBtn = $(this).find('button[type="submit"]');
+          const originalBtnText = submitBtn.html();
+          submitBtn.html(
+            '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span> Creating...'
+          );
+          submitBtn.prop("disabled", true);
+
+          // Collect form data
+          const title = $("#electionTitle").val();
+          const type = $("#electionType").val();
+          const startDate = $("#startDate").val();
+          const endDate = $("#endDate").val();
+          const description = $("#electionDescription").val();
+          const eligibility = $('input[name="voterEligibility"]:checked').val();
+          const districts =
+            eligibility === "specific" ? $("#districts").val() : null;
+          const publishNow = $("#publishImmediately").is(":checked");
+
+          // Collect candidates
+          const candidates = [];
+          $(".candidate-container").each(function () {
+            const name = $(this).find(".candidate-name").val();
+            const party = $(this).find(".candidate-party").val();
+            const bio = $(this).find(".candidate-bio").val();
+
+            candidates.push({
+              name: name,
+              party: party,
+              bio: bio,
+            });
+          });
+
+          // Create election data object
+          const electionData = {
+            title: title,
+            type: type,
+            startDate: startDate,
+            endDate: endDate,
+            description: description,
+            eligibility: eligibility,
+            districts: districts,
+            candidates: candidates,
+            publishNow: publishNow,
+          };
+
+          console.log("Creating election:", electionData);
+
+          // Simulate API call
+          setTimeout(function () {
+            alert("Election created successfully!");
+
+            // Reset form
+            $("#electionForm").trigger("reset");
+            $("#candidatesContainer").html(`
+            <div class="candidate-container">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="form-label">Candidate Name</label>
+                    <input type="text" class="form-control candidate-name" placeholder="Enter name">
+                  </div>
+                </div>
+                
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="form-label">Political Party</label>
+                    <input type="text" class="form-control candidate-party" placeholder="Enter party">
+                  </div>
+                </div>
+              </div>
+              
+              <div class="form-group">
+                <label class="form-label">Bio/Description</label>
+                <textarea class="form-control candidate-bio" rows="2" placeholder="Enter candidate biography"></textarea>
+              </div>
+              
+              <i class="fas fa-times-circle remove-candidate"></i>
+            </div>
+          `);
+
+            // Restore button state
+            submitBtn.html(originalBtnText);
+            submitBtn.prop("disabled", false);
+
+            // Scroll to manage elections section
+            $("html, body").animate(
+              {
+                scrollTop: $("#manage-elections").offset().top,
+              },
+              1000
+            );
+          }, 1500);
+        });
+
+        // Handle menu navigation
+        $(".sidebar-menu a").click(function (e) {
+          const target = $(this).attr("href");
+
+          if (target.startsWith("#")) {
+            e.preventDefault();
+            $(".sidebar-menu a").removeClass("active");
+            $(this).addClass("active");
+
+            $("html, body").animate(
+              {
+                scrollTop: $(target).offset().top - 20,
+              },
+              800
+            );
+          }
+        });
+      });
     </script>
   </body>
 </html>

@@ -1,216 +1,347 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <title>Train Booking App</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <style>  
-    .jumbotron {
-      margin-bottom: 0px;
-      margin-top: 0px; 
-    }
-    .footer {
-      background-color: #f1f1f1;
-      padding: 25px;
-    }
-    #intro-example {
-      height: 600px;
-      margin-top: 0px;
-    }
-    .main {
-      position: relative;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-    }
-    .btn {       
-      font-size: 30px;
-    }
-    .navbar{
-        margin-bottom: 0px;
-    }
-    #myNavbar {
-      font-size: 32px;
-      margin-bottom: 0px;
-    }
-    #nav-head {
-      font-size: 36px;
-    }
-    
-    .footer-section {
-      display: flex;      
-      justify-content: space-between;
-      padding: 20px;
-      text-align: center;
-    }
-    .footer-section .col {
-      flex: 1;
-      padding: 10px 20px; 
-    }
-    .footer-section h6 {
-      margin-bottom: 20px; 
-    }
-    .footer-section p, .footer-section a {
-      margin-bottom: 10px; 
-    }
-  </style>
-</head>
-<body>
-
-<div class="jumbotron text-center">
-  <h1>Welcome to Online Movie Booking Application</h1>
-</div>
-
-<nav class="navbar navbar-inverse">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>                        
-      </button>
-      <a class="navbar-brand" href="#" id="nav-head">MovieBooking</a>
+  <head>
+    <title>Online Voting System</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Roboto", sans-serif;
+      }
+      .jumbotron {
+        margin-bottom: 0;
+        padding: 4rem 2rem;
+        background-color: #1a73e8;
+        color: white;
+        border-radius: 0;
+      }
+      .navbar {
+        margin-bottom: 0;
+        background-color: #0d47a1;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+      #nav-head {
+        font-size: 24px;
+        font-weight: 700;
+        color: white;
+      }
+      .nav-link {
+        color: white !important;
+        font-weight: 500;
+        transition: all 0.3s ease;
+      }
+      .nav-link:hover {
+        transform: translateY(-2px);
+        color: #e3f2fd !important;
+      }
+      .nav-link.active {
+        color: #ffeb3b !important;
+        font-weight: 700;
+      }
+      #intro-example {
+        height: 70vh;
+        position: relative;
+        background-image: linear-gradient(
+            rgba(0, 0, 0, 0.7),
+            rgba(0, 0, 0, 0.7)
+          ),
+          url("https://images.unsplash.com/photo-1621881538090-be645bed50a4?q=80&w=1000&auto=format&fit=crop");
+        background-size: cover;
+        background-position: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .main-buttons {
+        background-color: rgba(255, 255, 255, 0.9);
+        padding: 2rem;
+        border-radius: 10px;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      }
+      .btn {
+        font-size: 1.2rem;
+        margin: 1rem;
+        padding: 0.8rem 1.5rem;
+        border-radius: 30px;
+        transition: all 0.3s ease;
+        font-weight: 500;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+      .btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+      }
+      .btn-primary {
+        background-color: #1a73e8;
+        border-color: #1a73e8;
+      }
+      .btn-success {
+        background-color: #34a853;
+        border-color: #34a853;
+      }
+      .btn-warning {
+        background-color: #fbbc05;
+        border-color: #fbbc05;
+        color: #212121;
+      }
+      footer {
+        background-color: #1e3a5f;
+        color: white;
+        font-size: 16px;
+      }
+      .footer-section {
+        display: flex;
+        justify-content: space-between;
+        padding: 3rem 0;
+      }
+      .footer-section h6 {
+        margin-bottom: 1.5rem;
+        font-weight: 700;
+        color: #ffeb3b;
+        font-size: 1.2rem;
+      }
+      .footer-section p,
+      .footer-section a {
+        margin-bottom: 0.8rem;
+        opacity: 0.9;
+        transition: all 0.3s ease;
+      }
+      .footer-section a {
+        text-decoration: none;
+        color: white;
+        display: inline-block;
+      }
+      .footer-section a:hover {
+        opacity: 1;
+        color: #ffeb3b;
+        transform: translateX(5px);
+      }
+      .social-links {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        gap: 1.5rem;
+      }
+      .social-links a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.1);
+        transition: all 0.3s ease;
+      }
+      .social-links a:hover {
+        background: #ffeb3b;
+        color: #1e3a5f !important;
+        transform: translateY(-5px);
+      }
+      .copyright {
+        background-color: rgba(0, 0, 0, 0.3);
+        padding: 1.5rem;
+      }
+      .copyright a {
+        color: #ffeb3b;
+        text-decoration: none;
+      }
+      @media (max-width: 768px) {
+        .footer-section {
+          flex-direction: column;
+        }
+        .footer-section .col {
+          margin-bottom: 2rem;
+        }
+        .main-buttons {
+          width: 90%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="jumbotron text-center">
+      <h1 class="display-4">Welcome to Online Voting System</h1>
+      <p class="lead">Vote securely and easily from anywhere</p>
     </div>
-    
-    <div class="collapse navbar-collapse" id="myNavbar">
-      <ul class="nav navbar-nav">
-        <li class="active"><a href="#">Home</a></li>
-        <li><a href="#">About</a></li>
-        <li><a href="#">Contact</a></li>
-        <li><a href="#">Services</a></li>    
-      </ul>
-    </div>
-  </div>
-</nav>
 
-<!-- Body Section  -->
-<div
-id="intro-example"
-class="p-5 text-center bg-image"
-style="background-image: url('https://mdbcdn.b-cdn.net/img/new/slides/041.webp'); background-repeat:no-repeat; background-size: cover; margin-top: 0px;"
->
-  <div class="main">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-4">
-          <a th:href="@{admin-login}">        
-            <button type="button" class="btn btn-primary">Admin</button>
-          </a>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+      <div class="container">
+        <a class="navbar-brand" href="#" id="nav-head"
+          ><i class="fas fa-vote-yea me-2"></i>VoteNow</a
+        >
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link active" href="#">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Elections</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Results</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">How to Vote</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">About Us</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Contact</a>
+            </li>
+          </ul>
         </div>
-        <div class="col-md-4">
-          <a th:href="@{user-login}"> 
-            <button type="button" class="btn btn-success">User</button>
-          </a>
-        </div>
-        <div class="col-md-4">
-          <a th:href="@{search-train}"> 
-            <button type="button" class="btn btn-warning">Ticket (Search)</button>
-          </a>
+      </div>
+    </nav>
+
+    <!-- Body Section  -->
+    <div id="intro-example" class="p-5 text-center">
+      <div class="container main-buttons">
+        <h2 class="mb-4 text-dark">Ready to participate in democracy?</h2>
+        <div class="row justify-content-center">
+          <div class="col-md-4">
+            <a th:href="@{admin-login}" class="d-block">
+              <button type="button" class="btn btn-primary w-100">
+                <i class="fas fa-user-shield me-2"></i> Admin Login
+              </button>
+            </a>
+          </div>
+          <div class="col-md-4">
+            <a th:href="@{voter-login}" class="d-block">
+              <button type="button" class="btn btn-success w-100">
+                <i class="fas fa-user me-2"></i> Voter Login
+              </button>
+            </a>
+          </div>
+          <div class="col-md-4">
+            <a th:href="@{view-results}" class="d-block">
+              <button type="button" class="btn btn-warning w-100">
+                <i class="fas fa-poll me-2"></i> View Results
+              </button>
+            </a>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</div>
-<div>
 
-<!-- Footer -->
-<footer class="text-center text-lg-start text-muted" style="background-color: #000 ;padding:10px; color: #fff; font-size: 18px; ">
-  <section class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom" style="border-color: rgba(255, 255, 255, 0.1);">
-    
-    <div >
-      <a href="#" class="me-4 text-reset" style="color: #fff;">
-        <i class="fab fa-facebook-f"></i> &nbsp;&nbsp;&nbsp;&nbsp;
-      </a>
-      <a href="#" class="me-4 text-reset" style="color: #fff;">
-        <i class="fab fa-twitter"></i>&nbsp;&nbsp;&nbsp;&nbsp;
-      </a>
-      <a href="#" class="me-4 text-reset" style="color: #fff;">
-        <i class="fab fa-google"></i>&nbsp;&nbsp;&nbsp;&nbsp;
-      </a>
-      <a href="#" class="me-4 text-reset" style="color: #fff;">
-        <i class="fab fa-instagram"></i>&nbsp;&nbsp;&nbsp;&nbsp;
-      </a>
-      <a href="#" class="me-4 text-reset" style="color: #fff;">
-        <i class="fab fa-linkedin"></i>&nbsp;&nbsp;&nbsp;&nbsp;
-      </a>
-      <a href="#" class="me-4 text-reset" style="color: #fff;">
-        <i class="fab fa-github"></i>&nbsp;&nbsp;&nbsp;&nbsp;
-      </a>
-    </div>
-  </section>
-
-  <section class="footer-section">
-    <div class="container text-center text-md-start mt-5 gap-5">
-      <div class="row mt-3">
-        <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4 col">
-          <h6 class="text-uppercase fw-bold mb-4">
-            <i class="fas fa-gem me-3"></i>Company name
-          </h6>
-          <p>
-            Here you can use rows and columns to organize your footer content. Lorem ipsum
-            dolor sit amet, consectetur adipisicing elit.
-          </p>
+    <!-- Footer -->
+    <footer class="text-center text-lg-start">
+      <section
+        class="border-bottom py-4"
+        style="border-color: rgba(255, 255, 255, 0.1)"
+      >
+        <div class="container">
+          <div class="social-links">
+            <a href="#" class="me-4 text-reset">
+              <i class="fab fa-facebook-f"></i>
+            </a>
+            <a href="#" class="me-4 text-reset">
+              <i class="fab fa-twitter"></i>
+            </a>
+            <a href="#" class="me-4 text-reset">
+              <i class="fab fa-google"></i>
+            </a>
+            <a href="#" class="me-4 text-reset">
+              <i class="fab fa-instagram"></i>
+            </a>
+            <a href="#" class="me-4 text-reset">
+              <i class="fab fa-linkedin"></i>
+            </a>
+            <a href="#" class="me-4 text-reset">
+              <i class="fab fa-github"></i>
+            </a>
+          </div>
         </div>
+      </section>
 
-        <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4 col">
-          <h6 class="text-uppercase fw-bold mb-4">
-            Products
-          </h6>
-          <p>
-            <a href="#!" class="text-reset" style="color: #fff;">Angular</a>
-          </p>
-          <p>
-            <a href="#!" class="text-reset" style="color: #fff;">React</a>
-          </p>
-          <p>
-            <a href="#!" class="text-reset" style="color: #fff;">Vue</a>
-          </p>
-          <p>
-            <a href="#!" class="text-reset" style="color: #fff;">Laravel</a>
-          </p>
-        </div>
+      <section class="footer-section">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+              <h6 class="text-uppercase fw-bold mb-4">
+                <i class="fas fa-vote-yea me-3"></i>VoteNow
+              </h6>
+              <p>
+                Our secure online voting platform ensures transparent and
+                accessible democratic processes for all citizens. Vote anytime,
+                anywhere with complete security and privacy.
+              </p>
+            </div>
 
-        <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4 col">
-          <h6 class="text-uppercase fw-bold mb-4">
-            Useful links
-          </h6>
-          <p>
-            <a href="#!" class="text-reset" style="color: #fff;">Pricing</a>
-          </p>
-          <p>
-            <a href="#!" class="text-reset" style="color: #fff;">Settings</a>
-          </p>
-          <p>
-            <a href="#!" class="text-reset" style="color: #fff;">Orders</a>
-          </p>
-          <p>
-            <a href="#!" class="text-reset" style="color: #fff;">Help</a>
-          </p>
-        </div>
+            <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+              <h6 class="text-uppercase fw-bold mb-4">Features</h6>
+              <p>
+                <a href="#!">Secure Voting</a>
+              </p>
+              <p>
+                <a href="#!">Live Results</a>
+              </p>
+              <p>
+                <a href="#!">Candidate Profiles</a>
+              </p>
+              <p>
+                <a href="#!">Election Calendar</a>
+              </p>
+            </div>
 
-        <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4 col">
-          <h6 class="text-uppercase fw-bold mb-4">Contact</h6>
-          <p><i class="fas fa-home me-3"></i> New York, NY 10012, US</p>
-          <p>
-            <i class="fas fa-envelope me-3"></i>
-            info@example.com
-          </p>
-          <p><i class="fas fa-phone me-3"></i> + 01 234 567 88</p>
-          <p><i class="fas fa-print me-3"></i> + 01 234 567 89</p>
+            <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+              <h6 class="text-uppercase fw-bold mb-4">Useful links</h6>
+              <p>
+                <a href="#!">FAQ</a>
+              </p>
+              <p>
+                <a href="#!">Voter ID</a>
+              </p>
+              <p>
+                <a href="#!">Past Elections</a>
+              </p>
+              <p>
+                <a href="#!">Help</a>
+              </p>
+            </div>
+
+            <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+              <h6 class="text-uppercase fw-bold mb-4">Contact</h6>
+              <p>
+                <i class="fas fa-home me-3"></i> 123 Democracy St, Washington,
+                DC
+              </p>
+              <p>
+                <i class="fas fa-envelope me-3"></i>
+                info@votenow.com
+              </p>
+              <p><i class="fas fa-phone me-3"></i> + 1 800 VOTE NOW</p>
+              <p><i class="fas fa-headset me-3"></i> 24/7 Support Available</p>
+            </div>
+          </div>
         </div>
+      </section>
+
+      <div class="text-center copyright">
+        © 2024 Copyright:
+        <a href="#">VoteNow.com</a>
       </div>
-    </div>
-  </section>
-
-  <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.2);">
-    © 2024 Copyright:
-    <a class="text-reset fw-bold" href="https://mdbootstrap.com/" style="color: #fff;">MDBootstrap.com</a>
-  </div>
-</footer>
-
-</body>
+    </footer>
+  </body>
 </html>

@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Admin Login - Online Voting System</title>
+    <title>Voter Login - Online Voting System</title>
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -39,7 +39,7 @@
       }
 
       .img-container {
-        background-color: #1a73e8;
+        background-color: #34a853;
         height: 100%;
         display: flex;
         align-items: center;
@@ -60,7 +60,7 @@
 
       .login-heading {
         font-weight: 700;
-        color: #1a73e8;
+        color: #34a853;
         margin-bottom: 1.5rem;
         position: relative;
         padding-bottom: 10px;
@@ -71,7 +71,7 @@
         position: absolute;
         width: 50px;
         height: 3px;
-        background-color: #1a73e8;
+        background-color: #34a853;
         bottom: 0;
         left: 0;
       }
@@ -90,37 +90,37 @@
       }
 
       .form-control:focus {
-        border-color: #1a73e8;
-        box-shadow: 0 0 0 0.25rem rgba(26, 115, 232, 0.25);
+        border-color: #34a853;
+        box-shadow: 0 0 0 0.25rem rgba(52, 168, 83, 0.25);
         background-color: #fff;
       }
 
-      .btn-primary {
-        background-color: #1a73e8;
-        border-color: #1a73e8;
+      .btn-success {
+        background-color: #34a853;
+        border-color: #34a853;
         padding: 0.8rem 1.5rem;
         border-radius: 8px;
         font-weight: 500;
         transition: all 0.3s ease;
-        box-shadow: 0 4px 6px rgba(26, 115, 232, 0.2);
+        box-shadow: 0 4px 6px rgba(52, 168, 83, 0.2);
       }
 
-      .btn-primary:hover {
-        background-color: #0d47a1;
-        border-color: #0d47a1;
+      .btn-success:hover {
+        background-color: #2d8a46;
+        border-color: #2d8a46;
         transform: translateY(-3px);
-        box-shadow: 0 6px 10px rgba(26, 115, 232, 0.3);
+        box-shadow: 0 6px 10px rgba(52, 168, 83, 0.3);
       }
 
       .btn-link {
-        color: #1a73e8;
+        color: #34a853;
         font-weight: 500;
         text-decoration: none;
         transition: all 0.3s ease;
       }
 
       .btn-link:hover {
-        color: #0d47a1;
+        color: #2d8a46;
         text-decoration: underline;
       }
 
@@ -182,9 +182,9 @@
               <div class="col-md-5">
                 <div class="img-container">
                   <img
-                    src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
+                    src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.svg"
                     class="img-fluid"
-                    alt="Admin Login"
+                    alt="Voter Login"
                   />
                 </div>
               </div>
@@ -192,23 +192,25 @@
               <!-- Right Column - Form -->
               <div class="col-md-7">
                 <div class="card-body">
-                  <h2 class="login-heading">Admin Login</h2>
+                  <h2 class="login-heading">Voter Login</h2>
                   <p class="text-muted mb-4">
-                    Access your administrator dashboard
+                    Access your voter account to participate in elections
                   </p>
 
                   <form id="loginForm">
                     <div class="mb-3">
-                      <label for="usr" class="form-label">Username</label>
+                      <label for="usr" class="form-label"
+                        >Voter ID / Username</label
+                      >
                       <div class="input-group">
                         <span class="input-group-text"
-                          ><i class="fas fa-user"></i
+                          ><i class="fas fa-id-card"></i
                         ></span>
                         <input
                           type="text"
                           class="form-control"
                           id="usr"
-                          placeholder="Enter your username"
+                          placeholder="Enter your voter ID or username"
                           required
                         />
                       </div>
@@ -236,7 +238,7 @@
                       >
                     </div>
 
-                    <button type="submit" class="btn btn-primary w-100">
+                    <button type="submit" class="btn btn-success w-100">
                       <i class="fas fa-sign-in-alt me-2"></i> Login
                     </button>
 
@@ -248,9 +250,9 @@
                     </div>
 
                     <div class="text-center">
-                      <p class="mb-2">If you're a new user</p>
-                      <a href="admin-register" class="btn btn-outline-primary">
-                        <i class="fas fa-user-plus me-2"></i> Register Here
+                      <p class="mb-2">Not registered yet?</p>
+                      <a href="voter-register" class="btn btn-outline-success">
+                        <i class="fas fa-user-plus me-2"></i> Register as Voter
                       </a>
                     </div>
                   </form>
@@ -283,7 +285,7 @@
           submitBtn.prop("disabled", true);
 
           $.get(
-            `/api/admin-login?username=${username}&password=${password}`,
+            `/api/login?username=${username}&password=${password}`,
             function (data, status) {
               if (data.status === 200) {
                 console.log(data);
@@ -293,11 +295,11 @@
                   </div>
                 `);
                 localStorage.setItem("aadhar", data.message);
-                localStorage.setItem("role", "admin");
+                localStorage.setItem("role", "user");
 
                 // Redirect after showing success message
                 setTimeout(function () {
-                  window.location.href = `/admin-dashboard`;
+                  window.location.href = `/user-dashboard`;
                 }, 1000);
               } else {
                 submitBtn.html('<i class="fas fa-sign-in-alt me-2"></i> Login');

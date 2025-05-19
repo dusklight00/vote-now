@@ -1,0 +1,1255 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Voter Dashboard - Online Voting System</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+      body {
+        font-family: "Roboto", sans-serif;
+        background-color: #f8f9fa;
+      }
+
+      .navbar {
+        background-color: #0d47a1;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      #nav-head {
+        font-size: 24px;
+        font-weight: 700;
+        color: white;
+      }
+
+      .nav-link {
+        color: white !important;
+        font-weight: 500;
+        transition: all 0.3s ease;
+      }
+
+      .nav-link:hover {
+        transform: translateY(-2px);
+        color: #e3f2fd !important;
+      }
+
+      .nav-link.active {
+        color: #ffeb3b !important;
+        font-weight: 700;
+      }
+
+      .dashboard-header {
+        background-color: #34a853;
+        color: white;
+        padding: 2rem;
+        border-radius: 0 0 15px 15px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        margin-bottom: 2rem;
+      }
+
+      .user-profile {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+      }
+
+      .avatar {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        background-color: white;
+        color: #34a853;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        font-weight: 700;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+
+      .welcome-text {
+        font-size: 1.8rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+      }
+
+      .voter-id {
+        font-size: 1rem;
+        opacity: 0.9;
+      }
+
+      .action-btn {
+        margin-top: 1rem;
+      }
+
+      .dashboard-card {
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.05);
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .dashboard-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      .card-icon {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        color: #34a853;
+      }
+
+      .card-title {
+        font-size: 1.4rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        color: #333;
+      }
+
+      .election-card {
+        background: white;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        margin-bottom: 2rem;
+        transition: transform 0.3s ease;
+      }
+
+      .election-card:hover {
+        transform: translateY(-5px);
+      }
+
+      .election-header {
+        background-color: #1a73e8;
+        color: white;
+        padding: 1.2rem;
+        position: relative;
+      }
+
+      .election-status {
+        position: absolute;
+        top: 1.2rem;
+        right: 1.2rem;
+        padding: 0.2rem 0.8rem;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 600;
+      }
+
+      .status-open {
+        background-color: #34a853;
+      }
+
+      .status-closed {
+        background-color: #ea4335;
+      }
+
+      .status-upcoming {
+        background-color: #fbbc05;
+        color: #333;
+      }
+
+      .election-body {
+        padding: 1.5rem;
+      }
+
+      .election-date {
+        color: #666;
+        font-size: 0.9rem;
+        margin-bottom: 0.8rem;
+      }
+
+      .election-type {
+        font-size: 0.9rem;
+        margin-bottom: 0.5rem;
+        color: #1a73e8;
+        font-weight: 500;
+      }
+
+      .election-title {
+        font-size: 1.4rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+      }
+
+      .candidate-list {
+        margin-top: 1.5rem;
+      }
+
+      .candidate-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 1rem;
+        padding: 0.8rem;
+        border-radius: 8px;
+        background-color: #f8f9fa;
+        transition: background-color 0.3s ease;
+      }
+
+      .candidate-item:hover {
+        background-color: #e9ecef;
+      }
+
+      .candidate-avatar {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background-color: #e9ecef;
+        color: #495057;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+        margin-right: 1rem;
+      }
+
+      .candidate-info {
+        flex: 1;
+      }
+
+      .candidate-name {
+        font-weight: 600;
+        margin-bottom: 0.2rem;
+      }
+
+      .candidate-party {
+        font-size: 0.9rem;
+        color: #6c757d;
+      }
+
+      .vote-button {
+        cursor: pointer;
+      }
+
+      .btn-vote {
+        background-color: #34a853;
+        border-color: #34a853;
+        color: white;
+        font-weight: 500;
+        padding: 0.5rem 1.5rem;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+      }
+
+      .btn-vote:hover {
+        background-color: #2d8a46;
+        border-color: #2d8a46;
+        transform: translateY(-2px);
+      }
+
+      .btn-voted {
+        background-color: #e9ecef;
+        border-color: #e9ecef;
+        color: #28a745;
+        cursor: not-allowed;
+      }
+
+      .btn-disabled {
+        background-color: #e9ecef;
+        border-color: #e9ecef;
+        color: #6c757d;
+        cursor: not-allowed;
+      }
+
+      .stats-number {
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        color: #34a853;
+      }
+
+      .stats-label {
+        color: #6c757d;
+        font-size: 0.9rem;
+      }
+
+      .upcoming-item {
+        padding: 1rem;
+        border-left: 4px solid #fbbc05;
+        background-color: #fff8e1;
+        margin-bottom: 1rem;
+        border-radius: 0 8px 8px 0;
+      }
+
+      .recent-activity {
+        list-style: none;
+        padding-left: 0;
+      }
+
+      .activity-item {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 1.2rem;
+        padding-bottom: 1.2rem;
+        border-bottom: 1px solid #e9ecef;
+      }
+
+      .activity-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background-color: #e3f2fd;
+        color: #1a73e8;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 1rem;
+      }
+
+      .activity-content {
+        flex: 1;
+      }
+
+      .activity-title {
+        font-weight: 600;
+        margin-bottom: 0.3rem;
+      }
+
+      .activity-time {
+        font-size: 0.8rem;
+        color: #6c757d;
+      }
+
+      .tab-content {
+        padding: 1.5rem 0;
+      }
+
+      .nav-tabs .nav-link {
+        color: #495057;
+        font-weight: 500;
+      }
+
+      .nav-tabs .nav-link.active {
+        font-weight: 600;
+        color: #34a853;
+        border-bottom: 3px solid #34a853;
+      }
+
+      footer {
+        background-color: #1e3a5f;
+        color: white;
+        font-size: 16px;
+        margin-top: 3rem;
+      }
+
+      .btn-logout {
+        background-color: transparent;
+        border: 1px solid white;
+        color: white;
+        transition: all 0.3s ease;
+      }
+
+      .btn-logout:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+        transform: translateY(-2px);
+      }
+
+      .btn-outline-success {
+        color: #34a853;
+        border-color: #34a853;
+      }
+
+      .btn-outline-success:hover {
+        background-color: #34a853;
+        color: white;
+      }
+
+      @media (max-width: 768px) {
+        .dashboard-header {
+          padding: 1.5rem;
+        }
+
+        .user-profile {
+          flex-direction: column;
+          text-align: center;
+        }
+
+        .avatar {
+          margin: 0 auto 1rem;
+        }
+
+        .action-btn {
+          text-align: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+      <div class="container">
+        <a class="navbar-brand" href="#" id="nav-head"
+          ><i class="fas fa-vote-yea me-2"></i>VoteNow</a
+        >
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav me-auto">
+            <li class="nav-item">
+              <a class="nav-link active" href="#">Dashboard</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Elections</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">My Votes</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="view-results">Results</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Help</a>
+            </li>
+          </ul>
+          <div class="d-flex">
+            <button class="btn btn-logout" onclick="logout()">
+              <i class="fas fa-sign-out-alt me-2"></i> Logout
+            </button>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Dashboard Header -->
+    <div class="dashboard-header">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-md-6">
+            <div class="user-profile">
+              <div class="avatar">
+                <span id="initials">JS</span>
+              </div>
+              <div>
+                <h2 class="welcome-text">
+                  Welcome, <span id="user-name">John Smith</span>
+                </h2>
+                <p class="voter-id">
+                  <i class="fas fa-id-card me-2"></i>Voter ID:
+                  <span id="voter-id">VOT123456789</span>
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 text-md-end action-btn">
+            <button class="btn btn-light me-2">
+              <i class="fas fa-user-edit me-2"></i> Edit Profile
+            </button>
+            <button class="btn btn-light">
+              <i class="fas fa-cog me-2"></i> Settings
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+      <!-- Stats Cards -->
+      <div class="row mb-4">
+        <div class="col-md-3 col-sm-6">
+          <div class="dashboard-card text-center">
+            <div class="card-icon">
+              <i class="fas fa-vote-yea"></i>
+            </div>
+            <div class="stats-number" id="elections-participated">3</div>
+            <div class="stats-label">Elections Participated</div>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+          <div class="dashboard-card text-center">
+            <div class="card-icon">
+              <i class="fas fa-calendar-alt"></i>
+            </div>
+            <div class="stats-number" id="upcoming-elections">2</div>
+            <div class="stats-label">Upcoming Elections</div>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+          <div class="dashboard-card text-center">
+            <div class="card-icon">
+              <i class="fas fa-check-circle"></i>
+            </div>
+            <div class="stats-number" id="completed-votes">5</div>
+            <div class="stats-label">Completed Votes</div>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+          <div class="dashboard-card text-center">
+            <div class="card-icon">
+              <i class="fas fa-bell"></i>
+            </div>
+            <div class="stats-number" id="notifications">1</div>
+            <div class="stats-label">Notifications</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tabs Section -->
+      <ul class="nav nav-tabs" id="voterTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button
+            class="nav-link active"
+            id="available-tab"
+            data-bs-toggle="tab"
+            data-bs-target="#available"
+            type="button"
+            role="tab"
+            aria-controls="available"
+            aria-selected="true"
+          >
+            Available Elections
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button
+            class="nav-link"
+            id="upcoming-tab"
+            data-bs-toggle="tab"
+            data-bs-target="#upcoming"
+            type="button"
+            role="tab"
+            aria-controls="upcoming"
+            aria-selected="false"
+          >
+            Upcoming Elections
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button
+            class="nav-link"
+            id="history-tab"
+            data-bs-toggle="tab"
+            data-bs-target="#history"
+            type="button"
+            role="tab"
+            aria-controls="history"
+            aria-selected="false"
+          >
+            Voting History
+          </button>
+        </li>
+      </ul>
+
+      <div class="tab-content" id="voterTabsContent">
+        <!-- Available Elections Tab -->
+        <div
+          class="tab-pane fade show active"
+          id="available"
+          role="tabpanel"
+          aria-labelledby="available-tab"
+        >
+          <div class="row">
+            <!-- Presidential Election Card -->
+            <div class="col-lg-6">
+              <div class="election-card">
+                <div class="election-header">
+                  <h3>Presidential Election</h3>
+                  <span class="election-status status-open"
+                    >Open for Voting</span
+                  >
+                </div>
+                <div class="election-body">
+                  <div class="election-date">
+                    <i class="far fa-calendar-alt me-2"></i> April 1 - April 15,
+                    2024
+                  </div>
+                  <div class="election-type">National Election</div>
+                  <h4 class="election-title">
+                    2024 Presidential General Election
+                  </h4>
+                  <p>
+                    Cast your vote for the next President of the United States.
+                    Your vote matters!
+                  </p>
+
+                  <div class="candidate-list">
+                    <h5>Candidates:</h5>
+
+                    <div class="candidate-item">
+                      <div class="candidate-avatar bg-primary text-white">
+                        JD
+                      </div>
+                      <div class="candidate-info">
+                        <div class="candidate-name">John Doe</div>
+                        <div class="candidate-party">Democratic Party</div>
+                      </div>
+                      <div class="vote-button">
+                        <button
+                          class="btn btn-vote"
+                          onclick="castVote('presidential', '1')"
+                        >
+                          <i class="fas fa-check me-1"></i> Vote
+                        </button>
+                      </div>
+                    </div>
+
+                    <div class="candidate-item">
+                      <div class="candidate-avatar bg-danger text-white">
+                        JS
+                      </div>
+                      <div class="candidate-info">
+                        <div class="candidate-name">Jane Smith</div>
+                        <div class="candidate-party">Republican Party</div>
+                      </div>
+                      <div class="vote-button">
+                        <button
+                          class="btn btn-vote"
+                          onclick="castVote('presidential', '2')"
+                        >
+                          <i class="fas fa-check me-1"></i> Vote
+                        </button>
+                      </div>
+                    </div>
+
+                    <div class="candidate-item">
+                      <div class="candidate-avatar bg-success text-white">
+                        RJ
+                      </div>
+                      <div class="candidate-info">
+                        <div class="candidate-name">Robert Johnson</div>
+                        <div class="candidate-party">Green Party</div>
+                      </div>
+                      <div class="vote-button">
+                        <button
+                          class="btn btn-vote"
+                          onclick="castVote('presidential', '3')"
+                        >
+                          <i class="fas fa-check me-1"></i> Vote
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="text-center mt-4">
+                    <button
+                      class="btn btn-outline-success"
+                      onclick="viewElectionDetails('presidential')"
+                    >
+                      <i class="fas fa-info-circle me-2"></i> View Election
+                      Details
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Senate Election Card -->
+            <div class="col-lg-6">
+              <div class="election-card">
+                <div class="election-header">
+                  <h3>Senate Election</h3>
+                  <span class="election-status status-open"
+                    >Open for Voting</span
+                  >
+                </div>
+                <div class="election-body">
+                  <div class="election-date">
+                    <i class="far fa-calendar-alt me-2"></i> April 5 - April 15,
+                    2024
+                  </div>
+                  <div class="election-type">Congressional Election</div>
+                  <h4 class="election-title">2024 Senate Midterm Elections</h4>
+                  <p>
+                    Select your state representative for the Senate. Make your
+                    choice count!
+                  </p>
+
+                  <div class="candidate-list">
+                    <h5>Candidates:</h5>
+
+                    <div class="candidate-item">
+                      <div class="candidate-avatar bg-primary text-white">
+                        MS
+                      </div>
+                      <div class="candidate-info">
+                        <div class="candidate-name">Michael Scott</div>
+                        <div class="candidate-party">Democratic Party</div>
+                      </div>
+                      <div class="vote-button">
+                        <button
+                          class="btn btn-vote"
+                          onclick="castVote('senate', '1')"
+                        >
+                          <i class="fas fa-check me-1"></i> Vote
+                        </button>
+                      </div>
+                    </div>
+
+                    <div class="candidate-item">
+                      <div class="candidate-avatar bg-danger text-white">
+                        PB
+                      </div>
+                      <div class="candidate-info">
+                        <div class="candidate-name">Pamela Beesly</div>
+                        <div class="candidate-party">Republican Party</div>
+                      </div>
+                      <div class="vote-button">
+                        <button
+                          class="btn btn-vote"
+                          onclick="castVote('senate', '2')"
+                        >
+                          <i class="fas fa-check me-1"></i> Vote
+                        </button>
+                      </div>
+                    </div>
+
+                    <div class="candidate-item">
+                      <div class="candidate-avatar bg-warning text-white">
+                        JH
+                      </div>
+                      <div class="candidate-info">
+                        <div class="candidate-name">Jim Halpert</div>
+                        <div class="candidate-party">Libertarian Party</div>
+                      </div>
+                      <div class="vote-button">
+                        <button
+                          class="btn btn-vote"
+                          onclick="castVote('senate', '3')"
+                        >
+                          <i class="fas fa-check me-1"></i> Vote
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="text-center mt-4">
+                    <button
+                      class="btn btn-outline-success"
+                      onclick="viewElectionDetails('senate')"
+                    >
+                      <i class="fas fa-info-circle me-2"></i> View Election
+                      Details
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Upcoming Elections Tab -->
+        <div
+          class="tab-pane fade"
+          id="upcoming"
+          role="tabpanel"
+          aria-labelledby="upcoming-tab"
+        >
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="election-card">
+                <div class="election-header">
+                  <h3>Mayor Election</h3>
+                  <span class="election-status status-upcoming">Upcoming</span>
+                </div>
+                <div class="election-body">
+                  <div class="election-date">
+                    <i class="far fa-calendar-alt me-2"></i> May 10 - May 20,
+                    2024
+                  </div>
+                  <div class="election-type">Local Election</div>
+                  <h4 class="election-title">2024 City Mayor Election</h4>
+                  <p>
+                    The mayoral election will be open for voting in 30 days.
+                    Prepare your vote for the next city mayor.
+                  </p>
+
+                  <div class="mt-4">
+                    <h5>Candidates:</h5>
+
+                    <div class="candidate-item">
+                      <div class="candidate-avatar bg-secondary text-white">
+                        DP
+                      </div>
+                      <div class="candidate-info">
+                        <div class="candidate-name">David Parker</div>
+                        <div class="candidate-party">Independent</div>
+                      </div>
+                      <div class="vote-button">
+                        <button class="btn btn-disabled" disabled>
+                          <i class="far fa-clock me-1"></i> Not Open Yet
+                        </button>
+                      </div>
+                    </div>
+
+                    <div class="candidate-item">
+                      <div class="candidate-avatar bg-primary text-white">
+                        CW
+                      </div>
+                      <div class="candidate-info">
+                        <div class="candidate-name">Catherine Wilson</div>
+                        <div class="candidate-party">Democratic Party</div>
+                      </div>
+                      <div class="vote-button">
+                        <button class="btn btn-disabled" disabled>
+                          <i class="far fa-clock me-1"></i> Not Open Yet
+                        </button>
+                      </div>
+                    </div>
+
+                    <div class="candidate-item">
+                      <div class="candidate-avatar bg-danger text-white">
+                        RM
+                      </div>
+                      <div class="candidate-info">
+                        <div class="candidate-name">Richard Miller</div>
+                        <div class="candidate-party">Republican Party</div>
+                      </div>
+                      <div class="vote-button">
+                        <button class="btn btn-disabled" disabled>
+                          <i class="far fa-clock me-1"></i> Not Open Yet
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="text-center mt-4">
+                    <button
+                      class="btn btn-outline-success"
+                      onclick="setReminder('mayor')"
+                    >
+                      <i class="far fa-bell me-2"></i> Set a Reminder
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-6">
+              <div class="dashboard-card">
+                <h4 class="card-title">
+                  <i class="fas fa-calendar-alt me-2"></i> Upcoming Election
+                  Calendar
+                </h4>
+
+                <div class="upcoming-item">
+                  <div class="d-flex justify-content-between">
+                    <strong>Mayor Election</strong>
+                    <span>May 10 - May 20, 2024</span>
+                  </div>
+                  <small class="text-muted">30 days remaining</small>
+                </div>
+
+                <div class="upcoming-item">
+                  <div class="d-flex justify-content-between">
+                    <strong>School Board Election</strong>
+                    <span>June 5 - June 15, 2024</span>
+                  </div>
+                  <small class="text-muted">56 days remaining</small>
+                </div>
+
+                <div class="upcoming-item">
+                  <div class="d-flex justify-content-between">
+                    <strong>County Commissioner</strong>
+                    <span>July 10 - July 20, 2024</span>
+                  </div>
+                  <small class="text-muted">91 days remaining</small>
+                </div>
+
+                <div class="text-center mt-4">
+                  <button class="btn btn-outline-success">
+                    <i class="fas fa-download me-2"></i> Download Calendar
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Voting History Tab -->
+        <div
+          class="tab-pane fade"
+          id="history"
+          role="tabpanel"
+          aria-labelledby="history-tab"
+        >
+          <div class="row">
+            <div class="col-lg-8">
+              <div class="dashboard-card">
+                <h4 class="card-title">
+                  <i class="fas fa-history me-2"></i> Your Voting History
+                </h4>
+
+                <div class="table-responsive">
+                  <table class="table table-hover">
+                    <thead>
+                      <tr>
+                        <th>Election</th>
+                        <th>Date</th>
+                        <th>Type</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Governor Election</td>
+                        <td>March 20, 2024</td>
+                        <td>State</td>
+                        <td><span class="badge bg-success">Voted</span></td>
+                        <td>
+                          <button
+                            class="btn btn-sm btn-outline-primary"
+                            onclick="viewVoteDetails('governor')"
+                          >
+                            <i class="fas fa-eye"></i> View
+                          </button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>City Council Election</td>
+                        <td>February 15, 2024</td>
+                        <td>Local</td>
+                        <td><span class="badge bg-success">Voted</span></td>
+                        <td>
+                          <button
+                            class="btn btn-sm btn-outline-primary"
+                            onclick="viewVoteDetails('council')"
+                          >
+                            <i class="fas fa-eye"></i> View
+                          </button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Special Referendum</td>
+                        <td>January 10, 2024</td>
+                        <td>Referendum</td>
+                        <td><span class="badge bg-success">Voted</span></td>
+                        <td>
+                          <button
+                            class="btn btn-sm btn-outline-primary"
+                            onclick="viewVoteDetails('referendum')"
+                          >
+                            <i class="fas fa-eye"></i> View
+                          </button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Congressional Election</td>
+                        <td>November 5, 2023</td>
+                        <td>National</td>
+                        <td><span class="badge bg-success">Voted</span></td>
+                        <td>
+                          <button
+                            class="btn btn-sm btn-outline-primary"
+                            onclick="viewVoteDetails('congressional')"
+                          >
+                            <i class="fas fa-eye"></i> View
+                          </button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>School Board Election</td>
+                        <td>October 15, 2023</td>
+                        <td>Local</td>
+                        <td><span class="badge bg-success">Voted</span></td>
+                        <td>
+                          <button
+                            class="btn btn-sm btn-outline-primary"
+                            onclick="viewVoteDetails('school')"
+                          >
+                            <i class="fas fa-eye"></i> View
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <div class="text-center mt-3">
+                  <button class="btn btn-outline-success">
+                    <i class="fas fa-download me-2"></i> Download Voting Record
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-4">
+              <div class="dashboard-card">
+                <h4 class="card-title">
+                  <i class="fas fa-chart-pie me-2"></i> Voting Statistics
+                </h4>
+
+                <div class="text-center">
+                  <div class="mb-3">
+                    <div class="stats-number text-primary">100%</div>
+                    <div class="stats-label">Participation Rate</div>
+                  </div>
+
+                  <div class="mb-3">
+                    <div class="stats-number text-success">5/5</div>
+                    <div class="stats-label">Elections Voted</div>
+                  </div>
+
+                  <div class="mb-3">
+                    <canvas
+                      id="voteTypeChart"
+                      width="100%"
+                      height="200"
+                    ></canvas>
+                  </div>
+                </div>
+
+                <div class="text-center mt-4">
+                  <p class="text-muted">
+                    You are in the top 10% of active voters in your district!
+                  </p>
+                </div>
+              </div>
+
+              <div class="dashboard-card mt-4">
+                <h4 class="card-title">
+                  <i class="fas fa-bell me-2"></i> Recent Activity
+                </h4>
+
+                <ul class="recent-activity">
+                  <li class="activity-item">
+                    <div class="activity-icon">
+                      <i class="fas fa-vote-yea"></i>
+                    </div>
+                    <div class="activity-content">
+                      <div class="activity-title">
+                        Voted in Governor Election
+                      </div>
+                      <div class="activity-time">March 20, 2024</div>
+                    </div>
+                  </li>
+
+                  <li class="activity-item">
+                    <div class="activity-icon">
+                      <i class="fas fa-user-edit"></i>
+                    </div>
+                    <div class="activity-content">
+                      <div class="activity-title">
+                        Updated profile information
+                      </div>
+                      <div class="activity-time">March 15, 2024</div>
+                    </div>
+                  </li>
+
+                  <li class="activity-item">
+                    <div class="activity-icon">
+                      <i class="fas fa-vote-yea"></i>
+                    </div>
+                    <div class="activity-content">
+                      <div class="activity-title">
+                        Voted in City Council Election
+                      </div>
+                      <div class="activity-time">February 15, 2024</div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center text-lg-start mt-5">
+      <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.2)">
+        © 2024 Copyright:
+        <a class="text-white" href="#">VoteNow.com</a>
+      </div>
+    </footer>
+
+    <script>
+      function logout() {
+        // Clear authentication data
+        localStorage.removeItem("aadhar");
+        localStorage.removeItem("role");
+
+        // Redirect to home page
+        window.location.href = "/";
+      }
+
+      function castVote(electionType, candidateId) {
+        const voterId = document.getElementById("voter-id").textContent;
+
+        // Show loading state on the button
+        const button = event.currentTarget;
+        const originalText = button.innerHTML;
+        button.innerHTML =
+          '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span> Processing...';
+        button.disabled = true;
+
+        // Simulate API call
+        setTimeout(function () {
+          // Replace with actual API call to record the vote
+          console.log(
+            `Casting vote for ${electionType} election, candidate #${candidateId}, voter ID: ${voterId}`
+          );
+
+          // Update all vote buttons for this election to show "Voted"
+          const election = button.closest(".election-card");
+          const allButtons = election.querySelectorAll(".btn-vote");
+
+          allButtons.forEach((btn) => {
+            btn.classList.remove("btn-vote");
+            btn.classList.add("btn-voted");
+            btn.innerHTML = '<i class="fas fa-check-circle me-1"></i> Voted';
+            btn.disabled = true;
+          });
+
+          // Show success message
+          alert(`Thank you for voting in the ${electionType} election!`);
+
+          // Update stats
+          document.getElementById("completed-votes").textContent =
+            parseInt(document.getElementById("completed-votes").textContent) +
+            1;
+
+          // Add to recent activity
+          addActivity(`Voted in ${electionType} election`);
+        }, 1500);
+      }
+
+      function viewElectionDetails(electionType) {
+        // Redirect to election details page
+        console.log(`Viewing details for ${electionType} election`);
+
+        // In a real implementation this would navigate to a detailed view
+        alert(`Navigating to details for the ${electionType} election`);
+      }
+
+      function setReminder(electionType) {
+        console.log(`Setting reminder for ${electionType} election`);
+        alert(
+          `Reminder set! We'll notify you when the ${electionType} election opens.`
+        );
+      }
+
+      function viewVoteDetails(electionType) {
+        console.log(`Viewing vote details for ${electionType} election`);
+
+        // In a real implementation this would navigate to a detailed view
+        alert(`Viewing your vote details for the ${electionType} election`);
+      }
+
+      function addActivity(activityText) {
+        const activityList = document.querySelector(".recent-activity");
+        const now = new Date();
+        const timeFormatted = now.toLocaleDateString();
+
+        const newActivity = document.createElement("li");
+        newActivity.className = "activity-item";
+        newActivity.innerHTML = `
+          <div class="activity-icon">
+            <i class="fas fa-vote-yea"></i>
+          </div>
+          <div class="activity-content">
+            <div class="activity-title">${activityText}</div>
+            <div class="activity-time">${timeFormatted}</div>
+          </div>
+        `;
+
+        // Insert as the first activity
+        if (activityList) {
+          activityList.insertBefore(newActivity, activityList.firstChild);
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        // Initialize Charts
+        const ctx = document.getElementById("voteTypeChart").getContext("2d");
+        const voteTypeChart = new Chart(ctx, {
+          type: "doughnut",
+          data: {
+            labels: ["National", "State", "Local", "Referendum"],
+            datasets: [
+              {
+                data: [1, 1, 2, 1],
+                backgroundColor: ["#1a73e8", "#34a853", "#fbbc05", "#ea4335"],
+                borderWidth: 1,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            plugins: {
+              legend: {
+                position: "bottom",
+                labels: {
+                  font: {
+                    size: 12,
+                  },
+                },
+              },
+              title: {
+                display: true,
+                text: "Vote Distribution by Type",
+                font: {
+                  size: 14,
+                },
+              },
+            },
+            cutout: "70%",
+          },
+        });
+
+        // Load user data (would come from API in real app)
+        function loadUserData() {
+          const aadhar = localStorage.getItem("aadhar");
+
+          if (!aadhar) {
+            // Redirect to login if not authenticated
+            window.location.href = "/voter-login";
+            return;
+          }
+
+          // Simulate fetching user data from API
+          setTimeout(() => {
+            // This would be an actual API call in a real implementation
+            const userData = {
+              name: "John Smith",
+              voterId: "VOT123456789",
+              initials: "JS",
+              electionsParticipated: 3,
+              upcomingElections: 2,
+              completedVotes: 5,
+              notifications: 1,
+            };
+
+            // Update UI with user data
+            document.getElementById("user-name").textContent = userData.name;
+            document.getElementById("voter-id").textContent = userData.voterId;
+            document.getElementById("initials").textContent = userData.initials;
+            document.getElementById("elections-participated").textContent =
+              userData.electionsParticipated;
+            document.getElementById("upcoming-elections").textContent =
+              userData.upcomingElections;
+            document.getElementById("completed-votes").textContent =
+              userData.completedVotes;
+            document.getElementById("notifications").textContent =
+              userData.notifications;
+          }, 500);
+        }
+
+        // Load initial data
+        loadUserData();
+      });
+    </script>
+  </body>
+</html>

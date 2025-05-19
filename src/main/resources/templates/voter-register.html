@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Registration - Online Voting System</title>
+  <title>Voter Registration - Online Voting System</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
@@ -27,7 +27,7 @@
     }
     
     .card-header {
-      background-color: #1a73e8;
+      background-color: #34a853;
       color: white;
       padding: 20px 30px;
       border-bottom: none;
@@ -57,37 +57,37 @@
     }
     
     .form-control:focus {
-      border-color: #1a73e8;
-      box-shadow: 0 0 0 0.25rem rgba(26,115,232,.25);
+      border-color: #34a853;
+      box-shadow: 0 0 0 0.25rem rgba(52, 168, 83, 0.25);
       background-color: #fff;
     }
     
-    .btn-primary {
-      background-color: #1a73e8;
-      border-color: #1a73e8;
+    .btn-success {
+      background-color: #34a853;
+      border-color: #34a853;
       padding: 0.8rem 1.5rem;
       border-radius: 8px;
       font-weight: 500;
       transition: all 0.3s ease;
-      box-shadow: 0 4px 6px rgba(26,115,232,.2);
+      box-shadow: 0 4px 6px rgba(52, 168, 83, 0.2);
     }
     
-    .btn-primary:hover {
-      background-color: #0d47a1;
-      border-color: #0d47a1;
+    .btn-success:hover {
+      background-color: #2d8a46;
+      border-color: #2d8a46;
       transform: translateY(-3px);
-      box-shadow: 0 6px 10px rgba(26,115,232,.3);
+      box-shadow: 0 6px 10px rgba(52, 168, 83, 0.3);
     }
     
     .btn-link {
-      color: #1a73e8;
+      color: #34a853;
       font-weight: 500;
       text-decoration: none;
       transition: all 0.3s ease;
     }
     
     .btn-link:hover {
-      color: #0d47a1;
+      color: #2d8a46;
       text-decoration: underline;
     }
     
@@ -126,12 +126,12 @@
     }
     
     .step.active {
-      background-color: #1a73e8;
+      background-color: #34a853;
       color: white;
     }
     
     .step.completed {
-      background-color: #34a853;
+      background-color: #1a73e8;
       color: white;
     }
     
@@ -146,7 +146,7 @@
     }
     
     .step.active .step-line, .step.completed .step-line {
-      background-color: #1a73e8;
+      background-color: #34a853;
     }
     
     .step-title {
@@ -189,9 +189,9 @@
       margin-bottom: 20px;
     }
     
-    .admin-key-section {
-      background-color: #fff8e1;
-      border-left: 5px solid #fbbc05;
+    .verification-section {
+      background-color: #e8f5e9;
+      border-left: 5px solid #34a853;
       padding: 15px;
       margin-bottom: 20px;
       border-radius: 4px;
@@ -201,6 +201,11 @@
       border-radius: 8px;
       padding: 1rem;
       margin-top: 1.5rem;
+    }
+    
+    .date-picker-label {
+      display: block;
+      margin-bottom: 8px;
     }
     
     @media (max-width: 768px) {
@@ -224,8 +229,8 @@
       <div class="col-md-8">
         <div class="card">
           <div class="card-header">
-            <h3 class="card-title"><i class="fas fa-user-shield me-2"></i>Admin Registration</h3>
-            <p class="mb-0 mt-2">Create an administrator account for the Online Voting System</p>
+            <h3 class="card-title"><i class="fas fa-user-plus me-2"></i>Voter Registration</h3>
+            <p class="mb-0 mt-2">Create your voter account to participate in elections</p>
           </div>
           
           <div class="card-body">
@@ -234,12 +239,12 @@
               <div class="step active" id="step1-indicator">
                 1
                 <div class="step-line"></div>
-                <div class="step-title">Basic Info</div>
+                <div class="step-title">Personal Info</div>
               </div>
               <div class="step" id="step2-indicator">
                 2
                 <div class="step-line"></div>
-                <div class="step-title">Credentials</div>
+                <div class="step-title">Account Setup</div>
               </div>
               <div class="step" id="step3-indicator">
                 3
@@ -249,11 +254,11 @@
             
             <!-- Progress Bar -->
             <div class="progress">
-              <div class="progress-bar bg-primary" role="progressbar" style="width: 33%" aria-valuenow="33" aria-valuemin="0" aria-valuemax="100"></div>
+              <div class="progress-bar bg-success" role="progressbar" style="width: 33%" aria-valuenow="33" aria-valuemin="0" aria-valuemax="100"></div>
             </div>
             
-            <form id="adminRegistrationForm">
-              <!-- Step 1: Basic Information -->
+            <form id="voterRegistrationForm">
+              <!-- Step 1: Personal Information -->
               <div class="registration-step active" id="step1">
                 <h4 class="mb-4">Personal Information</h4>
                 
@@ -269,12 +274,28 @@
                 </div>
                 
                 <div class="mb-3">
+                  <label for="dateOfBirth" class="date-picker-label">Date of Birth</label>
+                  <input type="date" class="form-control" id="dateOfBirth" required>
+                </div>
+                
+                <div class="mb-3">
+                  <label for="gender" class="form-label">Gender</label>
+                  <select class="form-select" id="gender" required>
+                    <option value="">Select gender</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
+                    <option value="prefer_not_to_say">Prefer not to say</option>
+                  </select>
+                </div>
+                
+                <div class="mb-3">
                   <label for="email" class="form-label">Email Address</label>
                   <div class="input-group">
                     <span class="input-group-text"><i class="fas fa-envelope"></i></span>
                     <input type="email" class="form-control" id="email" required>
                   </div>
-                  <div class="form-text">We'll use this email for account validation and notifications</div>
+                  <div class="form-text">We'll use this email for verification and notifications</div>
                 </div>
                 
                 <div class="mb-3">
@@ -285,24 +306,15 @@
                   </div>
                 </div>
                 
-                <div class="mb-3">
-                  <label for="govtId" class="form-label">Government ID</label>
-                  <div class="input-group">
-                    <span class="input-group-text"><i class="fas fa-id-card"></i></span>
-                    <input type="text" class="form-control" id="govtId" required>
-                  </div>
-                  <div class="form-text">Enter your National ID, Passport, or Driver's License number</div>
-                </div>
-                
                 <div class="nav-actions">
                   <a href="/" class="btn-link"><i class="fas fa-arrow-left me-1"></i> Back to Home</a>
-                  <button type="button" class="btn btn-primary" id="toStep2">Next <i class="fas fa-arrow-right ms-1"></i></button>
+                  <button type="button" class="btn btn-success" id="toStep2">Next <i class="fas fa-arrow-right ms-1"></i></button>
                 </div>
               </div>
               
-              <!-- Step 2: Account Credentials -->
+              <!-- Step 2: Account Setup -->
               <div class="registration-step" id="step2">
-                <h4 class="mb-4">Account Security</h4>
+                <h4 class="mb-4">Create Your Account</h4>
                 
                 <div class="mb-3">
                   <label for="username" class="form-label">Username</label>
@@ -339,56 +351,21 @@
                   </div>
                 </div>
                 
-                <div class="mb-4 admin-key-section">
-                  <label for="adminKey" class="form-label"><i class="fas fa-key me-2"></i>Admin Authorization Key</label>
-                  <div class="input-group">
-                    <span class="input-group-text"><i class="fas fa-shield-alt"></i></span>
-                    <input type="text" class="form-control" id="adminKey" required>
-                  </div>
-                  <div class="form-text">Enter the administrator authorization key provided by the system administrator</div>
+                <div class="mb-3">
+                  <label for="securityQuestion" class="form-label">Security Question</label>
+                  <select class="form-select" id="securityQuestion" required>
+                    <option value="">Select a security question</option>
+                    <option value="q1">What was your childhood nickname?</option>
+                    <option value="q2">What is the name of your first pet?</option>
+                    <option value="q3">What was your first car?</option>
+                    <option value="q4">What elementary school did you attend?</option>
+                    <option value="q5">What is your mother's maiden name?</option>
+                  </select>
                 </div>
                 
-                <div class="nav-actions">
-                  <button type="button" class="btn btn-outline-primary" id="backToStep1"><i class="fas fa-arrow-left me-1"></i> Back</button>
-                  <button type="button" class="btn btn-primary" id="toStep3">Next <i class="fas fa-arrow-right ms-1"></i></button>
-                </div>
-              </div>
-              
-              <!-- Step 3: Verification -->
-              <div class="registration-step" id="step3">
-                <h4 class="mb-4">Confirm Your Details</h4>
-                
-                <div class="alert alert-info">
-                  <i class="fas fa-info-circle me-2"></i> Please review your information before submitting.
-                </div>
-                
-                <div class="row mb-3">
-                  <div class="col-md-6">
-                    <p class="mb-1 text-muted">Full Name:</p>
-                    <p class="fw-bold" id="summary-name"></p>
-                  </div>
-                  <div class="col-md-6">
-                    <p class="mb-1 text-muted">Email:</p>
-                    <p class="fw-bold" id="summary-email"></p>
-                  </div>
-                </div>
-                
-                <div class="row mb-3">
-                  <div class="col-md-6">
-                    <p class="mb-1 text-muted">Phone:</p>
-                    <p class="fw-bold" id="summary-phone"></p>
-                  </div>
-                  <div class="col-md-6">
-                    <p class="mb-1 text-muted">Government ID:</p>
-                    <p class="fw-bold" id="summary-govtid"></p>
-                  </div>
-                </div>
-                
-                <div class="row mb-4">
-                  <div class="col-md-6">
-                    <p class="mb-1 text-muted">Username:</p>
-                    <p class="fw-bold" id="summary-username"></p>
-                  </div>
+                <div class="mb-4">
+                  <label for="securityAnswer" class="form-label">Security Answer</label>
+                  <input type="text" class="form-control" id="securityAnswer" required>
                 </div>
                 
                 <div class="mb-4">
@@ -397,6 +374,38 @@
                     <label class="form-check-label" for="termsCheck">
                       I agree to the <a href="#" class="btn-link">Terms of Service</a> and <a href="#" class="btn-link">Privacy Policy</a>
                     </label>
+                  </div>
+                </div>
+                
+                <div class="nav-actions">
+                  <button type="button" class="btn btn-outline-success" id="backToStep1"><i class="fas fa-arrow-left me-1"></i> Back</button>
+                  <button type="button" class="btn btn-success" id="toStep3">Next <i class="fas fa-arrow-right ms-1"></i></button>
+                </div>
+              </div>
+              
+              <!-- Step 3: Email Verification -->
+              <div class="registration-step" id="step3">
+                <h4 class="mb-4">Email Verification</h4>
+                
+                <div class="verification-section mb-4">
+                  <p><i class="fas fa-info-circle me-2"></i> We've sent a verification code to your email address. Please check your inbox and enter the code below.</p>
+                </div>
+                
+                <div class="mb-3">
+                  <label for="verificationCode" class="form-label">Verification Code</label>
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-key"></i></span>
+                    <input type="text" class="form-control" id="verificationCode" placeholder="Enter the 6-digit code" required maxlength="6">
+                  </div>
+                  <div class="form-text">Enter the 6-digit code sent to <span id="userEmail">your email</span></div>
+                </div>
+                
+                <div class="text-center mb-4">
+                  <button type="button" class="btn btn-link" id="resendCode">
+                    <i class="fas fa-sync-alt me-1"></i> Resend Verification Code
+                  </button>
+                  <div id="resendMessage" class="text-muted mt-2" style="display: none">
+                    <small>A new code has been sent to your email</small>
                   </div>
                 </div>
                 
@@ -415,8 +424,8 @@
                 </div>
                 
                 <div class="nav-actions">
-                  <button type="button" class="btn btn-outline-primary" id="backToStep2"><i class="fas fa-arrow-left me-1"></i> Back</button>
-                  <button type="submit" class="btn btn-primary" id="registerButton">
+                  <button type="button" class="btn btn-outline-success" id="backToStep2"><i class="fas fa-arrow-left me-1"></i> Back</button>
+                  <button type="submit" class="btn btn-success" id="registerButton">
                     <i class="fas fa-user-plus me-2"></i> Complete Registration
                   </button>
                 </div>
@@ -428,7 +437,7 @@
         </div>
         
         <div class="text-center mt-4">
-          <p>Already have an account? <a href="admin-login" class="btn-link">Login here</a></p>
+          <p>Already have an account? <a href="voter-login" class="btn-link">Login here</a></p>
           <a href="/" class="btn-link">
             <i class="fas fa-home me-1"></i> Back to Home
           </a>
@@ -486,11 +495,13 @@
         // Validate step 1
         const firstName = $('#firstName').val();
         const lastName = $('#lastName').val();
+        const dateOfBirth = $('#dateOfBirth').val();
+        const gender = $('#gender').val();
         const email = $('#email').val();
         const phone = $('#phone').val();
-        const govtId = $('#govtId').val();
         
-        if (!firstName || !lastName || !email || !phone || !govtId) {
+        // Check if required fields are filled
+        if (!firstName || !lastName || !dateOfBirth || !gender || !email || !phone) {
           alert('Please fill in all required fields to proceed.');
           return;
         }
@@ -516,13 +527,15 @@
         const username = $('#username').val();
         const password = $('#password').val();
         const confirmPassword = $('#confirmPassword').val();
-        const adminKey = $('#adminKey').val();
+        const securityQuestion = $('#securityQuestion').val();
+        const securityAnswer = $('#securityAnswer').val();
         
-        if (!username || !password || !confirmPassword || !adminKey) {
+        if (!username || !password || !confirmPassword || !securityQuestion || !securityAnswer) {
           alert('Please fill in all required fields to proceed.');
           return;
         }
         
+        // Password validation
         if (password !== confirmPassword) {
           alert('Passwords do not match.');
           return;
@@ -539,12 +552,17 @@
           return;
         }
         
-        // Update summary information
-        $('#summary-name').text($('#firstName').val() + ' ' + $('#lastName').val());
-        $('#summary-email').text($('#email').val());
-        $('#summary-phone').text($('#phone').val());
-        $('#summary-govtid').text($('#govtId').val());
-        $('#summary-username').text($('#username').val());
+        // Terms agreement
+        if (!$('#termsCheck').is(':checked')) {
+          alert('You must agree to the Terms of Service and Privacy Policy.');
+          return;
+        }
+        
+        // Update user email display
+        $('#userEmail').text($('#email').val());
+        
+        // Simulate sending verification code
+        // In a real app, this would be an API call to send an email
         
         // Move to step 3
         $('#step2').removeClass('active');
@@ -562,6 +580,22 @@
         $('.progress-bar').css('width', '66%');
       });
       
+      // Resend verification code
+      $('#resendCode').click(function() {
+        // Show loading state
+        const btn = $(this);
+        const originalText = btn.html();
+        btn.html('<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span> Sending...');
+        btn.prop('disabled', true);
+        
+        // Simulate API call to resend verification code
+        setTimeout(function() {
+          btn.html(originalText);
+          btn.prop('disabled', false);
+          $('#resendMessage').fadeIn().delay(3000).fadeOut();
+        }, 1500);
+      });
+      
       // CAPTCHA refresh simulation
       $('#refreshCaptcha').click(function() {
         // In a real implementation, this would call an API to get a new CAPTCHA
@@ -570,11 +604,13 @@
       });
       
       // Form submission
-      $('#adminRegistrationForm').submit(function(e) {
+      $('#voterRegistrationForm').submit(function(e) {
         e.preventDefault();
         
-        if (!$('#termsCheck').is(':checked')) {
-          alert('You must agree to the Terms of Service and Privacy Policy.');
+        // Validate verification code
+        const verificationCode = $('#verificationCode').val();
+        if (!verificationCode || verificationCode.length !== 6 || isNaN(verificationCode)) {
+          alert('Please enter a valid 6-digit verification code.');
           return;
         }
         
@@ -585,26 +621,29 @@
         submitBtn.prop('disabled', true);
         
         // Collect form data
-        const registrationData = {
+        const formData = {
           firstName: $('#firstName').val(),
           lastName: $('#lastName').val(),
+          dateOfBirth: $('#dateOfBirth').val(),
+          gender: $('#gender').val(),
           email: $('#email').val(),
           phone: $('#phone').val(),
-          govtId: $('#govtId').val(),
           username: $('#username').val(),
           password: $('#password').val(),
-          adminKey: $('#adminKey').val(),
+          securityQuestion: $('#securityQuestion').val(),
+          securityAnswer: $('#securityAnswer').val(),
+          verificationCode: $('#verificationCode').val(),
           captcha: $('#captcha').val()
         };
         
         // Simulate API call
         setTimeout(function() {
-          console.log('Registration data:', registrationData);
+          console.log('Registration data:', formData);
           
           // Display success message
           $('#registrationResult').html(`
             <div class="alert alert-success">
-              <strong><i class="fas fa-check-circle me-2"></i>Success!</strong> Your admin account has been created successfully.
+              <strong><i class="fas fa-check-circle me-2"></i>Success!</strong> Your voter registration has been completed successfully. You can now log in to your account.
             </div>
           `);
           
@@ -614,7 +653,7 @@
           
           // Redirect to login page after a delay
           setTimeout(function() {
-            window.location.href = '/admin-login';
+            window.location.href = '/voter-login';
           }, 3000);
         }, 2000);
       });
@@ -622,3 +661,4 @@
   </script>
 </body>
 </html>
+``` 

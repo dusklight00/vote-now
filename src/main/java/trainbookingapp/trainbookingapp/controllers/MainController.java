@@ -2,6 +2,7 @@ package trainbookingapp.trainbookingapp.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class MainController {
@@ -16,69 +17,24 @@ public class MainController {
     return "admin-login-page.html";
   }
 
-  @GetMapping("/book-ticket")
-  public String bookTicketPage() {
-    return "book-ticket-page.html";
-  }
-
-  @GetMapping("/cancel-ticket")
-  public String cancelTicketPage() {
-    return "cancel-ticket-page.html";
-  }
-
-  @GetMapping("/create-train")
-  public String createTrainPage() {
-    return "create-train-page.html";
-  }
-
-  @GetMapping("/delete-train")
-  public String deleteTrainPage() {
-    return "delete-train-page.html";
-  }
-
-  @GetMapping("/edit-train")
-  public String editTrainPage() {
-    return "edit-train-page.html";
-  }
-
   @GetMapping("/forgot-password")
   public String forgotPasswordPage() {
     return "forgot-password-page.html";
   }
 
-  @GetMapping("/passanger-details")
-  public String passangerDetailsPage() {
-    return "passanger-details-page.html";
+  @GetMapping("/voter-login")
+  public String voterLoginPage() {
+    return "voter-login.html";
   }
 
-  @GetMapping("/payment")
-  public String paymentPage() {
-    return "payment-page.html";
+  @GetMapping("/voter-register")
+  public String voterRegisterPage() {
+    return "voter-register.html";
   }
 
-  @GetMapping("/reset-password")
-  public String resetPasswordPage() {
-    return "reset-password-page.html";
-  }
-
-  @GetMapping("/search-booked-ticket-details")
-  public String searchBookTicketDetailsPage() {
-    return "search-booked-ticket-details-page.html";
-  }
-
-  @GetMapping("/search-train")
-  public String ticketSearchPage() {
-    return "search-train.html";
-  }
-
-  @GetMapping("/user-dashboard")
-  public String userDashboardPage() {
-    return "user-dashboard-page.html";
-  }
-
-  @GetMapping("/user-login")
-  public String userLoginPage() {
-    return "user-login-page.html";
+  @GetMapping("/voter-dashboard")
+  public String voterDashboardPage() {
+    return "voter-dashboard.html";
   }
 
   @GetMapping("/user-register")
@@ -104,5 +60,10 @@ public class MainController {
   @GetMapping("/admin-dashboard")
   public String adminDasboard() {
     return "admin-dashboard-page.html";
+  }
+
+  @GetMapping("/view-results")
+  public String viewResultsPage() {
+    return "view-results.html";
   }
 }
