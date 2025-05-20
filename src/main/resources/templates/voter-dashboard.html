@@ -399,9 +399,9 @@
     <!-- Navigation Bar -->
     <nav class="navbar navbar-expand-lg navbar-dark">
       <div class="container">
-        <a class="navbar-brand" href="#" id="nav-head"
-          ><i class="fas fa-vote-yea me-2"></i>VoteNow</a
-        >
+        <a class="navbar-brand" href="#" id="nav-head">
+          <i class="fas fa-vote-yea me-2"></i>VoteNow
+        </a>
         <button
           class="navbar-toggler"
           type="button"
@@ -411,19 +411,18 @@
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav me-auto">
+          <ul class="navbar-nav ms-auto">
             <li class="nav-item">
-              <a class="nav-link active" href="#">Dashboard</a>
+              <a class="nav-link" href="/voter-settings">
+                <i class="fas fa-cog me-1"></i> Settings
+              </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="view-results">Results</a>
+              <a class="nav-link" href="#" onclick="logout()">
+                <i class="fas fa-sign-out-alt me-1"></i> Logout
+              </a>
             </li>
           </ul>
-          <div class="d-flex">
-            <button class="btn btn-logout" onclick="logout()">
-              <i class="fas fa-sign-out-alt me-2"></i> Logout
-            </button>
-          </div>
         </div>
       </div>
     </nav>
@@ -431,30 +430,13 @@
     <!-- Dashboard Header -->
     <div class="dashboard-header">
       <div class="container">
-        <div class="row align-items-center">
-          <div class="col-md-6">
-            <div class="user-profile">
-              <div class="avatar">
-                <span id="initials">JS</span>
-              </div>
-              <div>
-                <h2 class="welcome-text">
-                  Welcome, <span id="user-name">John Smith</span>
-                </h2>
-                <p class="voter-id">
-                  <i class="fas fa-id-card me-2"></i>Voter ID:
-                  <span id="voter-id">VOT123456789</span>
-                </p>
-              </div>
-            </div>
+        <div class="user-profile">
+          <div class="avatar">
+            <i class="fas fa-user"></i>
           </div>
-          <div class="col-md-6 text-md-end action-btn">
-            <a href="/edit-profile" class="btn btn-light me-2">
-              <i class="fas fa-user-edit me-2"></i> Edit Profile
-            </a>
-            <a href="/settings" class="btn btn-light">
-              <i class="fas fa-cog me-2"></i> Settings
-            </a>
+          <div>
+            <h1 class="welcome-text mb-0" id="voter-name">Welcome back!</h1>
+            <p class="voter-id mb-0" id="aadhar-display"></p>
           </div>
         </div>
       </div>
@@ -464,601 +446,72 @@
     <div class="container">
       <!-- Stats Cards -->
       <div class="row mb-4">
-        <div class="col-md-3 col-sm-6">
-          <div class="dashboard-card text-center">
-            <div class="card-icon">
-              <i class="fas fa-vote-yea"></i>
-            </div>
-            <div class="stats-number" id="elections-participated">3</div>
-            <div class="stats-label">Elections Participated</div>
+        <div class="col-md-4">
+          <div class="dashboard-card">
+            <i class="fas fa-vote-yea card-icon"></i>
+            <h3 class="card-title">Active Elections</h3>
+            <div id="active-elections-count">Loading...</div>
           </div>
         </div>
-        <div class="col-md-3 col-sm-6">
-          <div class="dashboard-card text-center">
-            <div class="card-icon">
-              <i class="fas fa-calendar-alt"></i>
-            </div>
-            <div class="stats-number" id="upcoming-elections">2</div>
-            <div class="stats-label">Upcoming Elections</div>
+        <div class="col-md-4">
+          <div class="dashboard-card">
+            <i class="fas fa-check-circle card-icon"></i>
+            <h3 class="card-title">Your Vote Status</h3>
+            <div id="vote-status">Loading...</div>
           </div>
         </div>
-        <div class="col-md-3 col-sm-6">
-          <div class="dashboard-card text-center">
-            <div class="card-icon">
-              <i class="fas fa-check-circle"></i>
-            </div>
-            <div class="stats-number" id="completed-votes">5</div>
-            <div class="stats-label">Completed Votes</div>
-          </div>
-        </div>
-        <div class="col-md-3 col-sm-6">
-          <div class="dashboard-card text-center">
-            <div class="card-icon">
-              <i class="fas fa-bell"></i>
-            </div>
-            <div class="stats-number" id="notifications">1</div>
-            <div class="stats-label">Notifications</div>
+        <div class="col-md-4">
+          <div class="dashboard-card">
+            <i class="fas fa-calendar-alt card-icon"></i>
+            <h3 class="card-title">Upcoming Elections</h3>
+            <div id="upcoming-elections-count">Loading...</div>
           </div>
         </div>
       </div>
 
       <!-- Tabs Section -->
       <ul class="nav nav-tabs" id="voterTabs" role="tablist">
-        <li class="nav-item" role="presentation">
-          <button
+        <li class="nav-item">
+          <a
             class="nav-link active"
-            id="available-tab"
+            id="active-tab"
             data-bs-toggle="tab"
-            data-bs-target="#available"
-            type="button"
+            href="#active"
             role="tab"
-            aria-controls="available"
-            aria-selected="true"
+            >Active Elections</a
           >
-            Available Elections
-          </button>
         </li>
-        <li class="nav-item" role="presentation">
-          <button
+        <li class="nav-item">
+          <a
             class="nav-link"
             id="upcoming-tab"
             data-bs-toggle="tab"
-            data-bs-target="#upcoming"
-            type="button"
+            href="#upcoming"
             role="tab"
-            aria-controls="upcoming"
-            aria-selected="false"
+            >Upcoming Elections</a
           >
-            Upcoming Elections
-          </button>
         </li>
-        <li class="nav-item" role="presentation">
-          <button
+        <li class="nav-item">
+          <a
             class="nav-link"
-            id="history-tab"
+            id="past-tab"
             data-bs-toggle="tab"
-            data-bs-target="#history"
-            type="button"
+            href="#past"
             role="tab"
-            aria-controls="history"
-            aria-selected="false"
+            >Past Elections</a
           >
-            Voting History
-          </button>
         </li>
       </ul>
 
       <div class="tab-content" id="voterTabsContent">
-        <!-- Available Elections Tab -->
-        <div
-          class="tab-pane fade show active"
-          id="available"
-          role="tabpanel"
-          aria-labelledby="available-tab"
-        >
-          <div class="row">
-            <!-- Presidential Election Card -->
-            <div class="col-lg-6">
-              <div class="election-card">
-                <div class="election-header">
-                  <h3>Presidential Election</h3>
-                  <span class="election-status status-open"
-                    >Open for Voting</span
-                  >
-                </div>
-                <div class="election-body">
-                  <div class="election-date">
-                    <i class="far fa-calendar-alt me-2"></i> April 1 - April 15,
-                    2024
-                  </div>
-                  <div class="election-type">National Election</div>
-                  <h4 class="election-title">
-                    2024 Presidential General Election
-                  </h4>
-                  <p>
-                    Cast your vote for the next President of the United States.
-                    Your vote matters!
-                  </p>
-
-                  <div class="candidate-list">
-                    <h5>Candidates:</h5>
-
-                    <div class="candidate-item">
-                      <div class="candidate-avatar bg-primary text-white">
-                        JD
-                      </div>
-                      <div class="candidate-info">
-                        <div class="candidate-name">John Doe</div>
-                        <div class="candidate-party">Democratic Party</div>
-                      </div>
-                      <div class="vote-button">
-                        <button
-                          class="btn btn-vote"
-                          onclick="castVote('presidential', '1')"
-                        >
-                          <i class="fas fa-check me-1"></i> Vote
-                        </button>
-                      </div>
-                    </div>
-
-                    <div class="candidate-item">
-                      <div class="candidate-avatar bg-danger text-white">
-                        JS
-                      </div>
-                      <div class="candidate-info">
-                        <div class="candidate-name">Jane Smith</div>
-                        <div class="candidate-party">Republican Party</div>
-                      </div>
-                      <div class="vote-button">
-                        <button
-                          class="btn btn-vote"
-                          onclick="castVote('presidential', '2')"
-                        >
-                          <i class="fas fa-check me-1"></i> Vote
-                        </button>
-                      </div>
-                    </div>
-
-                    <div class="candidate-item">
-                      <div class="candidate-avatar bg-success text-white">
-                        RJ
-                      </div>
-                      <div class="candidate-info">
-                        <div class="candidate-name">Robert Johnson</div>
-                        <div class="candidate-party">Green Party</div>
-                      </div>
-                      <div class="vote-button">
-                        <button
-                          class="btn btn-vote"
-                          onclick="castVote('presidential', '3')"
-                        >
-                          <i class="fas fa-check me-1"></i> Vote
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="text-center mt-4">
-                    <button
-                      class="btn btn-outline-success"
-                      onclick="viewElectionDetails('presidential')"
-                    >
-                      <i class="fas fa-info-circle me-2"></i> View Election
-                      Details
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Senate Election Card -->
-            <div class="col-lg-6">
-              <div class="election-card">
-                <div class="election-header">
-                  <h3>Senate Election</h3>
-                  <span class="election-status status-open"
-                    >Open for Voting</span
-                  >
-                </div>
-                <div class="election-body">
-                  <div class="election-date">
-                    <i class="far fa-calendar-alt me-2"></i> April 5 - April 15,
-                    2024
-                  </div>
-                  <div class="election-type">Congressional Election</div>
-                  <h4 class="election-title">2024 Senate Midterm Elections</h4>
-                  <p>
-                    Select your state representative for the Senate. Make your
-                    choice count!
-                  </p>
-
-                  <div class="candidate-list">
-                    <h5>Candidates:</h5>
-
-                    <div class="candidate-item">
-                      <div class="candidate-avatar bg-primary text-white">
-                        MS
-                      </div>
-                      <div class="candidate-info">
-                        <div class="candidate-name">Michael Scott</div>
-                        <div class="candidate-party">Democratic Party</div>
-                      </div>
-                      <div class="vote-button">
-                        <button
-                          class="btn btn-vote"
-                          onclick="castVote('senate', '1')"
-                        >
-                          <i class="fas fa-check me-1"></i> Vote
-                        </button>
-                      </div>
-                    </div>
-
-                    <div class="candidate-item">
-                      <div class="candidate-avatar bg-danger text-white">
-                        PB
-                      </div>
-                      <div class="candidate-info">
-                        <div class="candidate-name">Pamela Beesly</div>
-                        <div class="candidate-party">Republican Party</div>
-                      </div>
-                      <div class="vote-button">
-                        <button
-                          class="btn btn-vote"
-                          onclick="castVote('senate', '2')"
-                        >
-                          <i class="fas fa-check me-1"></i> Vote
-                        </button>
-                      </div>
-                    </div>
-
-                    <div class="candidate-item">
-                      <div class="candidate-avatar bg-warning text-white">
-                        JH
-                      </div>
-                      <div class="candidate-info">
-                        <div class="candidate-name">Jim Halpert</div>
-                        <div class="candidate-party">Libertarian Party</div>
-                      </div>
-                      <div class="vote-button">
-                        <button
-                          class="btn btn-vote"
-                          onclick="castVote('senate', '3')"
-                        >
-                          <i class="fas fa-check me-1"></i> Vote
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="text-center mt-4">
-                    <button
-                      class="btn btn-outline-success"
-                      onclick="viewElectionDetails('senate')"
-                    >
-                      <i class="fas fa-info-circle me-2"></i> View Election
-                      Details
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+        <div class="tab-pane fade show active" id="active" role="tabpanel">
+          <div id="active-elections" class="row mt-4"></div>
         </div>
-
-        <!-- Upcoming Elections Tab -->
-        <div
-          class="tab-pane fade"
-          id="upcoming"
-          role="tabpanel"
-          aria-labelledby="upcoming-tab"
-        >
-          <div class="row">
-            <div class="col-lg-6">
-              <div class="election-card">
-                <div class="election-header">
-                  <h3>Mayor Election</h3>
-                  <span class="election-status status-upcoming">Upcoming</span>
-                </div>
-                <div class="election-body">
-                  <div class="election-date">
-                    <i class="far fa-calendar-alt me-2"></i> May 10 - May 20,
-                    2024
-                  </div>
-                  <div class="election-type">Local Election</div>
-                  <h4 class="election-title">2024 City Mayor Election</h4>
-                  <p>
-                    The mayoral election will be open for voting in 30 days.
-                    Prepare your vote for the next city mayor.
-                  </p>
-
-                  <div class="mt-4">
-                    <h5>Candidates:</h5>
-
-                    <div class="candidate-item">
-                      <div class="candidate-avatar bg-secondary text-white">
-                        DP
-                      </div>
-                      <div class="candidate-info">
-                        <div class="candidate-name">David Parker</div>
-                        <div class="candidate-party">Independent</div>
-                      </div>
-                      <div class="vote-button">
-                        <button class="btn btn-disabled" disabled>
-                          <i class="far fa-clock me-1"></i> Not Open Yet
-                        </button>
-                      </div>
-                    </div>
-
-                    <div class="candidate-item">
-                      <div class="candidate-avatar bg-primary text-white">
-                        CW
-                      </div>
-                      <div class="candidate-info">
-                        <div class="candidate-name">Catherine Wilson</div>
-                        <div class="candidate-party">Democratic Party</div>
-                      </div>
-                      <div class="vote-button">
-                        <button class="btn btn-disabled" disabled>
-                          <i class="far fa-clock me-1"></i> Not Open Yet
-                        </button>
-                      </div>
-                    </div>
-
-                    <div class="candidate-item">
-                      <div class="candidate-avatar bg-danger text-white">
-                        RM
-                      </div>
-                      <div class="candidate-info">
-                        <div class="candidate-name">Richard Miller</div>
-                        <div class="candidate-party">Republican Party</div>
-                      </div>
-                      <div class="vote-button">
-                        <button class="btn btn-disabled" disabled>
-                          <i class="far fa-clock me-1"></i> Not Open Yet
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="text-center mt-4">
-                    <button
-                      class="btn btn-outline-success"
-                      onclick="setReminder('mayor')"
-                    >
-                      <i class="far fa-bell me-2"></i> Set a Reminder
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-lg-6">
-              <div class="dashboard-card">
-                <h4 class="card-title">
-                  <i class="fas fa-calendar-alt me-2"></i> Upcoming Election
-                  Calendar
-                </h4>
-
-                <div class="upcoming-item">
-                  <div class="d-flex justify-content-between">
-                    <strong>Mayor Election</strong>
-                    <span>May 10 - May 20, 2024</span>
-                  </div>
-                  <small class="text-muted">30 days remaining</small>
-                </div>
-
-                <div class="upcoming-item">
-                  <div class="d-flex justify-content-between">
-                    <strong>School Board Election</strong>
-                    <span>June 5 - June 15, 2024</span>
-                  </div>
-                  <small class="text-muted">56 days remaining</small>
-                </div>
-
-                <div class="upcoming-item">
-                  <div class="d-flex justify-content-between">
-                    <strong>County Commissioner</strong>
-                    <span>July 10 - July 20, 2024</span>
-                  </div>
-                  <small class="text-muted">91 days remaining</small>
-                </div>
-
-                <div class="text-center mt-4">
-                  <button class="btn btn-outline-success">
-                    <i class="fas fa-download me-2"></i> Download Calendar
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
+        <div class="tab-pane fade" id="upcoming" role="tabpanel">
+          <div id="upcoming-elections" class="row mt-4"></div>
         </div>
-
-        <!-- Voting History Tab -->
-        <div
-          class="tab-pane fade"
-          id="history"
-          role="tabpanel"
-          aria-labelledby="history-tab"
-        >
-          <div class="row">
-            <div class="col-lg-8">
-              <div class="dashboard-card">
-                <h4 class="card-title">
-                  <i class="fas fa-history me-2"></i> Your Voting History
-                </h4>
-
-                <div class="table-responsive">
-                  <table class="table table-hover">
-                    <thead>
-                      <tr>
-                        <th>Election</th>
-                        <th>Date</th>
-                        <th>Type</th>
-                        <th>Status</th>
-                        <th>Actions</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>Governor Election</td>
-                        <td>March 20, 2024</td>
-                        <td>State</td>
-                        <td><span class="badge bg-success">Voted</span></td>
-                        <td>
-                          <button
-                            class="btn btn-sm btn-outline-primary"
-                            onclick="viewVoteDetails('governor')"
-                          >
-                            <i class="fas fa-eye"></i> View
-                          </button>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>City Council Election</td>
-                        <td>February 15, 2024</td>
-                        <td>Local</td>
-                        <td><span class="badge bg-success">Voted</span></td>
-                        <td>
-                          <button
-                            class="btn btn-sm btn-outline-primary"
-                            onclick="viewVoteDetails('council')"
-                          >
-                            <i class="fas fa-eye"></i> View
-                          </button>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>Special Referendum</td>
-                        <td>January 10, 2024</td>
-                        <td>Referendum</td>
-                        <td><span class="badge bg-success">Voted</span></td>
-                        <td>
-                          <button
-                            class="btn btn-sm btn-outline-primary"
-                            onclick="viewVoteDetails('referendum')"
-                          >
-                            <i class="fas fa-eye"></i> View
-                          </button>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>Congressional Election</td>
-                        <td>November 5, 2023</td>
-                        <td>National</td>
-                        <td><span class="badge bg-success">Voted</span></td>
-                        <td>
-                          <button
-                            class="btn btn-sm btn-outline-primary"
-                            onclick="viewVoteDetails('congressional')"
-                          >
-                            <i class="fas fa-eye"></i> View
-                          </button>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>School Board Election</td>
-                        <td>October 15, 2023</td>
-                        <td>Local</td>
-                        <td><span class="badge bg-success">Voted</span></td>
-                        <td>
-                          <button
-                            class="btn btn-sm btn-outline-primary"
-                            onclick="viewVoteDetails('school')"
-                          >
-                            <i class="fas fa-eye"></i> View
-                          </button>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-
-                <div class="text-center mt-3">
-                  <button class="btn btn-outline-success">
-                    <i class="fas fa-download me-2"></i> Download Voting Record
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-lg-4">
-              <div class="dashboard-card">
-                <h4 class="card-title">
-                  <i class="fas fa-chart-pie me-2"></i> Voting Statistics
-                </h4>
-
-                <div class="text-center">
-                  <div class="mb-3">
-                    <div class="stats-number text-primary">100%</div>
-                    <div class="stats-label">Participation Rate</div>
-                  </div>
-
-                  <div class="mb-3">
-                    <div class="stats-number text-success">5/5</div>
-                    <div class="stats-label">Elections Voted</div>
-                  </div>
-
-                  <div class="mb-3">
-                    <canvas
-                      id="voteTypeChart"
-                      width="100%"
-                      height="200"
-                    ></canvas>
-                  </div>
-                </div>
-
-                <div class="text-center mt-4">
-                  <p class="text-muted">
-                    You are in the top 10% of active voters in your district!
-                  </p>
-                </div>
-              </div>
-
-              <div class="dashboard-card mt-4">
-                <h4 class="card-title">
-                  <i class="fas fa-bell me-2"></i> Recent Activity
-                </h4>
-
-                <ul class="recent-activity">
-                  <li class="activity-item">
-                    <div class="activity-icon">
-                      <i class="fas fa-vote-yea"></i>
-                    </div>
-                    <div class="activity-content">
-                      <div class="activity-title">
-                        Voted in Governor Election
-                      </div>
-                      <div class="activity-time">March 20, 2024</div>
-                    </div>
-                  </li>
-
-                  <li class="activity-item">
-                    <div class="activity-icon">
-                      <i class="fas fa-user-edit"></i>
-                    </div>
-                    <div class="activity-content">
-                      <div class="activity-title">
-                        Updated profile information
-                      </div>
-                      <div class="activity-time">March 15, 2024</div>
-                    </div>
-                  </li>
-
-                  <li class="activity-item">
-                    <div class="activity-icon">
-                      <i class="fas fa-vote-yea"></i>
-                    </div>
-                    <div class="activity-content">
-                      <div class="activity-title">
-                        Voted in City Council Election
-                      </div>
-                      <div class="activity-time">February 15, 2024</div>
-                    </div>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
+        <div class="tab-pane fade" id="past" role="tabpanel">
+          <div id="past-elections" class="row mt-4"></div>
         </div>
       </div>
     </div>
@@ -1078,173 +531,212 @@
         localStorage.removeItem("role");
 
         // Redirect to home page
-        window.location.href = "/";
+        window.location.href = "/voter-login";
       }
 
-      function castVote(electionType, candidateId) {
-        const voterId = document.getElementById("voter-id").textContent;
+      function castVote(electionId, candidateId, userAadhar) {
+        if (!confirm("Are you sure you want to cast your vote? This action cannot be undone.")) {
+          return;
+        }
 
-        // Show loading state on the button
-        const button = event.currentTarget;
-        const originalText = button.innerHTML;
-        button.innerHTML =
-          '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span> Processing...';
+        // Get the button that was clicked
+        const button = document.querySelector(`button[onclick="castVote(${electionId}, ${candidateId}, '${userAadhar}')"]`);
+        
+        // Show loading state
+        button.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Voting...';
         button.disabled = true;
 
-        // Simulate API call
-        setTimeout(function () {
-          // Replace with actual API call to record the vote
-          console.log(
-            `Casting vote for ${electionType} election, candidate #${candidateId}, voter ID: ${voterId}`
-          );
-
-          // Update all vote buttons for this election to show "Voted"
-          const election = button.closest(".election-card");
-          const allButtons = election.querySelectorAll(".btn-vote");
-
-          allButtons.forEach((btn) => {
-            btn.classList.remove("btn-vote");
-            btn.classList.add("btn-voted");
-            btn.innerHTML = '<i class="fas fa-check-circle me-1"></i> Voted';
-            btn.disabled = true;
-          });
-
-          // Show success message
-          alert(`Thank you for voting in the ${electionType} election!`);
-
-          // Update stats
-          document.getElementById("completed-votes").textContent =
-            parseInt(document.getElementById("completed-votes").textContent) +
-            1;
-
-          // Add to recent activity
-          addActivity(`Voted in ${electionType} election`);
-        }, 1500);
-      }
-
-      function viewElectionDetails(electionType) {
-        // Redirect to election details page
-        console.log(`Viewing details for ${electionType} election`);
-
-        // In a real implementation this would navigate to a detailed view
-        alert(`Navigating to details for the ${electionType} election`);
-      }
-
-      function setReminder(electionType) {
-        console.log(`Setting reminder for ${electionType} election`);
-        alert(
-          `Reminder set! We'll notify you when the ${electionType} election opens.`
-        );
-      }
-
-      function viewVoteDetails(electionType) {
-        console.log(`Viewing vote details for ${electionType} election`);
-
-        // In a real implementation this would navigate to a detailed view
-        alert(`Viewing your vote details for the ${electionType} election`);
-      }
-
-      function addActivity(activityText) {
-        const activityList = document.querySelector(".recent-activity");
-        const now = new Date();
-        const timeFormatted = now.toLocaleDateString();
-
-        const newActivity = document.createElement("li");
-        newActivity.className = "activity-item";
-        newActivity.innerHTML = `
-          <div class="activity-icon">
-            <i class="fas fa-vote-yea"></i>
-          </div>
-          <div class="activity-content">
-            <div class="activity-title">${activityText}</div>
-            <div class="activity-time">${timeFormatted}</div>
-          </div>
-        `;
-
-        // Insert as the first activity
-        if (activityList) {
-          activityList.insertBefore(newActivity, activityList.firstChild);
-        }
-      }
-
-      document.addEventListener("DOMContentLoaded", function () {
-        // Initialize Charts
-        const ctx = document.getElementById("voteTypeChart").getContext("2d");
-        const voteTypeChart = new Chart(ctx, {
-          type: "doughnut",
-          data: {
-            labels: ["National", "State", "Local", "Referendum"],
-            datasets: [
-              {
-                data: [1, 1, 2, 1],
-                backgroundColor: ["#1a73e8", "#34a853", "#fbbc05", "#ea4335"],
-                borderWidth: 1,
-              },
-            ],
-          },
-          options: {
-            responsive: true,
-            plugins: {
-              legend: {
-                position: "bottom",
-                labels: {
-                  font: {
-                    size: 12,
-                  },
-                },
-              },
-              title: {
-                display: true,
-                text: "Vote Distribution by Type",
-                font: {
-                  size: 14,
-                },
-              },
-            },
-            cutout: "70%",
-          },
-        });
-
-        // Load user data (would come from API in real app)
-        function loadUserData() {
-          const aadhar = localStorage.getItem("aadhar");
-
-          if (!aadhar) {
-            // Redirect to login if not authenticated
-            window.location.href = "/voter-login";
-            return;
+        // Make API call to cast vote
+        $.get(`/api/cast-vote?userAadhar=${userAadhar}&electionId=${electionId}&candidateId=${candidateId}`, function(response) {
+          if (response.status === "success") {
+            showAlert("success", "Your vote has been cast successfully!");
+            // Reload the active elections to update the UI
+            loadActiveElections();
+          } else {
+            showAlert("danger", "Failed to cast vote: " + response.message);
+            // Reset button state
+            button.innerHTML = '<i class="fas fa-check-circle me-2"></i>Vote';
+            button.disabled = false;
           }
+        }).fail(function(error) {
+          console.error("Vote casting error:", error);
+          showAlert("danger", "Error connecting to server. Please try again.");
+          // Reset button state
+          button.innerHTML = '<i class="fas fa-check-circle me-2"></i>Vote';
+          button.disabled = false;
+        });
+      }
 
-          // Simulate fetching user data from API
-          setTimeout(() => {
-            // This would be an actual API call in a real implementation
-            const userData = {
-              name: "John Smith",
-              voterId: "VOT123456789",
-              initials: "JS",
-              electionsParticipated: 3,
-              upcomingElections: 2,
-              completedVotes: 5,
-              notifications: 1,
-            };
+      function showAlert(type, message) {
+        const alertDiv = document.createElement("div");
+        alertDiv.className = `alert alert-${type} alert-dismissible fade show position-fixed top-0 end-0 m-3`;
+        alertDiv.style.zIndex = "1050";
+        alertDiv.innerHTML = `
+          <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'} me-2"></i>
+          ${message}
+          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        `;
+        document.body.appendChild(alertDiv);
+        setTimeout(() => alertDiv.remove(), 5000);
+      }
 
-            // Update UI with user data
-            document.getElementById("user-name").textContent = userData.name;
-            document.getElementById("voter-id").textContent = userData.voterId;
-            document.getElementById("initials").textContent = userData.initials;
-            document.getElementById("elections-participated").textContent =
-              userData.electionsParticipated;
-            document.getElementById("upcoming-elections").textContent =
-              userData.upcomingElections;
-            document.getElementById("completed-votes").textContent =
-              userData.completedVotes;
-            document.getElementById("notifications").textContent =
-              userData.notifications;
-          }, 500);
+      function loadActiveElections() {
+        const aadhar = localStorage.getItem("aadhar");
+        if (!aadhar) {
+          window.location.href = "/voter-login";
+          return;
         }
 
-        // Load initial data
-        loadUserData();
+        // Display voter's Aadhar number
+        $("#aadhar-display").text("Voter ID: " + aadhar);
+
+        // Load active elections
+        $.get("/api/elections", function(response) {
+          console.log("Elections response:", response);
+          const now = new Date();
+          
+          if (response.status === 200) {
+            const elections = response.data || [];
+            console.log("All elections:", elections);
+            
+            // Filter active elections
+            const activeElections = elections.filter(election => {
+              // Convert array dates to proper Date objects
+              const startDate = new Date(
+                election.startDateTime[0], // year
+                election.startDateTime[1] - 1, // month (0-based)
+                election.startDateTime[2], // day
+                election.startDateTime[3], // hour
+                election.startDateTime[4] // minute
+              );
+              
+              const endDate = new Date(
+                election.endDateTime[0],
+                election.endDateTime[1] - 1,
+                election.endDateTime[2],
+                election.endDateTime[3],
+                election.endDateTime[4]
+              );
+              
+              return election.active === true && now >= startDate && now <= endDate;
+            });
+            
+            console.log("Active elections:", activeElections);
+            $("#active-elections-count").text(activeElections.length + " Active");
+            
+            if (activeElections.length === 0) {
+              $("#active-elections").html(`
+                <div class="col-12">
+                  <div class="alert alert-info">
+                    <i class="fas fa-info-circle me-2"></i>There are no active elections at this time.
+                  </div>
+                </div>`
+              );
+              $("#vote-status").text("No active elections");
+              $("#upcoming-elections-count").text("0 Upcoming");
+              return;
+            }
+
+            let activeElectionsHtml = '';
+            activeElections.forEach(election => {
+              // Load candidates for this election
+              $.get(`/api/candidates?electionId=${election.id}`, function(candidateResponse) {
+                if (candidateResponse.status === 200) {
+                  const candidates = candidateResponse.data;
+                  const candidatesHtml = candidates.map(candidate => `
+                    <div class="candidate-item">
+                      <div class="candidate-avatar">
+                        <i class="fas fa-user"></i>
+                      </div>
+                      <div class="candidate-info">
+                        <div class="candidate-name">${candidate.name}</div>
+                        <div class="candidate-party">${candidate.party}</div>
+                      </div>
+                      <button 
+                        onclick="castVote(${election.id}, ${candidate.id}, '${aadhar}')" 
+                        class="btn btn-vote">
+                        <i class="fas fa-check-circle me-2"></i>Vote
+                      </button>
+                    </div>
+                  `).join('');
+
+                  const startDate = new Date(
+                    election.startDateTime[0],
+                    election.startDateTime[1] - 1,
+                    election.startDateTime[2],
+                    election.startDateTime[3],
+                    election.startDateTime[4]
+                  );
+
+                  const endDate = new Date(
+                    election.endDateTime[0],
+                    election.endDateTime[1] - 1,
+                    election.endDateTime[2],
+                    election.endDateTime[3],
+                    election.endDateTime[4]
+                  );
+
+                  const electionCard = `
+                    <div class="col-12 mb-4">
+                      <div class="election-card">
+                        <div class="election-header">
+                          <div class="election-status status-open">Active</div>
+                          <h3 class="election-title">${election.title}</h3>
+                          <p class="election-date">
+                            <i class="fas fa-calendar-alt me-2"></i>
+                            ${startDate.toLocaleDateString()} ${startDate.toLocaleTimeString()} - 
+                            ${endDate.toLocaleDateString()} ${endDate.toLocaleTimeString()}
+                          </p>
+                        </div>
+                        <div class="election-body">
+                          <p>${election.description}</p>
+                          <div class="candidate-list">
+                            ${candidatesHtml}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  `;
+                  $("#active-elections").append(electionCard);
+                  $("#vote-status").text("Ready to vote");
+                  
+                  // Count upcoming elections
+                  const upcomingElections = elections.filter(e => {
+                    const eStartDate = new Date(
+                      e.startDateTime[0],
+                      e.startDateTime[1] - 1,
+                      e.startDateTime[2],
+                      e.startDateTime[3],
+                      e.startDateTime[4]
+                    );
+                    return now < eStartDate;
+                  });
+                  $("#upcoming-elections-count").text(upcomingElections.length + " Upcoming");
+                } else {
+                  showAlert("danger", "Failed to load candidates: " + candidateResponse.message);
+                }
+              });
+            });
+          } else {
+            showAlert("danger", "Failed to load elections");
+          }
+        }).fail(function(error) {
+          console.error("Error loading elections:", error);
+          showAlert("danger", "Error connecting to server. Please try again.");
+        });
+      }
+
+      document.addEventListener("DOMContentLoaded", function() {
+        // Check authentication
+        const aadhar = localStorage.getItem("aadhar");
+        const role = localStorage.getItem("role");
+
+        if (!aadhar || role !== "voter") {
+          window.location.href = "/voter-login";
+          return;
+        }
+
+        loadActiveElections();
       });
     </script>
   </body>
