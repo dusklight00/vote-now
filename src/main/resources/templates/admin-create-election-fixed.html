@@ -1,0 +1,149 @@
+// filepath: c:\Users\Dusk Light\Desktop\train-booking-app\src\main\resources\templates\admin-create-election-fixed.html
+$.post("/api/create-election", {
+  title: title,
+  description: description,
+  startDateTime: startDate,
+  endDateTime: endDate
+})
+.done(function(response) {
+  console.log("Election API response:", response);
+  
+  if (response.status === "success") {
+    const electionId = response.data.id;
+    console.log("Election created with ID:", electionId);
+    
+    // Now add candidates
+    let candidatesAdded = 0;
+    let candidateErrors = 0;
+    const totalCandidates = $(".candidate-container").length;
+    
+    // Only proceed if there are candidates to add
+    if (totalCandidates === 0) {
+      // No candidates to add, redirect immediately
+      showSuccessAndRedirect();
+      return;
+    }
+    
+    $(".candidate-container").each(function(index) {
+      const name = $(this).find(".candidate-name").val();
+      const party = $(this).find(".candidate-party").val();
+      const position = $(this).find(".candidate-position").val();
+      const bio = $(this).find(".candidate-bio").val();
+      
+      // Only proceed if name is provided
+      if (name) {
+        console.log("Adding candidate:", name, "for election:", electionId);
+        
+        $.post("/api/add-candidate", {
+          electionId: electionId,
+          name: name,
+          party: party || "", 
+          position: position || "Candidate",
+          manifesto: bio || ""
+        })
+        .done(function(candidateResponse) {
+          console.log("Candidate added successfully:", candidateResponse);
+          candidatesAdded++;
+          checkCompletion();
+        })
+        .fail(function(xhr) {
+          console.error("Failed to add candidate:", xhr.responseText);
+          candidateErrors++;
+          checkCompletion();
+        });
+      } else {
+        // Skip empty candidates
+        candidatesAdded++;
+        checkCompletion();
+      }
+    });
+    
+    function checkCompletion() {
+      console.log(`Progress: ${candidatesAdded + candidateErrors}/${totalCandidates}`);
+      
+      if (candidatesAdded + candidateErrors === totalCandidates) {
+        showSuccessAndRedirect();
+      }
+    }
+    
+    function showSuccessAndRedirect() {
+      // All candidates processed
+      if (candidateErrors > 0) {
+        // Alert message with issues
+        $(".alert-container").html(`
+          <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <strong>Partial Success!</strong> Election created successfully, but ${candidateErrors} candidates could not be added. You can add them later.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        `).show();
+        alert(`Election created successfully, but ${candidateErrors} candidates could not be added. You can add them later.`);
+      } else {
+        // Success message
+        $(".alert-container").html(`
+          <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Success!</strong> Election and all candidates created successfully! Redirecting to manage elections...
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        `).show();
+        alert("Election and all candidates created successfully!");
+      }
+      
+      // Reset form
+      $("#electionForm").trigger("reset");
+      $("#candidatesContainer").html(`
+        <div class="candidate-container">
+          <div class="row">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="form-label">Candidate Name</label>
+                <input type="text" class="form-control candidate-name" placeholder="Enter name" required>
+              </div>
+            </div>
+            
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="form-label">Political Party</label>
+                <input type="text" class="form-control candidate-party" placeholder="Enter party">
+              </div>
+            </div>
+            
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="form-label">Position</label>
+                <input type="text" class="form-control candidate-position" placeholder="Enter position" value="Candidate">
+              </div>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Manifesto/Bio</label>
+            <textarea class="form-control candidate-bio" rows="2" placeholder="Enter candidate's manifesto or biography"></textarea>
+          </div>
+          
+          <i class="fas fa-times-circle remove-candidate"></i>
+        </div>
+      `);                  
+      
+      // Restore button state
+      submitBtn.html(originalBtnText);
+      submitBtn.prop("disabled", false);
+      
+      // Redirect to dashboard - elections management section
+      console.log("Redirecting to manage elections section in 1 second...");
+      setTimeout(function() {
+        window.location.href = "/admin-dashboard#manage-elections";
+      }, 1000);
+    }
+  } else {
+    alert("Error creating election: " + response.message);
+    submitBtn.html(originalBtnText);
+    submitBtn.prop("disabled", false);
+  }
+})
+.fail(function(xhr) {
+  console.error("AJAX Error:", xhr);
+  alert("Error creating election. Please try again.");
+  console.error("Error:", xhr.responseText);
+  submitBtn.html(originalBtnText);
+  submitBtn.prop("disabled", false);
+});

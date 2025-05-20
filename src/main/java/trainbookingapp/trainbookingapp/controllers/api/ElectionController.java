@@ -52,9 +52,7 @@ public class ElectionController {
         null
       );
     }
-  }
-
-  @PostMapping("/create-election")
+  }  @PostMapping("/create-election")
   public Response createElection(
     @RequestParam String title,
     @RequestParam String description,
@@ -62,12 +60,14 @@ public class ElectionController {
     @RequestParam String endDateTime
   ) {
     try {
+      System.out.println("Creating election: " + title);
       // Parse date time strings
       LocalDateTime start = LocalDateTime.parse(startDateTime);
       LocalDateTime end = LocalDateTime.parse(endDateTime);
 
       // Validate dates
       if (start.isAfter(end)) {
+        System.out.println("Error: Start date after end date");
         return new Response(
           "error",
           "Start date must be before end date",
@@ -83,10 +83,15 @@ public class ElectionController {
       election.setEndDateTime(end);
       election.setActive(true);
 
-      electionRepository.save(election);
+      election = electionRepository.save(election);
+      System.out.println("Election created successfully with ID: " + election.getId());
 
-      return new Response("success", "Election created successfully", election);
+      Response successResponse = new Response("success", "Election created successfully", election);
+      System.out.println("Returning response: " + successResponse.getStatus() + " - " + successResponse.getMessage() + " - ID: " + election.getId());
+      return successResponse;
     } catch (Exception e) {
+      System.out.println("Error creating election: " + e.getMessage());
+      e.printStackTrace();
       return new Response(
         "error",
         "Failed to create election: " + e.getMessage(),

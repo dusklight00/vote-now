@@ -283,12 +283,11 @@
       </nav>
 
       <!-- Page Content -->
-      <div class="content">
-        <!-- Dashboard Header -->
+      <div class="content">        <!-- Dashboard Header -->
         <div class="dashboard-header">
           <div>
             <h1 class="mb-0">Create New Election</h1>
-            <p class="mb-0">Set up a new election for voters</p>
+            <p class="mb-0">Set up a new election for voters - Logged in as <span id="admin-name">Administrator</span></p>
           </div>
           <div>
             <a href="/admin-dashboard" class="btn btn-light me-2">
@@ -299,9 +298,11 @@
 
         <!-- Create Election Form -->
         <div class="row">
-          <div class="col-12">
-            <div class="form-container">
+          <div class="col-12">            <div class="form-container">
               <h2 class="form-title">Election Details</h2>
+              
+              <!-- Alert Container -->
+              <div class="alert-container" style="margin-bottom: 20px;"></div>
 
               <form id="electionForm">
                 <div class="row">
@@ -381,21 +382,21 @@
                 <hr class="my-4" />
 
                 <h4>Candidates</h4>
-                <div id="candidatesContainer">
-                  <div class="candidate-container">
+                <div id="candidatesContainer">                  <div class="candidate-container">
                     <div class="row">
-                      <div class="col-md-6">
+                      <div class="col-md-4">
                         <div class="form-group">
                           <label class="form-label">Candidate Name</label>
                           <input
                             type="text"
                             class="form-control candidate-name"
                             placeholder="Enter name"
+                            required
                           />
                         </div>
                       </div>
 
-                      <div class="col-md-6">
+                      <div class="col-md-4">
                         <div class="form-group">
                           <label class="form-label">Political Party</label>
                           <input
@@ -405,14 +406,26 @@
                           />
                         </div>
                       </div>
+                      
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label class="form-label">Position</label>
+                          <input
+                            type="text"
+                            class="form-control candidate-position"
+                            placeholder="Enter position"
+                            value="Candidate"
+                          />
+                        </div>
+                      </div>
                     </div>
 
                     <div class="form-group">
-                      <label class="form-label">Bio/Description</label>
+                      <label class="form-label">Manifesto/Bio</label>
                       <textarea
                         class="form-control candidate-bio"
                         rows="2"
-                        placeholder="Enter candidate biography"
+                        placeholder="Enter candidate's manifesto or biography"
                       ></textarea>
                     </div>
 
@@ -460,9 +473,7 @@
         localStorage.removeItem("adminId");
         localStorage.removeItem("role");
         window.location.href = "/";
-      }
-
-      $(document).ready(function () {
+      }      $(document).ready(function () {
         // Check authentication
         const adminId = localStorage.getItem("adminId");
         const role = localStorage.getItem("role");
@@ -471,30 +482,44 @@
           window.location.href = "/admin-login";
           return;
         }
-
-        // Add candidate button click handler
+        
+        // Load admin name from API
+        $.get(`/api/get-admin?id=${adminId}`, function(admin) {
+          if (admin) {
+            $("#admin-name").text(admin.firstName + " " + admin.lastName);
+          } else {
+            $("#admin-name").text("Admin User");
+          }
+        });        // Add candidate button click handler
         $("#addCandidateBtn").click(function () {
           const candidateHtml = `
           <div class="candidate-container">
             <div class="row">
-              <div class="col-md-6">
+              <div class="col-md-4">
                 <div class="form-group">
                   <label class="form-label">Candidate Name</label>
-                  <input type="text" class="form-control candidate-name" placeholder="Enter name">
+                  <input type="text" class="form-control candidate-name" placeholder="Enter name" required>
                 </div>
               </div>
               
-              <div class="col-md-6">
+              <div class="col-md-4">
                 <div class="form-group">
                   <label class="form-label">Political Party</label>
                   <input type="text" class="form-control candidate-party" placeholder="Enter party">
                 </div>
               </div>
+              
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="form-label">Position</label>
+                  <input type="text" class="form-control candidate-position" placeholder="Enter position" value="Candidate">
+                </div>
+              </div>
             </div>
             
             <div class="form-group">
-              <label class="form-label">Bio/Description</label>
-              <textarea class="form-control candidate-bio" rows="2" placeholder="Enter candidate biography"></textarea>
+              <label class="form-label">Manifesto/Bio</label>
+              <textarea class="form-control candidate-bio" rows="2" placeholder="Enter candidate's manifesto or biography"></textarea>
             </div>
             
             <i class="fas fa-times-circle remove-candidate"></i>
@@ -512,9 +537,7 @@
           } else {
             alert("At least one candidate is required.");
           }
-        });
-
-        // Form submission
+        });        // Form submission
         $("#electionForm").submit(function (e) {
           e.preventDefault();
 
@@ -524,81 +547,231 @@
           submitBtn.html(
             '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span> Creating...'
           );
-          submitBtn.prop("disabled", true); // Collect form data
+          submitBtn.prop("disabled", true);
+          
+          // Collect form data
           const title = $("#electionTitle").val();
           const type = $("#electionType").val();
-          const startDate = $("#startDate").val();
-          const endDate = $("#endDate").val();
+          const startDate = $("#startDate").val() + "T00:00:00"; // Format for LocalDateTime
+          const endDate = $("#endDate").val() + "T23:59:59";  // Format for LocalDateTime
           const description = $("#electionDescription").val();
           const publishNow = $("#publishImmediately").is(":checked");
 
-          // Collect candidates
-          const candidates = [];
-          $(".candidate-container").each(function () {
-            const name = $(this).find(".candidate-name").val();
-            const party = $(this).find(".candidate-party").val();
-            const bio = $(this).find(".candidate-bio").val();
-
-            candidates.push({
-              name: name,
-              party: party,
-              bio: bio,
-            });
-          }); // Create election data object
-          const electionData = {
+          // First create the election
+          $.post("/api/create-election", {
             title: title,
-            type: type,
-            startDate: startDate,
-            endDate: endDate,
             description: description,
-            candidates: candidates,
-            publishNow: publishNow,
-          };
-
-          console.log("Creating election:", electionData);
-
-          // Simulate API call
-          setTimeout(function () {
-            alert("Election created successfully!");
-
-            // Reset form
-            $("#electionForm").trigger("reset");
-            $("#candidatesContainer").html(`
-            <div class="candidate-container">
-              <div class="row">
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label class="form-label">Candidate Name</label>
-                    <input type="text" class="form-control candidate-name" placeholder="Enter name">
-                  </div>
-                </div>
+            startDateTime: startDate,
+            endDateTime: endDate
+          })
+          .done(function(response) {
+            console.log("Election API response:", response);
+            
+            if (response.status === 200 || response.status === "success") {
+              const electionId = response.data.id;
+              console.log("Election created with ID:", electionId);
+              
+              // Now add candidates
+              let candidatesAdded = 0;
+              let candidateErrors = 0;
+              const totalCandidates = $(".candidate-container").length;
+              
+              console.log("Total candidates to add:", totalCandidates);
+              
+              // Only proceed if there are candidates to add
+              if (totalCandidates === 0) {
+                // No candidates to add, redirect immediately
+                showSuccessAndRedirect();
+                return;
+              }
+              
+              $(".candidate-container").each(function(index) {
+                const name = $(this).find(".candidate-name").val();
+                const party = $(this).find(".candidate-party").val();
+                const position = $(this).find(".candidate-position").val();
+                const bio = $(this).find(".candidate-bio").val();
                 
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label class="form-label">Political Party</label>
-                    <input type="text" class="form-control candidate-party" placeholder="Enter party">
+                // Only proceed if name is provided
+                if (name) {
+                  console.log("Adding candidate:", name, "for election:", electionId);
+                  
+                  $.post("/api/add-candidate", {
+                    electionId: electionId,
+                    name: name,
+                    party: party || "", 
+                    position: position || "Candidate",
+                    manifesto: bio || ""
+                  })
+                  .done(function(candidateResponse) {
+                    console.log("Candidate added successfully:", candidateResponse);
+                    if (candidateResponse.status === 200 || candidateResponse.status === "success") {
+                      candidatesAdded++;
+                    } else {
+                      console.error("Failed to add candidate: unexpected response", candidateResponse);
+                      candidateErrors++;
+                    }
+                    checkCompletion();
+                  })
+                  .fail(function(xhr) {
+                    console.error("Failed to add candidate:", xhr.responseText);
+                    candidateErrors++;
+                    checkCompletion();
+                  });
+                } else {
+                  // Skip empty candidates
+                  candidatesAdded++;
+                  checkCompletion();
+                }
+              });
+              
+              function checkCompletion() {
+                console.log(`Progress: ${candidatesAdded + candidateErrors}/${totalCandidates}`);
+                  if (candidatesAdded + candidateErrors === totalCandidates) {
+                  // All candidates processed
+                  if (candidateErrors > 0) {
+                    // Alert message with issues
+                    $(".alert-container").html(`
+                      <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        <strong>Partial Success!</strong> Election created successfully, but ${candidateErrors} candidates could not be added. You can add them later.
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                      </div>
+                    `).show();
+                    alert(`Election created successfully, but ${candidateErrors} candidates could not be added. You can add them later.`);
+                  } else {
+                    // Success message
+                    $(".alert-container").html(`
+                      <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <strong>Success!</strong> Election and all candidates created successfully! Redirecting to manage elections...
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                      </div>
+                    `).show();
+                    alert("Election and all candidates created successfully!");
+                  }
+                  
+                  // Reset form
+                  $("#electionForm").trigger("reset");
+                  $("#candidatesContainer").html(`
+                    <div class="candidate-container">
+                      <div class="row">
+                        <div class="col-md-4">
+                          <div class="form-group">
+                            <label class="form-label">Candidate Name</label>
+                            <input type="text" class="form-control candidate-name" placeholder="Enter name" required>
+                          </div>
+                        </div>
+                        
+                        <div class="col-md-4">
+                          <div class="form-group">
+                            <label class="form-label">Political Party</label>
+                            <input type="text" class="form-control candidate-party" placeholder="Enter party">
+                          </div>
+                        </div>
+                        
+                        <div class="col-md-4">
+                          <div class="form-group">
+                            <label class="form-label">Position</label>
+                            <input type="text" class="form-control candidate-position" placeholder="Enter position" value="Candidate">
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div class="form-group">
+                        <label class="form-label">Manifesto/Bio</label>
+                        <textarea class="form-control candidate-bio" rows="2" placeholder="Enter candidate's manifesto or biography"></textarea>
+                      </div>
+                      
+                      <i class="fas fa-times-circle remove-candidate"></i>
+                    </div>
+                  `);                  
+                  
+                  // Restore button state
+                  submitBtn.html(originalBtnText);
+                  submitBtn.prop("disabled", false);
+                  
+                  // Redirect to dashboard - elections management section
+                  console.log("Redirecting to manage elections section in 1 second...");
+                  setTimeout(function() {
+                    window.location.href = "/admin-dashboard#manage-elections";
+                  }, 1000);
+                }              }
+              
+              // Define the showSuccessAndRedirect function
+              function showSuccessAndRedirect() {
+                // Success message
+                $(".alert-container").html(`
+                  <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <strong>Success!</strong> Election created successfully! Redirecting to manage elections...
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                   </div>
+                `).show();
+                alert("Election created successfully!");
+                
+                // Reset form
+                $("#electionForm").trigger("reset");
+                $("#candidatesContainer").html(`
+                  <div class="candidate-container">
+                    <div class="row">
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label class="form-label">Candidate Name</label>
+                          <input type="text" class="form-control candidate-name" placeholder="Enter name" required>
+                        </div>
+                      </div>
+                      
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label class="form-label">Political Party</label>
+                          <input type="text" class="form-control candidate-party" placeholder="Enter party">
+                        </div>
+                      </div>
+                      
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label class="form-label">Position</label>
+                          <input type="text" class="form-control candidate-position" placeholder="Enter position" value="Candidate">
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div class="form-group">
+                      <label class="form-label">Manifesto/Bio</label>
+                      <textarea class="form-control candidate-bio" rows="2" placeholder="Enter candidate's manifesto or biography"></textarea>
+                    </div>
+                    
+                    <i class="fas fa-times-circle remove-candidate"></i>
+                  </div>
+                `);
+                
+                // Restore button state
+                submitBtn.html(originalBtnText);
+                submitBtn.prop("disabled", false);
+                
+                // Redirect to dashboard - elections management section
+                console.log("Redirecting to manage elections section in 1 second...");
+                setTimeout(function() {
+                  window.location.href = "/admin-dashboard#manage-elections";
+                }, 1000);
+              }
+            } else {
+              console.error("Error creating election:", response);
+              $(".alert-container").html(`
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                  <strong>Error!</strong> ${response.message || "Failed to create election."}
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
-              </div>
-              
-              <div class="form-group">
-                <label class="form-label">Bio/Description</label>
-                <textarea class="form-control candidate-bio" rows="2" placeholder="Enter candidate biography"></textarea>
-              </div>
-              
-              <i class="fas fa-times-circle remove-candidate"></i>
-            </div>
-          `);
-
-            // Restore button state
+              `).show();
+              alert("Error creating election: " + (response.message || "Unknown error"));
+              submitBtn.html(originalBtnText);
+              submitBtn.prop("disabled", false);
+            }
+          })
+          .fail(function(xhr) {
+            console.error("AJAX Error:", xhr);
+            alert("Error creating election. Please try again.");
+            console.error("Error response:", xhr.responseText);
             submitBtn.html(originalBtnText);
             submitBtn.prop("disabled", false);
-
-            // Redirect to dashboard
-            setTimeout(function () {
-              window.location.href = "/admin-dashboard";
-            }, 1000);
-          }, 1500);
+          });
         });
       });
     </script>

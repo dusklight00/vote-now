@@ -13,4 +13,17 @@ public class Response {
     this.message = message;
     this.data = data;
   }
+  
+  // Add getters for proper JSON serialization
+  public String getMessage() {
+    return message;
+  }
+  
+  public int getStatus() {
+    return status;
+  }
+  
+  public Object getData() {
+    return data;
+  }
 }

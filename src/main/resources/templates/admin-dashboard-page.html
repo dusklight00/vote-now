@@ -319,9 +319,8 @@
                 <i class="fas fa-plus-circle"></i>
                 <span>Create Election</span>
               </a>
-            </li>
-            <li>
-              <a href="/admin-dashboard" class="active">
+            </li>            <li>
+              <a href="/admin-dashboard#manage-elections" class="active">
                 <i class="fas fa-tasks"></i>
                 <span>Manage Elections</span>
               </a>
@@ -433,9 +432,8 @@
               </div>
             </div>
           </div>
-        </div>
-        <!-- Manage Elections Table -->
-        <div class="row mt-4">
+        </div>        <!-- Manage Elections Table -->
+        <div id="manage-elections" class="row mt-4">
           <div class="col-12">
             <div class="table-container">
               <div
@@ -641,9 +639,7 @@
         localStorage.removeItem("adminId");
         localStorage.removeItem("role");
         window.location.href = "/";
-      }
-
-      $(document).ready(function () {
+      }      $(document).ready(function () {
         // Check authentication
         const adminId = localStorage.getItem("adminId");
         const role = localStorage.getItem("role");
@@ -661,6 +657,23 @@
             $("#admin-name").text("Admin User");
           }
         });
+        
+        // Handle hash navigation
+        if (window.location.hash) {
+          const hash = window.location.hash;
+          const $target = $(hash);
+          
+          if ($target.length) {
+            // Scroll to the target section
+            $('html, body').animate({
+              scrollTop: $target.offset().top - 70 // Offset for header
+            }, 800);
+            
+            // Highlight the section in the sidebar
+            $('.sidebar-menu a').removeClass('active');
+            $(`.sidebar-menu a[href*="${hash}"]`).addClass('active');
+          }
+        }
       });
     </script>
   </body>

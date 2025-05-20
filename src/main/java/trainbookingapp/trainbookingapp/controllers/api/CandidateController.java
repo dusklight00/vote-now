@@ -45,9 +45,7 @@ public class CandidateController {
         null
       );
     }
-  }
-
-  @PostMapping("/add-candidate")
+  }  @PostMapping("/add-candidate")
   public Response addCandidate(
     @RequestParam Long electionId,
     @RequestParam String name,
@@ -57,10 +55,13 @@ public class CandidateController {
     @RequestParam(required = false) String manifesto
   ) {
     try {
+      System.out.println("Adding candidate '" + name + "' to election ID: " + electionId);
+      
       // Find the election
       Election election = electionRepository.findById(electionId).orElse(null);
 
       if (election == null) {
+        System.out.println("Error: Election not found with ID: " + electionId);
         return new Response("error", "Election not found", null);
       }
 
@@ -73,10 +74,15 @@ public class CandidateController {
       candidate.setManifesto(manifesto != null ? manifesto : "");
       candidate.setElection(election);
 
-      candidateRepository.save(candidate);
+      Candidate savedCandidate = candidateRepository.save(candidate);
+      System.out.println("Candidate saved successfully: " + savedCandidate.getId() + " - " + savedCandidate.getName() + " for election: " + electionId);
 
-      return new Response("success", "Candidate added successfully", candidate);
+      Response successResponse = new Response("success", "Candidate added successfully", candidate);
+      System.out.println("Returning candidate response: " + successResponse.getStatus() + " - " + successResponse.getMessage());
+      return successResponse;
     } catch (Exception e) {
+      System.out.println("Error adding candidate: " + e.getMessage());
+      e.printStackTrace();
       return new Response(
         "error",
         "Failed to add candidate: " + e.getMessage(),
