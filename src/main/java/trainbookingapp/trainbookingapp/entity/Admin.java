@@ -9,9 +9,11 @@ public class Admin {
   @Id
   private String aadhar;
 
-  private String username, first_name, last_name, email, mobile_number, address, city, state, password, gender;
-
-  private int pincode;
+  private String username;
+  private String password;
+  private String first_name;
+  private String last_name;
+  private String email;
 
   public String getUsername() {
     return username;
@@ -53,46 +55,6 @@ public class Admin {
     this.email = email;
   }
 
-  public String getMobileNumber() {
-    return mobile_number;
-  }
-
-  public void setMobileNumber(String mobileNumber) {
-    this.mobile_number = mobileNumber;
-  }
-
-  public String getAddress() {
-    return address;
-  }
-
-  public void setAddress(String address) {
-    this.address = address;
-  }
-
-  public int getPincode() {
-    return pincode;
-  }
-
-  public void setPincode(int pincode) {
-    this.pincode = pincode;
-  }
-
-  public String getCity() {
-    return city;
-  }
-
-  public void setCity(String city) {
-    this.city = city;
-  }
-
-  public String getState() {
-    return state;
-  }
-
-  public void setState(String state) {
-    this.state = state;
-  }
-
   public String getPassword() {
     return password;
   }
@@ -101,18 +63,10 @@ public class Admin {
     this.password = password;
   }
 
-  public String getGender() {
-    return gender;
-  }
-
-  public void setGender(String gender) {
-    this.gender = gender;
-  }
-
   @Override
   public String toString() {
     return (
-      "User(username=" +
+      "Admin(username=" +
       username +
       ", first_name=" +
       first_name +

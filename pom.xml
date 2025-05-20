@@ -12,7 +12,7 @@
 	<artifactId>trainbookingapp</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>trainbookingapp</name>
-	<description>Demo project for Spring Boot</description>
+	<description>Online Voting System with Spring Boot</description>
 	<url/>
 	<licenses>
 		<license/>

@@ -8,13 +8,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 // import org.springframework.context.event.EventListener;
 
 @SpringBootApplication
-public class TrainbookingappApplication {
+public class VotingSystemApplication {
 
   //   @Autowired
   //   private EmailSenderService SenderService;
-
   public static void main(String[] args) {
-    SpringApplication.run(TrainbookingappApplication.class, args);
+    SpringApplication.run(VotingSystemApplication.class, args);
   }
   //   @EventListener(ApplicationReadyEvent.class)
   //   public void sendEmail() {

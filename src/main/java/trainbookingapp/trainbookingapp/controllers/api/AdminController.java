@@ -46,7 +46,7 @@ public class AdminController {
   }
 
   // QUERY
-  // http://localhost:8080/api/register?username=dusklight00&firstName=dusk&lastName=light&email=r.rahul.developer@gmail.com&mobileNumber=999&address=boston&city=bangalore&state=karnataka&password=password&aadhar=999&pincode=123&gender=male
+  // http://localhost:8080/api/register?username=admin&firstName=Admin&lastName=User&email=admin@example.com&password=password&aadhar=123456789
   @GetMapping(path = "/admin-register")
   public Response login(@ModelAttribute Admin admin) {
     adminRepository.save(admin);

@@ -1,32 +1,35 @@
-# Train Booking App
+# VoteNow - Online Voting System
 
-This is a simple implementation of a Train Booking Application using the following technology stack:
+This is an implementation of an Online Voting System using the following technology stack:
 
 - **Spring Boot**: Backend framework for building RESTful APIs.
-- **HTML**: Frontend markup for creating the structure of the web pages.
-- **CSS**: Styling the frontend for better user experience.
-- **MySQL**: Relational database to store and manage booking details.
+- **HTML/CSS/JavaScript**: Frontend for creating responsive and interactive user interfaces.
+- **Bootstrap**: Frontend framework for building responsive designs.
+- **MySQL**: Relational database to store and manage election and voter details.
 
 ## Features
 
-- **Train Search**: Users can search for available trains by entering their journey details.
-- **Booking Management**: Users can book tickets, view existing bookings, and cancel them if needed.
-- **Email Notifications**: The app sends email notifications to users for booking confirmations and other important updates.
-- **User Authentication**: Basic user authentication to secure the booking process.
+- **Election Management**: Admins can create, manage, and monitor elections.
+- **Voter Registration**: Users can register as voters with their details.
+- **Secure Voting**: Authenticated voters can cast their votes securely.
+- **Election Results**: Real-time calculation and display of election results.
+- **User Authentication**: Separate authentication for voters and administrators.
+- **Email Notifications**: The system sends email notifications for registration, voting confirmation, and other important updates.
 
 ## Endpoints
 
-The application provides several RESTful endpoints for interacting with the booking system:
+The application provides several RESTful endpoints for interacting with the voting system:
 
-- **/api/trains**: Fetches available trains based on search criteria.
-- **/api/bookings**: Manages booking operations like creating, viewing, and canceling bookings.
+- **/api/elections**: Create, manage, and view elections.
+- **/api/candidates**: Add and manage candidates for elections.
+- **/api/vote**: Cast and manage votes.
 - **/api/users**: Manages user registration and login.
 
 ## Getting Started
 
 ### Prerequisites
 
-- Java 8 or higher
+- Java 17 or higher
 - Maven
 - MySQL
 

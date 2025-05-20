@@ -2,6 +2,7 @@ package trainbookingapp.trainbookingapp.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import java.time.LocalDate;
 
 @Entity
 public class User {
@@ -9,9 +10,20 @@ public class User {
   @Id
   private String aadhar;
 
-  private String username, first_name, last_name, email, mobile_number, address, city, state, password, gender;
-
+  private String username;
+  private String password;
+  private String first_name;
+  private String last_name;
+  private String email;
+  private String mobile_number;
+  private String address;
+  private String city;
+  private String state;
   private int pincode;
+  private String gender;
+  private LocalDate dateOfBirth;
+  private boolean hasVoted;
+  private String voterIdNumber;
 
   public String getUsername() {
     return username;
@@ -107,6 +119,30 @@ public class User {
 
   public void setGender(String gender) {
     this.gender = gender;
+  }
+
+  public LocalDate getDateOfBirth() {
+    return dateOfBirth;
+  }
+
+  public void setDateOfBirth(LocalDate dateOfBirth) {
+    this.dateOfBirth = dateOfBirth;
+  }
+
+  public boolean isHasVoted() {
+    return hasVoted;
+  }
+
+  public void setHasVoted(boolean hasVoted) {
+    this.hasVoted = hasVoted;
+  }
+
+  public String getVoterIdNumber() {
+    return voterIdNumber;
+  }
+
+  public void setVoterIdNumber(String voterIdNumber) {
+    this.voterIdNumber = voterIdNumber;
   }
 
   @Override
