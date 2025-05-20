@@ -84,8 +84,8 @@ CREATE TABLE vote (
 );
 
 -- Insert sample admin
-INSERT INTO admin (aadhar, username, password, first_name, last_name, email)
-VALUES ('123456789012', 'admin', 'password', 'System', 'Administrator', 'admin@votesystem.com');
+INSERT INTO admin (username, password, first_name, last_name, email)
+VALUES ('admin', 'password', 'System', 'Administrator', 'admin@votesystem.com');
 
 -- Insert sample elections
 INSERT INTO election (title, description, start_date_time, end_date_time, active)
