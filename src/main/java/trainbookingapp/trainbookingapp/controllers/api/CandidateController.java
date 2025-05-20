@@ -7,10 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import trainbookingapp.trainbookingapp.Response;
-import trainbookingapp.trainbookingapp.entity.Admin;
 import trainbookingapp.trainbookingapp.entity.Candidate;
 import trainbookingapp.trainbookingapp.entity.Election;
-import trainbookingapp.trainbookingapp.repository.AdminRepository;
 import trainbookingapp.trainbookingapp.repository.CandidateRepository;
 import trainbookingapp.trainbookingapp.repository.ElectionRepository;
 
@@ -23,9 +21,6 @@ public class CandidateController {
 
   @Autowired
   private ElectionRepository electionRepository;
-
-  @Autowired
-  private AdminRepository adminRepository;
 
   @GetMapping("/candidates")
   public Response getCandidatesByElection(@RequestParam Long electionId) {
@@ -54,8 +49,6 @@ public class CandidateController {
 
   @PostMapping("/add-candidate")
   public Response addCandidate(
-    @RequestParam String adminUsername,
-    @RequestParam String adminPassword,
     @RequestParam Long electionId,
     @RequestParam String name,
     @RequestParam String party,
@@ -64,24 +57,6 @@ public class CandidateController {
     @RequestParam(required = false) String manifesto
   ) {
     try {
-      // Verify admin credentials
-      Iterable<Admin> admins = adminRepository.findAll();
-      boolean adminVerified = false;
-
-      for (Admin admin : admins) {
-        if (
-          admin.getUsername().equals(adminUsername) &&
-          admin.getPassword().equals(adminPassword)
-        ) {
-          adminVerified = true;
-          break;
-        }
-      }
-
-      if (!adminVerified) {
-        return new Response("error", "Admin authentication failed", null);
-      }
-
       // Find the election
       Election election = electionRepository.findById(electionId).orElse(null);
 
@@ -111,30 +86,8 @@ public class CandidateController {
   }
 
   @PostMapping("/remove-candidate")
-  public Response removeCandidate(
-    @RequestParam String adminUsername,
-    @RequestParam String adminPassword,
-    @RequestParam Long candidateId
-  ) {
+  public Response removeCandidate(@RequestParam Long candidateId) {
     try {
-      // Verify admin credentials
-      Iterable<Admin> admins = adminRepository.findAll();
-      boolean adminVerified = false;
-
-      for (Admin admin : admins) {
-        if (
-          admin.getUsername().equals(adminUsername) &&
-          admin.getPassword().equals(adminPassword)
-        ) {
-          adminVerified = true;
-          break;
-        }
-      }
-
-      if (!adminVerified) {
-        return new Response("error", "Admin authentication failed", null);
-      }
-
       // Check if candidate exists
       if (!candidateRepository.existsById(candidateId)) {
         return new Response("error", "Candidate not found", null);

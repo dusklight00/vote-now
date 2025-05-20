@@ -289,10 +289,11 @@
                     <strong><i class="fas fa-check-circle me-2"></i>Success!</strong> Logged in successfully.
                   </div>
                 `);
-                localStorage.setItem("aadhar", data.message);
+                localStorage.setItem("adminId", data.message);
                 localStorage.setItem("role", "admin");
 
-                // Redirect after showing success message                setTimeout(function () {
+                // Redirect after showing success message
+                setTimeout(function () {
                   window.location.href = "/admin-dashboard";
                 }, 1000);
               } else {

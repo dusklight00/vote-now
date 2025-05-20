@@ -1352,17 +1352,17 @@
 
     <script>
       function logout() {
-        localStorage.removeItem("aadhar");
+        localStorage.removeItem("adminId");
         localStorage.removeItem("role");
         window.location.href = "/";
       }
 
       $(document).ready(function () {
         // Check authentication
-        const aadhar = localStorage.getItem("aadhar");
+        const adminId = localStorage.getItem("adminId");
         const role = localStorage.getItem("role");
 
-        if (!aadhar || role !== "admin") {
+        if (!adminId || role !== "admin") {
           window.location.href = "/admin-login";
           return;
         }

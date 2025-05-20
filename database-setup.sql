@@ -5,7 +5,7 @@ USE votingsystem;
 
 -- Create the Admin table
 CREATE TABLE admin (
-    aadhar VARCHAR(12) PRIMARY KEY,
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(50) NOT NULL UNIQUE,
     password VARCHAR(100) NOT NULL,
     first_name VARCHAR(50) NOT NULL,
@@ -32,13 +32,20 @@ CREATE TABLE user (
     voter_id_number VARCHAR(50) UNIQUE
 );
 
--- Create the VerifyUser table for OTP verification
-CREATE TABLE verify_user (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    email VARCHAR(100) NOT NULL,
-    otp VARCHAR(6) NOT NULL,
-    expire_time TIMESTAMP NOT NULL
-);
+-- Migration script to add demo data
+
+-- Insert demo admin accounts
+INSERT INTO admin (username, password, first_name, last_name, email)
+VALUES 
+    ('admin1', 'password123', 'John', 'Doe', 'admin1@votenow.com'),
+    ('admin2', 'password123', 'Jane', 'Smith', 'admin2@votenow.com');
+
+-- Insert demo voter accounts
+INSERT INTO user (aadhar, username, password, first_name, last_name, email, mobile_number, address, city, state, pincode, gender, date_of_birth, voter_id_number)
+VALUES 
+    ('123456789012', 'voter1', 'password123', 'Robert', 'Johnson', 'voter1@example.com', '9876543210', '123 Main St', 'New York', 'NY', 10001, 'Male', '1985-05-15', 'VID12345'),
+    ('987654321098', 'voter2', 'password123', 'Emily', 'Williams', 'voter2@example.com', '8765432109', '456 Elm St', 'Los Angeles', 'CA', 90001, 'Female', '1990-08-20', 'VID67890'),
+    ('456789012345', 'voter3', 'password123', 'Michael', 'Brown', 'voter3@example.com', '7654321098', '789 Oak St', 'Chicago', 'IL', 60601, 'Male', '1978-12-10', 'VID23456');
 
 -- Create the Election table
 CREATE TABLE election (

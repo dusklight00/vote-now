@@ -1,18 +1,26 @@
 package trainbookingapp.trainbookingapp.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
 public class Admin {
 
   @Id
-  private String aadhar;
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
+  @Column(unique = true)
   private String username;
+
   private String password;
   private String first_name;
   private String last_name;
+
+  @Column(unique = true)
   private String email;
 
   public String getUsername() {
@@ -39,12 +47,12 @@ public class Admin {
     this.last_name = lastName;
   }
 
-  public String getAadhar() {
-    return aadhar;
+  public Long getId() {
+    return id;
   }
 
-  public void setAadhar(String aadhar) {
-    this.aadhar = aadhar;
+  public void setId(Long id) {
+    this.id = id;
   }
 
   public String getEmail() {
@@ -66,7 +74,9 @@ public class Admin {
   @Override
   public String toString() {
     return (
-      "Admin(username=" +
+      "Admin(id=" +
+      id +
+      ", username=" +
       username +
       ", first_name=" +
       first_name +

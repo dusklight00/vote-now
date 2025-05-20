@@ -238,11 +238,10 @@
               </a>
             </li>
           </ul>
-
           <div class="menu-header">Elections</div>
           <ul>
             <li>
-              <a href="/create-election" class="active">
+              <a href="/admin-create-election" class="active">
                 <i class="fas fa-plus-circle"></i>
                 <span>Create Election</span>
               </a>
@@ -264,7 +263,7 @@
           <div class="menu-header">Voters</div>
           <ul>
             <li>
-              <a href="/manage-voters">
+              <a href="/admin-manage-voters">
                 <i class="fas fa-users"></i>
                 <span>Manage Voters</span>
               </a>
@@ -367,7 +366,6 @@
                     </div>
                   </div>
                 </div>
-
                 <div class="form-group">
                   <label for="electionDescription" class="form-label"
                     >Description</label
@@ -378,48 +376,6 @@
                     rows="3"
                     placeholder="Enter election description"
                   ></textarea>
-                </div>
-
-                <div class="form-group">
-                  <label class="form-label">Eligible Voters</label>
-                  <div class="form-check">
-                    <input
-                      class="form-check-input"
-                      type="radio"
-                      name="voterEligibility"
-                      id="allVoters"
-                      value="all"
-                      checked
-                    />
-                    <label class="form-check-label" for="allVoters">
-                      All registered voters
-                    </label>
-                  </div>
-                  <div class="form-check">
-                    <input
-                      class="form-check-input"
-                      type="radio"
-                      name="voterEligibility"
-                      id="specificVoters"
-                      value="specific"
-                    />
-                    <label class="form-check-label" for="specificVoters">
-                      Specific voting districts
-                    </label>
-                  </div>
-                </div>
-
-                <div id="districtsContainer" class="form-group d-none">
-                  <label for="districts" class="form-label"
-                    >Select Districts</label
-                  >
-                  <select class="form-select" id="districts" multiple>
-                    <option value="district1">District 1</option>
-                    <option value="district2">District 2</option>
-                    <option value="district3">District 3</option>
-                    <option value="district4">District 4</option>
-                    <option value="district5">District 5</option>
-                  </select>
                 </div>
 
                 <hr class="my-4" />
@@ -501,29 +457,20 @@
 
     <script>
       function logout() {
-        localStorage.removeItem("aadhar");
+        localStorage.removeItem("adminId");
         localStorage.removeItem("role");
         window.location.href = "/";
       }
 
       $(document).ready(function () {
         // Check authentication
-        const aadhar = localStorage.getItem("aadhar");
+        const adminId = localStorage.getItem("adminId");
         const role = localStorage.getItem("role");
 
-        if (!aadhar || role !== "admin") {
+        if (!adminId || role !== "admin") {
           window.location.href = "/admin-login";
           return;
         }
-
-        // Toggle districts container based on voter eligibility selection
-        $('input[name="voterEligibility"]').change(function () {
-          if ($(this).val() === "specific") {
-            $("#districtsContainer").removeClass("d-none");
-          } else {
-            $("#districtsContainer").addClass("d-none");
-          }
-        });
 
         // Add candidate button click handler
         $("#addCandidateBtn").click(function () {
@@ -577,17 +524,12 @@
           submitBtn.html(
             '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span> Creating...'
           );
-          submitBtn.prop("disabled", true);
-
-          // Collect form data
+          submitBtn.prop("disabled", true); // Collect form data
           const title = $("#electionTitle").val();
           const type = $("#electionType").val();
           const startDate = $("#startDate").val();
           const endDate = $("#endDate").val();
           const description = $("#electionDescription").val();
-          const eligibility = $('input[name="voterEligibility"]:checked').val();
-          const districts =
-            eligibility === "specific" ? $("#districts").val() : null;
           const publishNow = $("#publishImmediately").is(":checked");
 
           // Collect candidates
@@ -602,17 +544,13 @@
               party: party,
               bio: bio,
             });
-          });
-
-          // Create election data object
+          }); // Create election data object
           const electionData = {
             title: title,
             type: type,
             startDate: startDate,
             endDate: endDate,
             description: description,
-            eligibility: eligibility,
-            districts: districts,
             candidates: candidates,
             publishNow: publishNow,
           };

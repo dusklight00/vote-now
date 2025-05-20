@@ -8,9 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import trainbookingapp.trainbookingapp.Response;
-import trainbookingapp.trainbookingapp.entity.Admin;
 import trainbookingapp.trainbookingapp.entity.Election;
-import trainbookingapp.trainbookingapp.repository.AdminRepository;
 import trainbookingapp.trainbookingapp.repository.ElectionRepository;
 
 @RestController
@@ -19,9 +17,6 @@ public class ElectionController {
 
   @Autowired
   private ElectionRepository electionRepository;
-
-  @Autowired
-  private AdminRepository adminRepository;
 
   @GetMapping("/elections")
   public Response getAllElections() {
@@ -61,32 +56,12 @@ public class ElectionController {
 
   @PostMapping("/create-election")
   public Response createElection(
-    @RequestParam String adminUsername,
-    @RequestParam String adminPassword,
     @RequestParam String title,
     @RequestParam String description,
     @RequestParam String startDateTime,
     @RequestParam String endDateTime
   ) {
     try {
-      // Verify admin credentials
-      Iterable<Admin> admins = adminRepository.findAll();
-      boolean adminVerified = false;
-
-      for (Admin admin : admins) {
-        if (
-          admin.getUsername().equals(adminUsername) &&
-          admin.getPassword().equals(adminPassword)
-        ) {
-          adminVerified = true;
-          break;
-        }
-      }
-
-      if (!adminVerified) {
-        return new Response("error", "Admin authentication failed", null);
-      }
-
       // Parse date time strings
       LocalDateTime start = LocalDateTime.parse(startDateTime);
       LocalDateTime end = LocalDateTime.parse(endDateTime);
@@ -121,30 +96,8 @@ public class ElectionController {
   }
 
   @PostMapping("/toggle-election")
-  public Response toggleElection(
-    @RequestParam String adminUsername,
-    @RequestParam String adminPassword,
-    @RequestParam Long electionId
-  ) {
+  public Response toggleElection(@RequestParam Long electionId) {
     try {
-      // Verify admin credentials
-      Iterable<Admin> admins = adminRepository.findAll();
-      boolean adminVerified = false;
-
-      for (Admin admin : admins) {
-        if (
-          admin.getUsername().equals(adminUsername) &&
-          admin.getPassword().equals(adminPassword)
-        ) {
-          adminVerified = true;
-          break;
-        }
-      }
-
-      if (!adminVerified) {
-        return new Response("error", "Admin authentication failed", null);
-      }
-
       // Find the election
       Election election = electionRepository.findById(electionId).orElse(null);
 

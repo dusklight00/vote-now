@@ -34,7 +34,7 @@ public class AdminController {
       ) {
         System.out.println(admin.getUsername() + " " + admin.getPassword());
         Response response = new Response();
-        response.message = admin.getAadhar();
+        response.message = admin.getId().toString();
         response.status = 200;
         return response;
       }
@@ -46,7 +46,7 @@ public class AdminController {
   }
 
   // QUERY
-  // http://localhost:8080/api/register?username=admin&firstName=Admin&lastName=User&email=admin@example.com&password=password&aadhar=123456789
+  // http://localhost:8080/api/register?username=admin&firstName=Admin&lastName=User&email=admin@example.com&password=password
   @GetMapping(path = "/admin-register")
   public Response login(@ModelAttribute Admin admin) {
     adminRepository.save(admin);
@@ -57,8 +57,8 @@ public class AdminController {
   }
 
   @GetMapping(path = "/get-admin")
-  public Admin getUser(@RequestParam String aadhar) {
-    Admin admin = adminRepository.findByAadhar(aadhar);
+  public Admin getUser(@RequestParam Long id) {
+    Admin admin = adminRepository.findById(id).orElse(null);
     return admin;
   }
 
@@ -76,9 +76,9 @@ public class AdminController {
     return response;
   }
 
-  @GetMapping("/get-admin-by-aadhar")
-  public Admin getAdminByAadhar(@RequestParam String aadhar) {
-    Admin admin = adminRepository.findByAadhar(aadhar);
+  @GetMapping("/get-admin-by-username")
+  public Admin getAdminByUsername(@RequestParam String username) {
+    Admin admin = adminRepository.findByUsername(username);
     return admin;
   }
 }
