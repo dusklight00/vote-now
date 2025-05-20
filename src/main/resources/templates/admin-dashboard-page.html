@@ -454,158 +454,16 @@
                 <table class="table table-hover">
                   <thead>
                     <tr>
-                      <th>ID</th>
                       <th>Title</th>
-                      <th>Type</th>
+                      <th>Description</th>
                       <th>Start Date</th>
                       <th>End Date</th>
                       <th>Status</th>
-                      <th>Candidates</th>
-                      <th>Votes</th>
                       <th>Actions</th>
                     </tr>
                   </thead>
-                  <tbody>
-                    <tr>
-                      <td>EL-001</td>
-                      <td>Presidential Election 2024</td>
-                      <td>Presidential</td>
-                      <td>Apr 1, 2024</td>
-                      <td>Apr 15, 2024</td>
-                      <td>
-                        <span class="status-badge status-active">Active</span>
-                      </td>
-                      <td>3</td>
-                      <td>854</td>
-                      <td>
-                        <div class="btn-group">
-                          <button
-                            type="button"
-                            class="btn btn-sm btn-outline-primary"
-                          >
-                            <i class="fas fa-edit"></i>
-                          </button>
-                          <button
-                            type="button"
-                            class="btn btn-sm btn-outline-danger"
-                          >
-                            <i class="fas fa-trash"></i>
-                          </button>
-                          <button
-                            type="button"
-                            class="btn btn-sm btn-outline-success"
-                          >
-                            <i class="fas fa-chart-bar"></i>
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>EL-002</td>
-                      <td>Senate Midterm Elections 2024</td>
-                      <td>Senate</td>
-                      <td>Apr 5, 2024</td>
-                      <td>Apr 10, 2024</td>
-                      <td>
-                        <span class="status-badge status-active">Active</span>
-                      </td>
-                      <td>3</td>
-                      <td>742</td>
-                      <td>
-                        <div class="btn-group">
-                          <button
-                            type="button"
-                            class="btn btn-sm btn-outline-primary"
-                          >
-                            <i class="fas fa-edit"></i>
-                          </button>
-                          <button
-                            type="button"
-                            class="btn btn-sm btn-outline-danger"
-                          >
-                            <i class="fas fa-trash"></i>
-                          </button>
-                          <button
-                            type="button"
-                            class="btn btn-sm btn-outline-success"
-                          >
-                            <i class="fas fa-chart-bar"></i>
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>EL-003</td>
-                      <td>State Governor Election 2024</td>
-                      <td>Governor</td>
-                      <td>Mar 20, 2024</td>
-                      <td>Mar 25, 2024</td>
-                      <td>
-                        <span class="status-badge status-ended">Ended</span>
-                      </td>
-                      <td>2</td>
-                      <td>1,251</td>
-                      <td>
-                        <div class="btn-group">
-                          <button
-                            type="button"
-                            class="btn btn-sm btn-outline-primary"
-                            disabled
-                          >
-                            <i class="fas fa-edit"></i>
-                          </button>
-                          <button
-                            type="button"
-                            class="btn btn-sm btn-outline-danger"
-                          >
-                            <i class="fas fa-trash"></i>
-                          </button>
-                          <button
-                            type="button"
-                            class="btn btn-sm btn-outline-success"
-                          >
-                            <i class="fas fa-chart-bar"></i>
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>EL-004</td>
-                      <td>City Mayor Election 2024</td>
-                      <td>Mayor</td>
-                      <td>Apr 15, 2024</td>
-                      <td>Apr 20, 2024</td>
-                      <td>
-                        <span class="status-badge status-upcoming"
-                          >Upcoming</span
-                        >
-                      </td>
-                      <td>3</td>
-                      <td>0</td>
-                      <td>
-                        <div class="btn-group">
-                          <button
-                            type="button"
-                            class="btn btn-sm btn-outline-primary"
-                          >
-                            <i class="fas fa-edit"></i>
-                          </button>
-                          <button
-                            type="button"
-                            class="btn btn-sm btn-outline-danger"
-                          >
-                            <i class="fas fa-trash"></i>
-                          </button>
-                          <button
-                            type="button"
-                            class="btn btn-sm btn-outline-success"
-                            disabled
-                          >
-                            <i class="fas fa-chart-bar"></i>
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
+                  <tbody id="electionsTableBody">
+                    <!-- Dynamic content will be loaded here -->
                   </tbody>
                 </table>
               </div>
@@ -631,10 +489,305 @@
             </div>
           </div>
         </div>
+
+        <!-- Create Election Modal -->
+        <div
+          class="modal fade"
+          id="createElectionModal"
+          tabindex="-1"
+          aria-labelledby="createElectionModalLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5
+                  class="modal-title d-flex align-items-center"
+                  id="createElectionModalLabel"
+                >
+                  <i class="fas fa-plus-circle me-2"></i> Create New Election
+                </h5>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div class="modal-body">
+                <form id="createElectionForm">
+                  <div class="mb-3">
+                    <label for="electionTitle" class="form-label"
+                      >Election Title</label
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="electionTitle"
+                      required
+                    />
+                  </div>
+                  <div class="mb-3">
+                    <label for="electionDescription" class="form-label"
+                      >Description</label
+                    >
+                    <textarea
+                      class="form-control"
+                      id="electionDescription"
+                      rows="3"
+                      required
+                    ></textarea>
+                  </div>
+                  <div class="mb-3">
+                    <label for="startDateTime" class="form-label"
+                      >Start Date & Time</label
+                    >
+                    <input
+                      type="datetime-local"
+                      class="form-control"
+                      id="startDateTime"
+                      required
+                    />
+                  </div>
+                  <div class="mb-3">
+                    <label for="endDateTime" class="form-label"
+                      >End Date & Time</label
+                    >
+                    <input
+                      type="datetime-local"
+                      class="form-control"
+                      id="endDateTime"
+                      required
+                    />
+                  </div>
+                  <div class="text-end">
+                    <button
+                      type="button"
+                      class="btn btn-primary"
+                      onclick="createElection()"
+                    >
+                      <i class="fas fa-check-circle me-2"></i> Create Election
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
     <script>
+      $(document).ready(function() {
+        loadElections();
+      });
+
+      function loadElections() {
+        fetch('/api/elections')
+          .then(response => {
+            if (!response.ok) {
+              throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            console.log('Raw response:', response);
+            return response.json();
+          })
+          .then(data => {
+            console.log('Elections API response:', data);
+            // Handle both success statuses (200 and 'success')
+            const elections = data.data;
+            console.log('Elections data:', elections);
+            const tableBody = document.getElementById('electionsTableBody');
+            tableBody.innerHTML = '';
+
+            if (!Array.isArray(elections) || elections.length === 0) {
+              tableBody.innerHTML = `
+                <tr>
+                  <td colspan="6" class="text-center">No elections found</td>
+                </tr>
+              `;
+              return;
+            }
+
+            elections.forEach(election => {
+              const startDate = new Date(election.startDateTime).toLocaleString();
+              const endDate = new Date(election.endDateTime).toLocaleString();
+              const status = getElectionStatus(election);
+              
+              const row = `
+                <tr>
+                  <td>${election.title || 'N/A'}</td>
+                  <td>${election.description || 'N/A'}</td>
+                  <td>${startDate}</td>
+                  <td>${endDate}</td>
+                  <td><span class="status-badge ${status.class}">${status.text}</span></td>
+                  <td>
+                    <button class="btn btn-sm btn-${election.active ? 'warning' : 'success'}" 
+                            onclick="toggleElection(${election.id})">
+                      <i class="fas fa-${election.active ? 'pause' : 'play'}"></i>
+                      ${election.active ? 'Deactivate' : 'Activate'}
+                    </button>
+                    <button class="btn btn-sm btn-primary" onclick="manageCandidates(${election.id})">
+                      <i class="fas fa-users"></i>
+                      Manage Candidates
+                    </button>
+                  </td>
+                </tr>
+              `;
+              tableBody.innerHTML += row;
+            });
+          })
+          .catch(error => {
+            console.error('Error:', error);
+            const tableBody = document.getElementById('electionsTableBody');
+            tableBody.innerHTML = `
+              <tr>
+                <td colspan="6" class="text-center text-danger">
+                  <i class="fas fa-exclamation-circle me-2"></i>
+                  Error loading elections: ${error.message}
+                </td>
+              </tr>
+            `;
+          });
+      }
+
+      function getElectionStatus(election) {
+        const now = new Date();
+        const start = new Date(election.startDateTime);
+        const end = new Date(election.endDateTime);
+
+        if (!election.active) {
+          return { text: 'Inactive', class: 'status-ended' };
+        } else if (now < start) {
+          return { text: 'Upcoming', class: 'status-upcoming' };
+        } else if (now > end) {
+          return { text: 'Ended', class: 'status-ended' };
+        } else {
+          return { text: 'Active', class: 'status-active' };
+        }
+      }
+
+      function showCreateElectionModal() {
+        const modal = new bootstrap.Modal(document.getElementById('createElectionModal'));
+        modal.show();
+      }      function createElection() {
+        const title = document.getElementById('electionTitle').value.trim();
+        const description = document.getElementById('electionDescription').value.trim();
+        const startDateTime = document.getElementById('startDateTime').value;
+        const endDateTime = document.getElementById('endDateTime').value;
+
+        // Validation
+        if (!title || !description || !startDateTime || !endDateTime) {
+          alert('Please fill in all fields');
+          return;
+        }
+
+        // Convert to Date objects for comparison
+        const startDate = new Date(startDateTime);
+        const endDate = new Date(endDateTime);
+        const now = new Date();
+
+        if (startDate < now) {
+          alert('Start date must be in the future');
+          return;
+        }
+
+        if (endDate <= startDate) {
+          alert('End date must be after start date');
+          return;
+        }
+
+        const formData = new FormData();
+        formData.append('title', title);
+        formData.append('description', description);
+        formData.append('startDateTime', startDateTime);
+        formData.append('endDateTime', endDateTime);
+
+        // Show loading state
+        const submitBtn = document.querySelector('#createElectionForm button[type="button"]');
+        const originalBtnText = submitBtn.innerHTML;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Creating...';
+        submitBtn.disabled = true;
+
+        fetch('/api/create-election', {
+          method: 'POST',
+          body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.status === 'success') {
+            // Close modal and reset form
+            bootstrap.Modal.getInstance(document.getElementById('createElectionModal')).hide();
+            document.getElementById('createElectionForm').reset();
+            
+            // Show success message
+            const toastDiv = document.createElement('div');
+            toastDiv.className = 'alert alert-success position-fixed top-0 end-0 m-3';
+            toastDiv.role = 'alert';
+            toastDiv.innerHTML = 'Election created successfully';
+            document.body.appendChild(toastDiv);
+            setTimeout(() => toastDiv.remove(), 3000);
+
+            // Reload elections table
+            loadElections();
+          } else {
+            alert('Failed to create election: ' + data.message);
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('Failed to create election: ' + error);
+        })
+        .finally(() => {
+          // Reset button state
+          submitBtn.innerHTML = originalBtnText;
+          submitBtn.disabled = false;
+        });
+      }function toggleElection(electionId) {
+        if (!confirm('Are you sure you want to change the status of this election?')) {
+          return;
+        }
+
+        const formData = new FormData();
+        formData.append('electionId', electionId);
+
+        fetch('/api/toggle-election', {
+          method: 'POST',
+          body: formData,
+          headers: {
+            'Accept': 'application/json'
+          }
+        })
+        .then(response => {
+          console.log('Toggle response:', response);
+          return response.json();
+        })
+        .then(data => {
+          console.log('Toggle data:', data);
+          if (data.status === 'success') {
+            loadElections();
+            // Show success message
+            const toastDiv = document.createElement('div');
+            toastDiv.className = 'alert alert-success position-fixed top-0 end-0 m-3';
+            toastDiv.role = 'alert';
+            toastDiv.innerHTML = `Election ${data.data.active ? 'activated' : 'deactivated'} successfully`;
+            document.body.appendChild(toastDiv);
+            setTimeout(() => toastDiv.remove(), 3000);
+          } else {
+            alert('Failed to toggle election: ' + data.message);
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('Failed to toggle election status: ' + error);
+        });
+      }
+
+      function manageCandidates(electionId) {
+        // Store the election ID in session storage for the candidates page
+        sessionStorage.setItem('currentElectionId', electionId);
+        window.location.href = '/admin/manage-candidates';
+      }
+
       function logout() {
         localStorage.removeItem("adminId");
         localStorage.removeItem("role");
@@ -674,6 +827,24 @@
             $(`.sidebar-menu a[href*="${hash}"]`).addClass('active');
           }
         }
+      });
+
+      // Search functionality
+      document.getElementById('searchElection').addEventListener('input', function(e) {
+        const searchTerm = e.target.value.toLowerCase();
+        const rows = document.querySelectorAll('#electionsTableBody tr');
+        
+        rows.forEach(row => {
+          const title = row.querySelector('td:first-child').textContent.toLowerCase();
+          const description = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+          const status = row.querySelector('.status-badge').textContent.toLowerCase();
+          
+          const matches = title.includes(searchTerm) || 
+                         description.includes(searchTerm) ||
+                         status.includes(searchTerm);
+          
+          row.style.display = matches ? '' : 'none';
+        });
       });
     </script>
   </body>

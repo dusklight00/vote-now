@@ -1,6 +1,8 @@
 package trainbookingapp.trainbookingapp.controllers.api;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,17 +19,25 @@ public class ElectionController {
 
   @Autowired
   private ElectionRepository electionRepository;
-
   @GetMapping("/elections")
   public Response getAllElections() {
     try {
       Iterable<Election> elections = electionRepository.findAll();
+      // Debug statement
+      System.out.println("Found elections: " + elections);
+      
+      // Convert Iterable to List for easier inspection
+      List<Election> electionList = new ArrayList<>();
+      elections.forEach(electionList::add);
+      System.out.println("Number of elections: " + electionList.size());
+      
       return new Response(
         "success",
         "Elections retrieved successfully",
-        elections
+        electionList
       );
     } catch (Exception e) {
+      e.printStackTrace();
       return new Response(
         "error",
         "Failed to retrieve elections: " + e.getMessage(),
