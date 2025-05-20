@@ -535,35 +535,53 @@
       }
 
       function castVote(electionId, candidateId, userAadhar) {
-        if (!confirm("Are you sure you want to cast your vote? This action cannot be undone.")) {
-          return;
-        }
-
         // Get the button that was clicked
         const button = document.querySelector(`button[onclick="castVote(${electionId}, ${candidateId}, '${userAadhar}')"]`);
         
+        // Show password confirmation modal
+        const password = prompt("Please enter your password to confirm your vote:");
+        if (!password) {
+            showAlert("warning", "Vote cancelled. Password is required to cast a vote.");
+            return;
+        }
+
         // Show loading state
         button.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Voting...';
         button.disabled = true;
 
         // Make API call to cast vote
-        $.get(`/api/cast-vote?userAadhar=${userAadhar}&electionId=${electionId}&candidateId=${candidateId}`, function(response) {
-          if (response.status === "success") {
-            showAlert("success", "Your vote has been cast successfully!");
-            // Reload the active elections to update the UI
-            loadActiveElections();
-          } else {
-            showAlert("danger", "Failed to cast vote: " + response.message);
+        $.ajax({
+          url: '/api/cast-vote',
+          type: 'POST',
+          data: {
+            userAadhar: userAadhar,
+            password: password,
+            electionId: electionId,
+            candidateId: candidateId
+          },
+          success: function(response) {
+            if (response && response.status === "success") {
+              showAlert("success", "Your vote has been cast successfully!");
+              // Reload the active elections to update the UI
+              loadActiveElections();
+            } else {
+              showAlert("danger", response.message || "Failed to cast vote");
+              // Reset button state
+              button.innerHTML = '<i class="fas fa-check-circle me-2"></i>Vote';
+              button.disabled = false;
+            }
+          },
+          error: function(error) {
+            console.log("Vote casting error:", error);
+            let errorMessage = "Failed to cast vote. Please try again.";
+            if (error.responseJSON) {
+              errorMessage = error.responseJSON.message;
+            }
+            showAlert("danger", errorMessage);
             // Reset button state
             button.innerHTML = '<i class="fas fa-check-circle me-2"></i>Vote';
             button.disabled = false;
           }
-        }).fail(function(error) {
-          console.error("Vote casting error:", error);
-          showAlert("danger", "Error connecting to server. Please try again.");
-          // Reset button state
-          button.innerHTML = '<i class="fas fa-check-circle me-2"></i>Vote';
-          button.disabled = false;
         });
       }
 
