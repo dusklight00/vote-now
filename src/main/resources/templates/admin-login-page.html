@@ -256,7 +256,6 @@
               </div>
             </div>
           </div>
-
           <div class="text-center mt-4">
             <a href="/" class="btn-link">
               <i class="fas fa-home me-1"></i> Back to Home
@@ -293,9 +292,8 @@
                 localStorage.setItem("aadhar", data.message);
                 localStorage.setItem("role", "admin");
 
-                // Redirect after showing success message
-                setTimeout(function () {
-                  window.location.href = `/admin-dashboard`;
+                // Redirect after showing success message                setTimeout(function () {
+                  window.location.href = "/admin-dashboard";
                 }, 1000);
               } else {
                 submitBtn.html('<i class="fas fa-sign-in-alt me-2"></i> Login');

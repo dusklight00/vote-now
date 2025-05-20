@@ -625,7 +625,7 @@
           <div class="text-center mt-4">
             <p>
               Already have an account?
-              <a href="voter-login" class="btn-link">Login here</a>
+              <a href="/voter-login" class="btn-link">Login here</a>
             </p>
             <a href="/" class="btn-link">
               <i class="fas fa-home me-1"></i> Back to Home
@@ -863,9 +863,7 @@
 
             // Reset button state
             submitBtn.html(originalBtnText);
-            submitBtn.prop("disabled", false);
-
-            // Redirect to login page after a delay
+            submitBtn.prop("disabled", false); // Redirect to login page after a delay
             setTimeout(function () {
               window.location.href = "/voter-login";
             }, 3000);
